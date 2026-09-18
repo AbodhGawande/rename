@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 15;
-  const APP_BUILT = 'Sep 18, 2026 · 10:19 AM CDT';
+  const APP_VERSION = 16;
+  const APP_BUILT = 'Sep 18, 2026 · 10:33 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -26,7 +26,7 @@
     settings: Object.assign({ accent: 'sky', token: '', apiKey: '', maxSyl: 4, minSay: 50, hideCoined: false, hideKnown: false, letter: '', voiceUS: '', voiceIN: '', lastSync: 0 }, LS.get('settings', {})),
     pool: [], ssa: {}, exclude: [], names: [], byId: {},
     weights: {}, partnerWeights: {},
-    queue: [], review: null, history: [], tab: 'discover', listSeg: 'both', faceoffPair: null, generating: false, syncing: false,
+    queue: [], review: null, genText: '', history: [], tab: 'discover', listSeg: 'both', faceoffPair: null, generating: false, syncing: false,
   };
   const partnerOf = me => (me === 'abodh' ? 'amruta' : 'abodh');
   const save = () => { LS.set('votes', S.votes); LS.set('faceoffs', S.faceoffs); LS.set('extras', S.extras); LS.set('stories', S.stories); LS.set('settings', S.settings); LS.set('partnerVotes', S.partnerVotes); LS.set('partnerFaceoffs', S.partnerFaceoffs); };
@@ -241,7 +241,7 @@
       } else {
         deck.innerHTML = `<div class="empty glass"><div class="big">End of the list.</div><p class="muted">You've been through ${scope} — ${seen} so far${skipped.length ? `, ${skipped.length} of them parked as "later"` : ''}.</p>
           ${skipped.length ? `<button class="btn ${S.settings.apiKey ? '' : 'primary'}" id="reviewOn" style="margin-bottom:10px">Go through the ${skipped.length} skipped names</button>` : ''}
-          ${S.settings.apiKey ? `<button class="btn primary" id="genHere" style="margin-bottom:10px" ${S.generating ? 'disabled' : ''}>${S.generating ? '<span class="spin"></span> Claude is thinking (2–4 min)…' : ICON.spark + ' Generate 100 new names'}</button>` : ''}
+          ${S.settings.apiKey ? `<button class="btn primary" id="genHere" style="margin-bottom:10px" ${S.generating ? 'disabled' : ''}>${S.generating ? '<span class="spin"></span> ' + (S.genText || 'Claude is thinking…') : ICON.spark + ' Generate 100 new names'}</button>` : ''}
           <p class="mini">${S.settings.apiKey ? 'Claude reads both of your swipes and invents names in that direction. ' : 'Add your Claude key in Settings to generate more. '}${S.settings.letter ? 'Or clear the letter filter.' : 'Or loosen the filters in Settings.'}</p></div>`;
         if (skipped.length) $('#reviewOn').onclick = () => { S.review = new Set(skipped.map(n => n.id)); buildQueue([]); renderDeck(); toast('Reviewing skipped names'); };
         if ($('#genHere')) $('#genHere').onclick = () => generateMore('');
@@ -505,114 +505,54 @@
       <div class="panel glass"><h3>${ICON.spark} Ask Claude for more</h3>
         <p class="muted small" style="margin:0 0 10px">Claude reads both of your swipes and reasons, then invents about 100 new names in that direction — checked against real US baby-name counts. They show up in Discover with a ✦.</p>
         <input class="text" id="direction" placeholder="Optional steer, e.g. “more Marathi words”, “2 syllables only”, “names about the sky”" style="margin-bottom:10px">
-        <button class="btn primary" id="genBtn" ${genOK ? '' : 'disabled'}>${S.generating ? '<span class="spin"></span> Claude is thinking (2–4 min)…' : ICON.spark + ' Generate 100 new names'}</button>
-        ${genOK ? '' : '<div class="status">Add your Claude API key in Settings to enable this.</div>'}
+        <button class="btn primary" id="genBtn" ${genOK ? '' : 'disabled'}>${S.generating ? '<span class="spin"></span> ' + (S.genText || 'Claude is thinking…') : ICON.spark + ' Generate 100 new names'}</button>
+        ${genOK ? '<div class="status">Takes 4–8 minutes. Keep the app open — the screen stays on while it works.</div>' : '<div class="status">Add your Claude API key in Settings to enable this.</div>'}
         <div class="status" id="genStatus">${S.extras.length ? S.extras.length + ' Claude-suggested names in the pool so far.' : ''}</div>
       </div>
       <div class="panel glass"><h3>How names are ranked</h3><p class="muted small" style="margin:0">Every name starts with a score from <b>uniqueness</b> (real Social Security counts — how many US boys got the name in 2024) and <b>ease of saying</b> for non-Indian Americans, plus a little for freshness. Your swipes train a small model on syllables, endings, sounds, themes and origins — that pushes names you'd probably like to the front. ${PEOPLE[S.partner]}'s likes get a boost too, so you converge instead of drifting apart.</p></div>
       <div style="height:20px"></div>`;
     if (genOK) $('#genBtn').onclick = () => generateMore($('#direction').value.trim());
   }
+  let wakeLock = null;
+  async function keepAwake(on) {
+    try { if (on && 'wakeLock' in navigator && !wakeLock) wakeLock = await navigator.wakeLock.request('screen'); if (!on && wakeLock) { await wakeLock.release(); wakeLock = null; } } catch (e) {}
+  }
+  function genProgress(text) {
+    S.genText = text; const st = $('#genStatus'); if (st) st.textContent = text;
+    const b = $('#genBtn'); if (b && S.generating) b.innerHTML = '<span class="spin"></span> ' + text;
+    const d = $('#genHere'); if (d && S.generating) d.innerHTML = '<span class="spin"></span> ' + text;
+  }
   async function generateMore(direction) {
     if (S.generating) return; S.generating = true; renderTaste(); if (S.tab === 'discover') renderDeck(); $('#syncBtn').classList.add('busy');
+    keepAwake(true);
+    // 100 names = four batches of 25, one after another (parallel calls hit the rate limit), each nudged
+    // toward a different corner of the space; every batch lands in the deck as soon as it arrives.
+    const angles = ['short, crisp 2-syllable names with clean sounds', 'nature, sky, light and music words', 'Marathi-heritage words and lesser-known epic/sage names', 'fresh coinages and rare Sanskrit vocabulary'];
+    let added = 0, proposed = 0, failed = 0;
     try {
-      // 100 names = four batches of 25 in parallel, each nudged toward a different corner of the space.
-      const angles = ['short, crisp 2-syllable names with clean sounds', 'nature, sky, light and music words', 'Marathi-heritage words and lesser-known epic/sage names', 'fresh coinages and rare Sanskrit vocabulary'];
-      const ctx = { apiKey: S.settings.apiKey, names: S.names, exclude: S.exclude, votes: S.votes, partnerVotes: S.partnerVotes, me: PEOPLE[S.me], partner: PEOPLE[S.partner], explain: Learn.explain(S.weights, S.names, S.votes, 8), count: 25 };
-      const results = await Promise.allSettled(angles.map(a => Claude.generate(Object.assign({}, ctx, { direction: [direction, 'Lean this batch toward ' + a + '.'].filter(Boolean).join(' ') }))));
-      const seen = new Set(S.names.map(n => n.id)); const out = [];
-      results.forEach(r => { if (r.status === 'fulfilled') r.value.forEach(n => { if (!seen.has(n.id)) { seen.add(n.id); out.push(n); } }); });
-      const failed = results.filter(r => r.status === 'rejected').length;
-      if (!out.length) throw new Error(results.find(r => r.status === 'rejected').reason.message);
-      out.forEach(scoreExtra);
-      S.extras = S.extras.concat(out); save(); rebuildNames(); buildQueue([]); renderDeck();
-      toast(`Claude added ${out.length} new names — see Discover` + (failed ? ` (${failed} of 4 batches failed, try again for more)` : ''));
+      for (let i = 0; i < angles.length; i++) {
+        genProgress(`Batch ${i + 1} of 4 · ${added} new so far`);
+        const ctx = { apiKey: S.settings.apiKey, names: S.names, exclude: S.exclude, votes: S.votes, partnerVotes: S.partnerVotes, me: PEOPLE[S.me], partner: PEOPLE[S.partner], explain: Learn.explain(S.weights, S.names, S.votes, 8), count: 25, direction: [direction, 'Lean this batch toward ' + angles[i] + '.'].filter(Boolean).join(' ') };
+        let out = null, err = null;
+        for (let attempt = 0; attempt < 2 && !out; attempt++) {
+          try { out = await Claude.generate(ctx); }
+          catch (e) { err = e; if (/rate|429|overloaded|529/i.test(e.message)) { genProgress('Rate limit — waiting a minute…'); await new Promise(r => setTimeout(r, 65000)); } }
+        }
+        if (!out) { failed++; continue; }
+        proposed += 25;
+        const seen = new Set(S.names.map(n => n.id));
+        const fresh = out.filter(n => !seen.has(n.id));
+        fresh.forEach(scoreExtra);
+        S.extras = S.extras.concat(fresh); added += fresh.length; save(); rebuildNames();
+        buildQueue(S.queue.slice(0, 3).map(n => n.id)); if (S.tab === 'discover') renderDeck();
+        if (err && !out) toast('Claude: ' + err.message);
+      }
+      if (!added) throw new Error('No new names came back' + (failed ? ' — ' + failed + ' batches failed (rate limit or the app was put to sleep). Try again with the screen on.' : '.'));
+      toast(`Claude added ${added} new names` + (failed ? ` · ${failed} of 4 batches failed — tap Generate again for more` : ''));
       scheduleSync(0);
     } catch (e) { toast('Claude: ' + e.message); }
-    S.generating = false; $('#syncBtn').classList.remove('busy'); renderTaste(); if (S.tab === 'discover') renderDeck();
+    S.generating = false; S.genText = ''; keepAwake(false); $('#syncBtn').classList.remove('busy'); renderTaste(); if (S.tab === 'discover') renderDeck();
   }
-
-  // ---------- Add your own name ----------
-  function toExtra(o, name) {
-    const id = name.toLowerCase().replace(/[^a-z]/g, '');
-    return {
-      id, name: name[0].toUpperCase() + name.slice(1), dev: o.dev || '', alt: (o.alt || []).slice(0, 4), say: o.say || '', syllables: +o.syllables || 2,
-      meaning: o.meaning || '', root: o.root || '', origin: o.origin || 'Sanskrit', category: o.category || 'coined',
-      themes: (o.themes || []).map(t => String(t).toLowerCase()).slice(0, 3), sayability: Math.max(10, Math.min(100, (+o.sayability || 7) * 10)),
-      say_note: o.say_note || '', tradition: o.tradition || 'traditional', region: o.region || 'pan-Indian', collisions: o.collisions || '',
-      nicknames: (o.nicknames || []).slice(0, 4), confidence: o.confidence || 'medium', note: o.note || '',
-      us: null, unique: null, fresh: 70, generated: Date.now(), by: PEOPLE[S.me], custom: true,
-    };
-  }
-  function openAddName(prefill) {
-    openSheet(`<h2 class="title">Add a name you found</h2>
-      <p class="muted small" style="margin:0 0 10px">It joins the pool as your own find, is marked as liked by you, and syncs to ${PEOPLE[S.partner]}'s phone.</p>
-      <input class="text" id="addName" placeholder="Name, e.g. Anvay" autocapitalize="words" autocomplete="off" value="${esc(prefill || '')}">
-      <div class="btnrow" style="margin:10px 0"><button class="btn ghost" id="addLookup" ${S.settings.apiKey ? '' : 'disabled'}>${ICON.spark} Fill in with Claude</button></div>
-      <div id="addPreview"></div>
-      <div class="field"><div class="eyebrow">Meaning (optional if Claude fills it)</div><input class="text" id="addMeaning" placeholder="e.g. connection, harmony"></div>
-      <div class="field"><div class="eyebrow">In Devanagari (optional)</div><input class="text" id="addDev" placeholder="अन्वय"></div>
-      <div class="field"><div class="eyebrow">Where you found it (optional)</div><input class="text" id="addNote" placeholder="e.g. Aaji suggested it"></div>
-      <div class="btnrow"><button class="btn" id="addLike">♥ Add & like</button><button class="btn primary" id="addLove">★ Add & love</button></div>
-      <div class="status" id="addStatus"></div>`);
-    let looked = null;
-    const idOf = () => $('#addName').value.trim().toLowerCase().replace(/[^a-z]/g, '');
-    $('#addLookup').onclick = async () => {
-      const name = $('#addName').value.trim(); if (!name) { toast('Type the name first'); return; }
-      const b = $('#addLookup'); b.disabled = true; b.innerHTML = '<span class="spin"></span> Asking Claude…';
-      try {
-        looked = await Claude.lookup(S.settings.apiKey, name);
-        $('#addMeaning').value = looked.meaning || ''; $('#addDev').value = looked.dev || '';
-        $('#addPreview').innerHTML = `<div class="panel glass" style="padding:12px"><div class="mini">say <b style="color:var(--accent)">${esc(looked.say)}</b> · ${looked.syllables} syl · ${esc(looked.origin)} · ${esc(looked.root)}</div>${looked.collisions ? `<div class="mini" style="color:var(--gold);margin-top:4px">⚠︎ ${esc(looked.collisions)}</div>` : ''}${looked.note ? `<div class="mini" style="margin-top:4px">${esc(looked.note)}</div>` : ''}</div>`;
-      } catch (e) { toast('Claude: ' + e.message); }
-      b.disabled = false; b.innerHTML = ICON.spark + ' Fill in with Claude';
-    };
-    const add = kind => {
-      const name = $('#addName').value.trim(); const id = idOf();
-      if (!id) { toast('Type a name'); return; }
-      let n = S.byId[id];
-      if (!n) {
-        n = toExtra(looked || {}, name);
-        if (!looked) { n.meaning = $('#addMeaning').value.trim(); n.say = name; }
-        n.meaning = $('#addMeaning').value.trim() || n.meaning; n.dev = $('#addDev').value.trim() || n.dev;
-        const where = $('#addNote').value.trim(); if (where) n.note = (n.note ? n.note + ' · ' : '') + where;
-        scoreExtra(n); S.extras.push(n); rebuildNames();
-      }
-      vote(id, kind, true);
-      buildQueue(S.queue.slice(0, 3).map(x => x.id)); refreshAll(true); closeSheet();
-      toast(`${n.name} added to your ${kind === 'love' ? 'loved' : 'liked'} names`);
-      setTimeout(() => openDetail(id), 350);
-    };
-    $('#addLike').onclick = () => add('like');
-    $('#addLove').onclick = () => add('love');
-    setTimeout(() => $('#addName').focus(), 350);
-  }
-
-  // ---------- Browse by letter ----------
-  function openAZ() {
-    const counts = {};
-    S.names.forEach(n => { const L = n.name[0].toUpperCase(); counts[L] = (counts[L] || 0) + 1; });
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-    openSheet(`<h2 class="title">Browse by letter</h2>
-      <p class="muted small" style="margin:0 0 12px">Tap a letter to see every name that starts with it${S.settings.letter ? ` · currently swiping only <b>${S.settings.letter}</b>` : ''}.</p>
-      <div class="azgrid">${letters.map(L => `<button data-l="${L}" ${counts[L] ? '' : 'disabled'} class="${S.settings.letter === L ? 'on' : ''}">${L}<small>${counts[L] || '—'}</small></button>`).join('')}</div>
-      ${S.settings.letter ? '<button class="btn ghost" id="azAll" style="margin-top:14px">Swipe every letter again</button>' : ''}`);
-    $$('.azgrid button').forEach(b => b.onclick = () => openLetter(b.dataset.l));
-    if ($('#azAll')) $('#azAll').onclick = () => { S.settings.letter = ''; save(); refreshAll(); openAZ(); };
-  }
-  function openLetter(L) {
-    const list = S.names.filter(n => n.name[0].toUpperCase() === L).sort((a, b) => a.name.localeCompare(b.name));
-    const only = S.settings.letter === L;
-    openSheet(`<button class="backlink" id="azBack">‹ All letters</button>
-      <h2 class="title" style="margin-top:0">${L} <span class="muted" style="font-size:16px">· ${list.length} names</span></h2>
-      <button class="btn ${only ? 'primary' : ''}" id="azOnly" style="margin-bottom:12px">${only ? '✓ Swiping only ' + L + ' — tap to show all letters' : 'Swipe only ' + L + ' names in Discover'}</button>
-      ${list.map(n => `<div class="row glass" data-id="${n.id}">${shapeIcon(n.category)}<div class="rn">${esc(n.name)}${n.dev ? ' <span class="muted" style="font-size:15px">' + esc(n.dev) + '</span>' : ''}<small>${esc(n.say)} · ${esc(n.meaning)}</small></div><div class="marks">${markHTML(S.votes[n.id], PEOPLE[S.me])}${markHTML(S.partnerVotes[n.id], PEOPLE[S.partner])}</div></div>`).join('')}`);
-    $('#azBack').onclick = openAZ;
-    $('#azOnly').onclick = () => { S.settings.letter = only ? '' : L; save(); refreshAll(); showTab('discover'); closeSheet(); toast(only ? 'Showing every letter' : 'Discover now shows only ' + L + ' names'); };
-    $$('#sheetBody .row').forEach(r => r.onclick = () => openDetail(r.dataset.id));
-  }
-  $('#azBtn').onclick = openAZ;
-  $('#addBtn').onclick = () => openAddName();
 
   // ---------- Settings ----------
   function openSettings() {
