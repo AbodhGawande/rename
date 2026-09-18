@@ -374,7 +374,7 @@ def run_job(me, direction, count, deep=False):
 # ---------------------------------------------------------------- API
 @app.get('/api/health')
 def health():
-    return {'ok': True, 'app': 'rename', 'key': bool(api_key()), 'updated': STATE.get('updated'), 'job': JOB['status']}
+    return {'ok': True, 'app': 'rename', 'key': bool(api_key()), 'updated': STATE.get('updated'), 'job': JOB['status'], 'generation': generation_enabled()}
 
 @app.get('/api/state')
 def get_state(me: str = 'abodh'):
@@ -382,7 +382,7 @@ def get_state(me: str = 'abodh'):
     with lock:
         return {'me': me, 'votes': STATE['votes'].get(me, {}), 'faceoffs': STATE['faceoffs'].get(me, []),
                 'partnerVotes': STATE['votes'].get(partner, {}), 'partnerFaceoffs': STATE['faceoffs'].get(partner, []),
-                'extras': STATE['extras'], 'stories': STATE['stories'], 'job': JOB, 'updated': STATE.get('updated')}
+                'extras': STATE['extras'], 'stories': STATE['stories'], 'job': JOB, 'updated': STATE.get('updated'), 'generation': generation_enabled()}
 
 @app.post('/api/votes')
 async def post_votes(req: Request):
@@ -478,9 +478,16 @@ async def enrich(req: Request):
     save_state()
     return n
 
+# Generation switch: create data/generation.off to disable the Generate buttons on every phone
+# (touch ~/Apps/rename/data/generation.off on the mini; remove the file to re-enable).
+def generation_enabled():
+    return not os.path.exists(os.path.join(HOME, 'data', 'generation.off'))
+
 @app.post('/api/generate')
 async def generate(req: Request):
     b = await req.json()
+    if not generation_enabled():
+        raise HTTPException(403, 'Generation is switched off')
     if JOB['status'] == 'running':
         return JOB
     JOB.update({'status': 'running', 'text': 'Starting…', 'added': 0, 'started': datetime.datetime.now().isoformat(timespec='seconds'), 'finished': None, 'error': '', 'deep': bool(b.get('deep'))})

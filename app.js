@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 28;
-  const APP_BUILT = 'Sep 18, 2026 · 3:06 PM CDT';
+  const APP_VERSION = 29;
+  const APP_BUILT = 'Sep 18, 2026 · 3:47 PM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -26,7 +26,7 @@
     settings: Object.assign({ accent: 'sky', token: '', apiKey: '', maxSyl: 4, minSay: 50, hideCoined: false, hideKnown: false, letter: '', voiceUS: '', voiceIN: '', motion: true, autoSay: false, lastSync: 0, serverKey: true }, LS.get('settings', {})),
     pool: [], ssa: {}, exclude: [], names: [], byId: {},
     weights: {}, partnerWeights: {},
-    queue: [], review: null, genText: '', history: [], tab: 'discover', listSeg: 'both', faceoffPair: null, generating: false, syncing: false,
+    queue: [], review: null, genText: '', genEnabled: true, history: [], tab: 'discover', listSeg: 'both', faceoffPair: null, generating: false, syncing: false,
   };
   const partnerOf = me => (me === 'abodh' ? 'amruta' : 'abodh');
   const save = () => { LS.set('votes', S.votes); LS.set('faceoffs', S.faceoffs); LS.set('extras', S.extras); LS.set('stories', S.stories); LS.set('settings', S.settings); LS.set('partnerVotes', S.partnerVotes); LS.set('partnerFaceoffs', S.partnerFaceoffs); };
@@ -265,8 +265,8 @@
           ${hiddenByFilters ? `<button class="btn primary" id="showHidden" style="margin-bottom:10px">Show ${hiddenByFilters} names hidden by your filters${filterWords ? ' (' + filterWords + ')' : ''}</button>` : ''}
           <button class="btn ghost" id="checkMini" style="margin-bottom:10px">↻ Check the mini for new names</button>
           ${skipped.length ? `<button class="btn" id="reviewOn" style="margin-bottom:10px">Go through the ${skipped.length} skipped names</button>` : ''}
-          ${true ? `<button class="btn primary" id="genHere" style="margin-bottom:10px" ${S.generating ? 'disabled' : ''}>${S.generating ? '<span class="spin"></span> ' + (S.genText || 'Claude is thinking…') : ICON.spark + ' Generate 100 new names'}</button>` : ''}
-          <p class="mini">${'The mini asks Claude for names in the direction of your swipes — you can close the app while it works. '}${S.settings.letter ? 'Or clear the letter filter.' : 'Or loosen the filters in Settings.'}</p></div>`;
+          ${S.genEnabled ? `<button class="btn primary" id="genHere" style="margin-bottom:10px" ${S.generating ? 'disabled' : ''}>${S.generating ? '<span class="spin"></span> ' + (S.genText || 'Claude is thinking…') : ICON.spark + ' Generate 100 new names'}</button>` : ''}
+          <p class="mini">${S.genEnabled ? 'The mini asks Claude for names in the direction of your swipes — you can close the app while it works. ' : 'New-name generation is switched off to save API costs. '}${S.settings.letter ? 'Or clear the letter filter.' : 'Or loosen the filters in Settings.'}</p></div>`;
         if (skipped.length) $('#reviewOn').onclick = () => { S.review = new Set(skipped.map(n => n.id)); buildQueue([]); renderDeck(); toast('Reviewing skipped names'); };
         if ($('#showHidden')) $('#showHidden').onclick = () => { Object.assign(S.settings, { letter: '', hideCoined: false, hideKnown: false, maxSyl: 4, minSay: 50 }); save(); S.review = null; buildQueue([]); renderDeck(); toast('Filters cleared'); };
         $('#checkMini').onclick = async () => { toast('Checking…'); await doSync(); S.review = null; buildQueue([]); renderDeck(); toast(S.queue.length ? S.queue.length + ' names to go' : 'The mini has nothing new for you'); };
@@ -532,7 +532,7 @@
       </div></div>
       <div class="panel glass"><h3>What ${PEOPLE[S.me]} leans toward</h3>${bars(mine)}</div>
       ${Object.keys(S.partnerVotes).length ? `<div class="panel glass"><h3>What ${PEOPLE[S.partner]} leans toward</h3>${bars(theirs)}</div>` : ''}
-      <div class="panel glass"><h3>${ICON.spark} Ask Claude for more</h3>
+      ${S.genEnabled ? `<div class="panel glass"><h3>${ICON.spark} Ask Claude for more</h3>
         <p class="muted small" style="margin:0 0 10px">The Mac mini asks Claude for about 100 new names in the direction of both your swipes, checks each one (boys only, not common, not your parents' generation, meaning verified), adds the Devanagari, and drops them into Discover with a ✦ — you can close the app while it works.</p>
         <input class="text" id="direction" placeholder="Optional steer, e.g. “more Marathi words”, “2 syllables only”, “names about the sky”" style="margin-bottom:10px">
         <button class="btn primary" id="genBtn" ${genOK ? '' : 'disabled'}>${S.generating ? '<span class="spin"></span> ' + (S.genText || 'Claude is thinking…') : ICON.spark + ' Generate 100 new names'}</button>
@@ -540,11 +540,11 @@
         <button class="btn ghost" id="deepBtn" style="margin-top:10px" ${S.generating ? 'disabled' : ''}>${ICON.spark} Deep search — 50 names with Fable</button>
         <div class="status">Anthropic's most capable model, thinking hard: rarer words, Marathi vocabulary, ragas. Slow (about an hour for 50) but it runs unattended.</div>
         <div class="status" id="genStatus">${S.extras.length ? S.extras.length + ' Claude-suggested names in the pool so far.' : ''}</div>
-      </div>
+      </div>` : `<div class="panel glass"><h3>${ICON.spark} Generation is switched off</h3><p class="muted small" style="margin:0">Abodh paused new-name generation to keep API costs down. The pool has ${S.names.length} names; ask him to switch it back on if the deck runs dry.</p></div>`}
       <div class="panel glass"><h3>How names are ranked</h3><p class="muted small" style="margin:0">Every name starts with a score from <b>uniqueness</b> (real Social Security counts — how many US boys got the name in 2024) and <b>ease of saying</b> for non-Indian Americans, plus a little for freshness. Your swipes train a small model on syllables, endings, sounds, themes and origins — that pushes names you'd probably like to the front. ${PEOPLE[S.partner]}'s likes get a boost too, so you converge instead of drifting apart.</p></div>
       <div style="height:20px"></div>`;
-    $('#genBtn').onclick = () => generateMore($('#direction').value.trim());
-    $('#deepBtn').onclick = () => generateMore($('#direction').value.trim(), true);
+    if ($('#genBtn')) $('#genBtn').onclick = () => generateMore($('#direction').value.trim());
+    if ($('#deepBtn')) $('#deepBtn').onclick = () => generateMore($('#direction').value.trim(), true);
   }
   // ---------- Add your own name ----------
   function toExtra(o, name) {
@@ -722,6 +722,7 @@
     S.stories = res.stories || {};
     const before = S.extras.length; S.extras = res.extras || [];
     if (res.job) applyJob(res.job);
+    S.genEnabled = res.generation !== false;
     S.settings.lastSync = Date.now(); S.online = true; save(); retrain();
     if (S.extras.length !== before) rebuildNames();
   }
