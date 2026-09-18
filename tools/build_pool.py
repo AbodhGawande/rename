@@ -108,7 +108,7 @@ if os.path.exists(qa_path):
     for key in list(names):
         v = qa.get(key)
         if not v: continue
-        if v['gender'] == 'girl' or v['south_specific'] or v['trending'] or v['old_generation'] or not v['meaning_ok']:
+        if v['gender'] == 'girl' or v['south_specific'] or v['trending'] or (v['old_generation'] and v.get('common_then', False)) or not v['meaning_ok']:
             del names[key]; dropped['qa'] = dropped.get('qa', 0) + 1; excluded.add(key)
         elif v['gender'] == 'unisex' and 'used for girls too' not in names[key]['note']:
             names[key]['note'] = (names[key]['note'] + ' · ' if names[key]['note'] else '') + 'used for girls too'

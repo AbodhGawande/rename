@@ -32,6 +32,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -104,8 +105,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "strongly Marathi-marked, peaked 1985-2005"
  },
  "akalank": {
   "name": "Akalank",
@@ -140,6 +142,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -149,8 +152,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "reads slightly like a word, not a name"
  },
  "alap": {
   "name": "Alap",
@@ -158,8 +162,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "more Gujarati than Marathi"
  },
  "alark": {
   "name": "Alark",
@@ -185,8 +190,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "Arabic Amal is a girl's name"
+  "note": "clashes with Arabic girls' name Amal in USA"
  },
  "amartya": {
   "name": "Amartya",
@@ -194,17 +200,19 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "Bengali-flavoured"
  },
  "ambar": {
   "name": "Ambar",
-  "gender": "boy",
+  "gender": "unisex",
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "collides with English Amber"
+  "note": "heard as Amber (girl) in USA"
  },
  "ambu": {
   "name": "Ambu",
@@ -230,6 +238,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -239,6 +248,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -266,6 +276,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
   "note": ""
  },
@@ -275,8 +286,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "reads Punjabi/Sikh"
  },
  "angiras": {
   "name": "Angiras",
@@ -289,12 +301,13 @@
  },
  "anmol": {
   "name": "Anmol",
-  "gender": "boy",
+  "gender": "unisex",
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "more Punjabi/Hindi than Marathi"
+  "note": "North Indian/Punjabi feel, used for girls too"
  },
  "anshuman": {
   "name": "Anshuman",
@@ -302,6 +315,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -320,8 +334,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "Bengali; rare as a name"
  },
  "anunad": {
   "name": "Anunad",
@@ -455,8 +470,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "1980s-90s Marathi/Hindi name"
+  "note": ""
  },
  "aruni": {
   "name": "Aruni",
@@ -491,6 +507,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -617,8 +634,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "Gujarati male and female usage; dated"
+  "note": "dated Gujarati/Marathi; Bakula is female"
  },
  "balark": {
   "name": "Balark",
@@ -631,12 +649,13 @@
  },
  "bansi": {
   "name": "Bansi",
-  "gender": "unisex",
+  "gender": "boy",
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "North Indian, dated; also female Bansi"
+  "note": "dated, village-rustic register"
  },
  "bihag": {
   "name": "Bihag",
@@ -662,8 +681,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "dated Gujarati; 'chump' sound in US"
+  "note": "comic-strip/dated associations"
  },
  "charit": {
   "name": "Charit",
@@ -676,12 +696,13 @@
  },
  "charu": {
   "name": "Charu",
-  "gender": "unisex",
+  "gender": "girl",
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "predominantly female in modern India"
+  "note": "overwhelmingly female in India"
  },
  "chatur": {
   "name": "Chatur",
@@ -707,8 +728,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": "very common Marathi name of 1980s-90s"
+  "note": "very common Marathi name of the 1980s-90s"
  },
  "chintan": {
   "name": "Chintan",
@@ -716,8 +738,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "reads Gujarati"
  },
  "chirayu": {
   "name": "Chirayu",
@@ -725,6 +748,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -743,6 +767,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -761,8 +786,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "also a Gujarati female name"
+  "note": "female in Gujarati usage"
  },
  "devanik": {
   "name": "Devanik",
@@ -788,8 +814,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "Bhishma's name; formal/dated"
+  "note": "Bhishma's name; heavy/traditional"
  },
  "devdar": {
   "name": "Devdar",
@@ -887,8 +914,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "dated Gujarati/Marathi"
+  "note": "Gujarati-leaning; Falguni is the female form"
  },
  "gagan": {
   "name": "Gagan",
@@ -896,8 +924,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": ""
+  "note": "North Indian-leaning"
  },
  "gahan": {
   "name": "Gahan",
@@ -995,6 +1024,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -1040,8 +1070,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "used for girls in Bengal/Odisha too"
+  "note": "often female in Bengali"
  },
  "himal": {
   "name": "Himal",
@@ -1085,8 +1116,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "Bengali; rare"
  },
  "indivar": {
   "name": "Indivar",
@@ -1103,8 +1135,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "in Telugu also used for girls (Indira-like)"
+  "note": "rare as a standalone given name in India; Indira is female"
  },
  "indranil": {
   "name": "Indranil",
@@ -1112,8 +1145,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "strongly Bengali"
+  "note": "distinctly Bengali"
  },
  "indu": {
   "name": "Indu",
@@ -1139,8 +1173,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "usually in compounds (Jagatsingh); dated"
  },
  "jagrat": {
   "name": "Jagrat",
@@ -1193,6 +1228,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -1211,8 +1247,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "dated grandfather register"
  },
  "jatayu": {
   "name": "Jatayu",
@@ -1229,8 +1266,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "Punjabi/Bengali feel, not Marathi"
  },
  "jigyasu": {
   "name": "Jigyasu",
@@ -1265,8 +1303,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "North Indian; uncommon"
  },
  "jyotish": {
   "name": "Jyotish",
@@ -1274,8 +1313,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "Assamese/Bengali flavor"
+  "note": "reads as the discipline name, not a person"
  },
  "kadamb": {
   "name": "Kadamb",
@@ -1310,8 +1350,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "strongly dated"
+  "note": "very dated; literally 'servant of Kali'"
  },
  "kalind": {
   "name": "Kalind",
@@ -1328,8 +1369,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "Bengali"
+  "note": "Bengali-specific"
  },
  "kalp": {
   "name": "Kalp",
@@ -1400,8 +1442,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "also a common older women's name in Hindi/Gujarati"
+  "note": "female in much of North India"
  },
  "kanav": {
   "name": "Kanav",
@@ -1445,8 +1488,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "mostly used as a surname"
+  "note": "mostly a surname/gotra"
  },
  "katyayan": {
   "name": "Katyayan",
@@ -1490,8 +1534,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "widely a women's name in Gujarat/Rajasthan"
+  "note": "often female (Kesarbai); rustic register"
  },
  "kesari": {
   "name": "Kesari",
@@ -1499,8 +1544,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "dated, feels like Hanuman's father's name"
+  "note": "rare as given name; reads as surname/film title"
  },
  "ketak": {
   "name": "Ketak",
@@ -1535,8 +1581,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "Bengali usage, dated"
+  "note": "Bengali; -i ending reads feminine in USA"
  },
  "kirtan": {
   "name": "Kirtan",
@@ -1589,8 +1636,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "Bengali; easily misread as Krishna"
  },
  "kuber": {
   "name": "Kuber",
@@ -1625,8 +1673,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "strongly reads as an older woman's name in Hindi/Gujarati"
+  "note": "in Marathi/Hindi contexts read mostly as a woman's name"
  },
  "kunj": {
   "name": "Kunj",
@@ -1661,6 +1710,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -1742,8 +1792,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "strongly Bengali"
+  "note": "strongly Bengali-coded"
  },
  "maitrey": {
   "name": "Maitrey",
@@ -1776,8 +1827,9 @@
   "name": "Manas",
   "gender": "boy",
   "south_specific": false,
-  "trending": false,
+  "trending": true,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -1796,8 +1848,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": ""
+  "note": "dated village feel in Maharashtra"
  },
  "manit": {
   "name": "Manit",
@@ -1814,8 +1867,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "feminine Manjula far more common"
+  "note": "Manjula is the far more familiar girl form"
  },
  "manu": {
   "name": "Manu",
@@ -1823,8 +1877,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": "very dated, also a common nickname"
+  "note": "also a common pet-name for girls"
  },
  "manya": {
   "name": "Manya",
@@ -1859,8 +1914,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "reads as an elderly/priestly name"
  },
  "martand": {
   "name": "Martand",
@@ -1868,6 +1924,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -1931,8 +1988,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "strongly Bengali-coded"
+  "note": "Bengali-leaning"
  },
  "megh": {
   "name": "Megh",
@@ -1985,8 +2043,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "Assamese/Bengali-coded"
+  "note": "Mridula is the girl form; some gender ambiguity in the US"
  },
  "mudgal": {
   "name": "Mudgal",
@@ -2003,6 +2062,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2021,8 +2081,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": ""
+  "note": "distinctly old-fashioned"
  },
  "nabhas": {
   "name": "Nabhas",
@@ -2039,8 +2100,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "peak Marathi usage was 1980s-90s"
+  "note": "well-used specifically among Marathi families"
  },
  "nadish": {
   "name": "Nadish",
@@ -2057,6 +2119,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2066,6 +2129,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2075,8 +2139,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "female in Hindi film/North usage"
+  "note": "reads female in Marathi (actress Nanda)"
  },
  "nandan": {
   "name": "Nandan",
@@ -2084,6 +2149,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2111,8 +2177,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "Gujarati male but read female via Nayana/Nayanthara"
+  "note": "Nayana/Nayan also used for girls"
  },
  "neer": {
   "name": "Neer",
@@ -2129,8 +2196,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "duplicate of Nirad below"
  },
  "nidar": {
   "name": "Nidar",
@@ -2165,6 +2233,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2174,6 +2243,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2183,6 +2253,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2201,6 +2272,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2219,8 +2291,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "classic Marathi name of the 80s-90s"
+  "note": "very Marathi-specific"
  },
  "nipun": {
   "name": "Nipun",
@@ -2228,6 +2301,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2237,8 +2311,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "same name as Neerad above"
  },
  "nirantar": {
   "name": "Nirantar",
@@ -2291,8 +2366,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "more Nepali/Hindi-belt than Marathi"
+  "note": ""
  },
  "nishad": {
   "name": "Nishad",
@@ -2300,8 +2376,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "nishada also denotes a tribal/caste group"
+  "note": "also a tribe/caste label in North India"
  },
  "nishank": {
   "name": "Nishank",
@@ -2354,6 +2431,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2363,8 +2441,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "close to the girl name Pallavi"
  },
  "pancham": {
   "name": "Pancham",
@@ -2408,6 +2487,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
   "note": ""
  },
@@ -2489,6 +2569,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2498,8 +2579,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "reads as Bengali; -i ending may seem feminine in US"
+  "note": "Bengali-coded; -i ending may read feminine in the US"
  },
  "pippalad": {
   "name": "Pippalad",
@@ -2516,6 +2598,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2525,6 +2608,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2561,8 +2645,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": ""
+  "note": "clearly a grandfather-era name"
  },
  "prajyot": {
   "name": "Prajyot",
@@ -2579,6 +2664,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2606,8 +2692,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "Bengali-leaning"
  },
  "pratardan": {
   "name": "Pratardan",
@@ -2633,6 +2720,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2678,6 +2766,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2714,8 +2803,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "Puranic king name, sounds older"
+  "note": ""
  },
  "pujit": {
   "name": "Pujit",
@@ -2732,8 +2822,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "Bengali-leaning, older cohort"
+  "note": "Bengali-coded"
  },
  "punya": {
   "name": "Punya",
@@ -2759,8 +2850,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "dated, epithet of Indra"
+  "note": ""
  },
  "purnendu": {
   "name": "Purnendu",
@@ -2768,8 +2860,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "Bengali, older generation"
+  "note": "Bengali-coded"
  },
  "purnit": {
   "name": "Purnit",
@@ -2876,8 +2969,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "easily misheard as Ranjit/Rajiv"
  },
  "rantidev": {
   "name": "Rantidev",
@@ -2885,6 +2979,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2894,8 +2989,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": ""
+  "note": "colloquially can imply 'flirt' in Marathi/Hindi"
  },
  "ravik": {
   "name": "Ravik",
@@ -2975,6 +3071,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -2993,6 +3090,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3047,6 +3145,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3101,6 +3200,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3137,8 +3237,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "Bengali-leaning"
  },
  "samit": {
   "name": "Samit",
@@ -3146,6 +3247,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3227,6 +3329,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3236,8 +3339,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "ideological connotation today"
  },
  "sandipan": {
   "name": "Sandipan",
@@ -3245,15 +3349,17 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
  "sangam": {
   "name": "Sangam",
-  "gender": "boy",
+  "gender": "unisex",
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3263,6 +3369,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3290,8 +3397,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "mostly a nickname, used for girls too"
+  "note": "reads as nickname"
  },
  "sanyam": {
   "name": "Sanyam",
@@ -3299,6 +3407,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3308,15 +3417,17 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "strongly Bengali"
  },
  "saral": {
   "name": "Saral",
-  "gender": "boy",
+  "gender": "unisex",
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3371,8 +3482,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": "used for women as well"
+  "note": ""
  },
  "satyajit": {
   "name": "Satyajit",
@@ -3380,6 +3492,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
   "note": ""
  },
@@ -3389,6 +3502,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3407,6 +3521,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3416,8 +3531,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "predominantly a girls' name in India today"
+  "note": "widely a girl's name in India"
  },
  "savitar": {
   "name": "Savitar",
@@ -3439,12 +3555,13 @@
  },
  "shail": {
   "name": "Shail",
-  "gender": "boy",
+  "gender": "unisex",
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "Shaila is female"
  },
  "shakra": {
   "name": "Shakra",
@@ -3461,6 +3578,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3497,6 +3615,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3542,8 +3661,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "Marathi-friendly"
  },
  "shibi": {
   "name": "Shibi",
@@ -3569,6 +3689,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
   "note": ""
  },
@@ -3578,6 +3699,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3632,6 +3754,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3655,12 +3778,13 @@
  },
  "soma": {
   "name": "Soma",
-  "gender": "unisex",
+  "gender": "girl",
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "Soma is a common girl's name in Bengal"
+  "note": "Soma is a common Bengali girl's name"
  },
  "somil": {
   "name": "Somil",
@@ -3677,8 +3801,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "Marathi saint name, feels dated/rural"
+  "note": "Marathi saint name, dated"
  },
  "spandan": {
   "name": "Spandan",
@@ -3731,6 +3856,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3740,8 +3866,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "associated with poverty in the Krishna story"
+  "note": "connotes poverty"
  },
  "sudas": {
   "name": "Sudas",
@@ -3758,6 +3885,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3767,8 +3895,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "strongly tied to the monkey king"
+  "note": "monkey-king association"
  },
  "suhit": {
   "name": "Suhit",
@@ -3785,6 +3914,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3794,6 +3924,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3803,6 +3934,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3812,6 +3944,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3848,6 +3981,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3875,8 +4009,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": "easily confused with the female Suneeta/Sunita"
+  "note": "confusable with Sunita/Suniti (female)"
  },
  "sunrit": {
   "name": "Sunrit",
@@ -3911,6 +4046,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3929,6 +4065,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3938,6 +4075,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -3947,8 +4085,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "very Marathi, feels 1980s"
+  "note": "distinctly Marathi"
  },
  "swanand": {
   "name": "Swanand",
@@ -3956,8 +4095,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "Marathi, dated"
+  "note": "distinctly Marathi"
  },
  "swar": {
   "name": "Swar",
@@ -4001,8 +4141,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "strongly Bengali"
+  "note": "Bengali-leaning"
  },
  "tandav": {
   "name": "Tandav",
@@ -4028,6 +4169,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -4037,8 +4179,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": "Bengali-leaning, dated"
+  "note": "Bengali, dated"
  },
  "tapas": {
   "name": "Tapas",
@@ -4046,8 +4189,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": "reads as Spanish 'tapas' in the USA"
+  "note": "English 'tapas' clash in USA"
  },
  "tapovan": {
   "name": "Tapovan",
@@ -4064,8 +4208,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "strong Telugu association (Jr NTR)"
  },
  "taral": {
   "name": "Taral",
@@ -4091,8 +4236,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "also used for girls"
+  "note": "also used for girls in North India"
  },
  "taresh": {
   "name": "Taresh",
@@ -4100,6 +4246,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -4118,8 +4265,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "distinctly Bengali"
+  "note": "Bengali-leaning, rare in Marathi"
  },
  "tark": {
   "name": "Tark",
@@ -4190,8 +4338,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "reads distinctly elderly"
  },
  "trivikram": {
   "name": "Trivikram",
@@ -4199,6 +4348,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -4208,8 +4358,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "reads Bengali"
+  "note": "Bengali usage mainly"
  },
  "udar": {
   "name": "Udar",
@@ -4235,6 +4386,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -4271,8 +4423,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "'ugra' (fierce) connotation"
+  "note": "ugra is 'fierce' rather than 'mighty'"
  },
  "ujas": {
   "name": "Ujas",
@@ -4289,6 +4442,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -4298,8 +4452,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": "peaked with 1980s-90s Gujarati/Hindi boys"
+  "note": "very 1980s-90s North Indian"
  },
  "unmesh": {
   "name": "Unmesh",
@@ -4307,6 +4462,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -4334,6 +4490,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -4370,8 +4527,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": ""
+  "note": "dated Bengali/Marathi feel"
  },
  "utsah": {
   "name": "Utsah",
@@ -4406,8 +4564,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": ""
+  "note": "strongly grandfather-generation"
  },
  "uttank": {
   "name": "Uttank",
@@ -4442,6 +4601,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -4478,8 +4638,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "strong caste-community association in India"
+  "note": "sage name, rarely given directly"
  },
  "vamadev": {
   "name": "Vamadev",
@@ -4487,8 +4648,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "vama also means 'left'"
  },
  "vaman": {
   "name": "Vaman",
@@ -4496,8 +4658,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": "literally 'dwarf'; grandfather-generation Marathi name"
+  "note": "classic older Marathi name"
  },
  "vandit": {
   "name": "Vandit",
@@ -4568,8 +4731,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": "reads as an older/South-Indian uncle name"
+  "note": "very common as a South Indian short form"
  },
  "vasuki": {
   "name": "Vasuki",
@@ -4667,6 +4831,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -4676,6 +4841,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -4712,6 +4878,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
   "note": ""
  },
@@ -4757,8 +4924,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "primarily a surname"
+  "note": "more common as a surname"
  },
  "vyomkesh": {
   "name": "Vyomkesh",
@@ -4766,8 +4934,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": ""
+  "note": "confusable with Byomkesh Bakshi"
  },
  "yadu": {
   "name": "Yadu",
@@ -4775,6 +4944,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -4829,8 +4999,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "familiar Marathi name of the 70s-90s"
+  "note": "rare Marathi classic; spelling variant of Amod"
  },
  "ashay": {
   "name": "Ashay",
@@ -4838,8 +5009,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "very common for Marathi men born 1975-95"
+  "note": "confusable with Akshay/Ashray"
  },
  "avakash": {
   "name": "Avakash",
@@ -5054,8 +5226,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": true,
   "meaning_ok": true,
-  "note": "dated, strongly North-Indian flavour"
+  "note": "North-Indian/Punjabi flavored, dated"
  },
  "salher": {
   "name": "Salher",
@@ -5090,8 +5263,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "associated with Marathi men of an earlier generation"
+  "note": ""
  },
  "savata": {
   "name": "Savata",
@@ -5135,8 +5309,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "older Marathi/Gujarati flavour"
+  "note": ""
  },
  "swaraj": {
   "name": "Swaraj",
@@ -5144,8 +5319,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "nationalist-era name, common for men born 1950-80"
+  "note": ""
  },
  "tikona": {
   "name": "Tikona",
@@ -5171,8 +5347,9 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "easily confused with the girl's name Vandana"
+  "note": "close to girls' name Vandana"
  },
  "vashisht": {
   "name": "Vashisht",
@@ -5180,6 +5357,7 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
   "note": ""
  },
@@ -5189,7 +5367,8 @@
   "south_specific": false,
   "trending": false,
   "old_generation": true,
+  "common_then": false,
   "meaning_ok": true,
-  "note": "dated; also means 'rest stop'"
+  "note": "reads as 'rest/break' in daily Marathi"
  }
 }

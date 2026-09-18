@@ -115,11 +115,11 @@ def claude_json(body, timeout=600, tries=2, headers=None):
 
 CRITERIA = """The child is a BOY born in 2025 in the USA to Marathi (Maharashtrian) Indian immigrant parents (born 1985 and 1991). He will grow up in the USA. Surname: Gawande. His current first name is Aarush; the parents are choosing a new first name.
 Hard criteria for every suggestion:
-1. Indian origin — Sanskrit, Marathi, Prakrit/Pali, Hindi usage. Never South-Indian-specific (no Tamil/Telugu/Kannada/Malayalam-specific names or forms).
+1. Indian origin, broadly: Sanskrit, Marathi, Hindi/Hindustani (including Persian- and Urdu-derived words that are everyday vocabulary in Marathi and Hindi), Prakrit/Pali, Punjabi, Gujarati, Bengali, Konkani. Never South-Indian-specific (no Tamil/Telugu/Kannada/Malayalam-specific names or forms). Boys' names only.
 2. Easy for non-Indian Americans to pronounce correctly from the spelling: prefer 2–3 syllables; avoid aspirated clusters (bh/dh/gh/chh/jh), retroflex-dependent sounds, and "th" that Americans read as English "th"; avoid names that read as an English word or invite a bad nickname.
-3. Unique — not currently popular among Indian-American babies; avoid the trendy -aan/-aansh endings.
-4. Not an older-generation name common for Indian men born 1950–1995.
-5. Real, meaningful. A coined name must be built from genuine Sanskrit/Marathi parts with a defensible meaning and must be labelled tradition "coined". Never invent a meaning. Boys' names only."""
+3. Uncommon — not popular among Indian-American babies now; avoid the trendy -aan/-aansh endings.
+4. A name from an earlier generation is welcome if it is genuinely uncommon and still feels fresh; avoid only the very common names of men born 1950–1995 (Rajesh, Sachin, Amol, Nilesh, Prashant, Sunil, Amit, Rohit…).
+5. Real, meaningful; softer, warmer words are as welcome as strong ones. A coined name must be built from genuine parts with a defensible meaning and be labelled tradition "coined". Never invent a meaning."""
 
 NAME_SCHEMA = {
     'type': 'object', 'additionalProperties': False, 'required': ['names'],
@@ -133,13 +133,13 @@ NAME_SCHEMA = {
             'say': {'type': 'string', 'description': 'US-friendly respelling, stressed syllable in CAPS, e.g. UN-vay'},
             'syllables': {'type': 'integer'},
             'meaning': {'type': 'string'}, 'root': {'type': 'string'},
-            'origin': {'type': 'string', 'enum': ['Sanskrit', 'Marathi', 'Prakrit', 'Pali', 'Hindi', 'Coined']},
+            'origin': {'type': 'string', 'enum': ['Sanskrit', 'Marathi', 'Prakrit', 'Pali', 'Hindi', 'Hindustani', 'Punjabi', 'Gujarati', 'Bengali', 'Konkani', 'Coined']},
             'category': {'type': 'string', 'enum': ['nature', 'virtue', 'epic', 'marathi', 'sky', 'music', 'knowledge', 'light', 'sound', 'art', 'spirit', 'short', 'coined']},
             'themes': {'type': 'array', 'items': {'type': 'string'}},
             'sayability': {'type': 'integer', 'description': '1-10; 10 = any American says it right first time'},
             'say_note': {'type': 'string'},
             'tradition': {'type': 'string', 'enum': ['traditional', 'rare-traditional', 'coined']},
-            'region': {'type': 'string', 'enum': ['pan-Indian', 'north-west', 'marathi']},
+            'region': {'type': 'string', 'enum': ['pan-Indian', 'north-west', 'marathi', 'punjab', 'gujarat', 'bengal']},
             'collisions': {'type': 'string'}, 'nicknames': {'type': 'array', 'items': {'type': 'string'}},
             'confidence': {'type': 'string', 'enum': ['high', 'medium']}, 'note': {'type': 'string'},
         }}}},
@@ -164,9 +164,10 @@ QA_SCHEMA = {
     'type': 'object', 'additionalProperties': False, 'required': ['verdicts'],
     'properties': {'verdicts': {'type': 'array', 'items': {
         'type': 'object', 'additionalProperties': False,
-        'required': ['name', 'gender', 'south_specific', 'trending', 'old_generation', 'meaning_ok', 'note'],
+        'required': ['name', 'gender', 'south_specific', 'trending', 'old_generation', 'common_then', 'meaning_ok', 'note'],
         'properties': {'name': {'type': 'string'}, 'gender': {'type': 'string', 'enum': ['boy', 'unisex', 'girl']},
                        'south_specific': {'type': 'boolean'}, 'trending': {'type': 'boolean'}, 'old_generation': {'type': 'boolean'},
+                       'common_then': {'type': 'boolean', 'description': 'true only if it was a genuinely COMMON name of that era (many men born 1950-1995 carry it)'},
                        'meaning_ok': {'type': 'boolean'}, 'note': {'type': 'string'}}}}},
 }
 
@@ -269,7 +270,8 @@ def qa_batch(cands):
 - gender: 'girl' if used for girls in India, 'unisex' if commonly both, else 'boy'.
 - south_specific: true only if usage is clearly Tamil/Telugu/Kannada/Malayalam-specific.
 - trending: true if currently popular among Indian-American or urban-Indian boys born 2015-2025.
-- old_generation: true if it was a common name for Indian men born 1950-1995.
+- old_generation: true if it was used for Indian men born 1950-1995 at all.
+- common_then: true only if it was a genuinely COMMON name of that era (the parents only want to avoid those; a rare classic is welcome).
 - meaning_ok: false if the stated meaning or root is wrong or invented.
 One verdict per name, same order, {len(cands)} verdicts.
 
@@ -278,7 +280,7 @@ One verdict per name, same order, {len(cands)} verdicts.
     keep = []
     for n in cands:
         v = verdicts.get(n['id'])
-        if v and (v['gender'] == 'girl' or v['south_specific'] or v['trending'] or v['old_generation'] or not v['meaning_ok']):
+        if v and (v['gender'] == 'girl' or v['south_specific'] or v['trending'] or (v['old_generation'] and v.get('common_then')) or not v['meaning_ok']):
             continue
         if v and v['gender'] == 'unisex':
             n['note'] = (n['note'] + ' · ' if n['note'] else '') + 'used for girls too'
@@ -289,9 +291,11 @@ One verdict per name, same order, {len(cands)} verdicts.
 # ---------------------------------------------------------------- generation job (one at a time, in a thread)
 JOB = {'status': 'idle', 'text': '', 'added': 0, 'started': None, 'finished': None, 'error': ''}
 ANGLES = ['short, crisp 2-syllable names with clean sounds', 'nature, sky, light and music words',
-          'Marathi-heritage words and lesser-known epic/sage names', 'fresh coinages and rare Sanskrit vocabulary',
-          'virtues, wisdom and knowledge words with soft endings', 'rivers, mountains, seasons and weather',
-          'Vedic and Buddhist/Jain vocabulary for peace, awareness and light', 'art, dance, poetry and sound words']
+          'Marathi-heritage words and lesser-known epic/sage names', 'fresh coinages and rare vocabulary',
+          'soft, warm Hindi/Hindustani and Urdu-derived words that are everyday vocabulary in Marathi and Hindi',
+          'gentle classics from earlier generations that are rare today',
+          'Punjabi, Gujarati, Bengali and Konkani names that travel well in America',
+          'virtues, calm, kindness and knowledge words with soft endings']
 
 def run_job(me, direction, count, deep=False):
     """Angled batches, two at a time, until `count` NEW names have actually been added (or the

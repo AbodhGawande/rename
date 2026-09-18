@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 24;
-  const APP_BUILT = 'Sep 18, 2026 · 1:32 PM CDT';
+  const APP_VERSION = 25;
+  const APP_BUILT = 'Sep 18, 2026 · 1:38 PM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
