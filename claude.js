@@ -163,5 +163,18 @@ Cover, in short plain paragraphs with these bold headings: **Meaning & roots** (
     return text;
   }
 
-  window.Claude = { generate, story, MODEL };
+  // Fill in the details for a name the parents found themselves.
+  async function lookup(apiKey, name, signal) {
+    const one = { type: 'object', additionalProperties: false, required: ['names'], properties: { names: NAME_SCHEMA.properties.names } };
+    const { text } = await call(apiKey, {
+      model: MODEL, max_tokens: 3000,
+      output_config: { effort: 'low', format: { type: 'json_schema', schema: one } },
+      messages: [{ role: 'user', content: `${CRITERIA}\n\nThe parents found the boy's name "${name}" themselves. Fill in its details honestly (exactly one entry). If the meaning is uncertain say so in note and set confidence "medium". If it breaks one of the criteria (too common, older generation, South-Indian-specific, girl's name), say which in "collisions" — do not refuse.` }],
+    }, signal);
+    const o = JSON.parse(text).names[0];
+    if (!o) throw new Error('No details came back');
+    return o;
+  }
+
+  window.Claude = { generate, story, lookup, MODEL };
 })();

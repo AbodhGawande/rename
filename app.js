@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 13;
-  const APP_BUILT = 'Sep 18, 2026 · 9:49 AM CDT';
+  const APP_VERSION = 14;
+  const APP_BUILT = 'Sep 18, 2026 · 9:59 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -44,7 +44,8 @@
   }
   function rebuildNames() {
     const banned = new Set(S.exclude || []);
-    S.extras = S.extras.filter(n => !banned.has(n.id) && !S.pool.some(p => p.id === n.id));
+    // Your own finds are never filtered out — the block lists are for Claude's suggestions.
+    S.extras = S.extras.filter(n => n.custom || (!banned.has(n.id) && !S.pool.some(p => p.id === n.id)));
     S.extras.forEach(n => { if (n.unique == null) scoreExtra(n); });
     S.names = S.pool.concat(S.extras);
     S.byId = {}; S.names.forEach(n => { S.byId[n.id] = n; });
@@ -365,7 +366,7 @@
         <span class="tag">${n.syllables} syllable${n.syllables > 1 ? 's' : ''}</span>
         <span class="tag">${esc(n.tradition.replace('-', ' '))}</span>
         <span class="tag">${esc(n.region)}</span>
-        ${n.generated ? '<span class="tag acc">✦ suggested by Claude</span>' : ''}
+        ${n.custom ? `<span class="tag acc">✎ added by ${esc(n.by || 'you')}</span>` : n.generated ? '<span class="tag acc">✦ suggested by Claude</span>' : ''}
       </div>
       <div class="field"><div class="eyebrow">Meaning</div><div class="val serif">${esc(n.meaning)}</div></div>
       <div class="field"><div class="eyebrow">Root</div><div class="val">${esc(n.root)} · ${esc(n.origin)}${n.confidence === 'medium' ? ' <span class="tag warn">meaning: medium confidence</span>' : ''}</div></div>
@@ -529,6 +530,62 @@
     S.generating = false; $('#syncBtn').classList.remove('busy'); renderTaste();
   }
 
+  // ---------- Add your own name ----------
+  function toExtra(o, name) {
+    const id = name.toLowerCase().replace(/[^a-z]/g, '');
+    return {
+      id, name: name[0].toUpperCase() + name.slice(1), dev: o.dev || '', alt: (o.alt || []).slice(0, 4), say: o.say || '', syllables: +o.syllables || 2,
+      meaning: o.meaning || '', root: o.root || '', origin: o.origin || 'Sanskrit', category: o.category || 'coined',
+      themes: (o.themes || []).map(t => String(t).toLowerCase()).slice(0, 3), sayability: Math.max(10, Math.min(100, (+o.sayability || 7) * 10)),
+      say_note: o.say_note || '', tradition: o.tradition || 'traditional', region: o.region || 'pan-Indian', collisions: o.collisions || '',
+      nicknames: (o.nicknames || []).slice(0, 4), confidence: o.confidence || 'medium', note: o.note || '',
+      us: null, unique: null, fresh: 70, generated: Date.now(), by: PEOPLE[S.me], custom: true,
+    };
+  }
+  function openAddName(prefill) {
+    openSheet(`<h2 class="title">Add a name you found</h2>
+      <p class="muted small" style="margin:0 0 10px">It joins the pool as your own find, is marked as liked by you, and syncs to ${PEOPLE[S.partner]}'s phone.</p>
+      <input class="text" id="addName" placeholder="Name, e.g. Anvay" autocapitalize="words" autocomplete="off" value="${esc(prefill || '')}">
+      <div class="btnrow" style="margin:10px 0"><button class="btn ghost" id="addLookup" ${S.settings.apiKey ? '' : 'disabled'}>${ICON.spark} Fill in with Claude</button></div>
+      <div id="addPreview"></div>
+      <div class="field"><div class="eyebrow">Meaning (optional if Claude fills it)</div><input class="text" id="addMeaning" placeholder="e.g. connection, harmony"></div>
+      <div class="field"><div class="eyebrow">In Devanagari (optional)</div><input class="text" id="addDev" placeholder="अन्वय"></div>
+      <div class="field"><div class="eyebrow">Where you found it (optional)</div><input class="text" id="addNote" placeholder="e.g. Aaji suggested it"></div>
+      <div class="btnrow"><button class="btn" id="addLike">♥ Add & like</button><button class="btn primary" id="addLove">★ Add & love</button></div>
+      <div class="status" id="addStatus"></div>`);
+    let looked = null;
+    const idOf = () => $('#addName').value.trim().toLowerCase().replace(/[^a-z]/g, '');
+    $('#addLookup').onclick = async () => {
+      const name = $('#addName').value.trim(); if (!name) { toast('Type the name first'); return; }
+      const b = $('#addLookup'); b.disabled = true; b.innerHTML = '<span class="spin"></span> Asking Claude…';
+      try {
+        looked = await Claude.lookup(S.settings.apiKey, name);
+        $('#addMeaning').value = looked.meaning || ''; $('#addDev').value = looked.dev || '';
+        $('#addPreview').innerHTML = `<div class="panel glass" style="padding:12px"><div class="mini">say <b style="color:var(--accent)">${esc(looked.say)}</b> · ${looked.syllables} syl · ${esc(looked.origin)} · ${esc(looked.root)}</div>${looked.collisions ? `<div class="mini" style="color:var(--gold);margin-top:4px">⚠︎ ${esc(looked.collisions)}</div>` : ''}${looked.note ? `<div class="mini" style="margin-top:4px">${esc(looked.note)}</div>` : ''}</div>`;
+      } catch (e) { toast('Claude: ' + e.message); }
+      b.disabled = false; b.innerHTML = ICON.spark + ' Fill in with Claude';
+    };
+    const add = kind => {
+      const name = $('#addName').value.trim(); const id = idOf();
+      if (!id) { toast('Type a name'); return; }
+      let n = S.byId[id];
+      if (!n) {
+        n = toExtra(looked || {}, name);
+        if (!looked) { n.meaning = $('#addMeaning').value.trim(); n.say = name; }
+        n.meaning = $('#addMeaning').value.trim() || n.meaning; n.dev = $('#addDev').value.trim() || n.dev;
+        const where = $('#addNote').value.trim(); if (where) n.note = (n.note ? n.note + ' · ' : '') + where;
+        scoreExtra(n); S.extras.push(n); rebuildNames();
+      }
+      vote(id, kind, true);
+      buildQueue(S.queue.slice(0, 3).map(x => x.id)); refreshAll(true); closeSheet();
+      toast(`${n.name} added to your ${kind === 'love' ? 'loved' : 'liked'} names`);
+      setTimeout(() => openDetail(id), 350);
+    };
+    $('#addLike').onclick = () => add('like');
+    $('#addLove').onclick = () => add('love');
+    setTimeout(() => $('#addName').focus(), 350);
+  }
+
   // ---------- Browse by letter ----------
   function openAZ() {
     const counts = {};
@@ -553,6 +610,7 @@
     $$('#sheetBody .row').forEach(r => r.onclick = () => openDetail(r.dataset.id));
   }
   $('#azBtn').onclick = openAZ;
+  $('#addBtn').onclick = () => openAddName();
 
   // ---------- Settings ----------
   function openSettings() {
