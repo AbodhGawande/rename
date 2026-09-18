@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 5;
-  const APP_BUILT = 'Sep 18, 2026 · 8:43 AM CDT';
+  const APP_VERSION = 6;
+  const APP_BUILT = 'Sep 18, 2026 · 8:46 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -151,8 +151,13 @@
     speak(n.dev || n.name, v ? v.lang : 'hi-IN', v, 0.8);
   }
   function voiceOptions(kind) {
-    const list = kind === 'us' ? voices.filter(x => /^en/i.test(x.lang)) : voices.filter(x => /^(hi|mr)/i.test(x.lang));
+    let list = kind === 'us' ? voices.filter(x => /^en/i.test(x.lang)) : voices.filter(x => /^(hi|mr)/i.test(x.lang));
+    // Only the good ones when the engine labels quality (iPhone shows one entry per voice and
+    // automatically uses the premium/enhanced download under that same name).
+    const good = list.filter(x => quality(x) >= 2);
+    if (good.length) list = good;
     const cur = pickVoice(kind);
+    if (cur && !list.includes(cur)) list.unshift(cur);
     return list.map(v => `<option value="${esc(v.name + '|' + v.lang)}" ${cur && cur.name === v.name && cur.lang === v.lang ? 'selected' : ''}>${esc(v.name)} · ${esc(v.lang)}</option>`).join('');
   }
   const sayIt = sayUS;
@@ -540,7 +545,7 @@
       </div>
       <div class="panel glass"><h3>Voices</h3>
         <p class="muted small" style="margin:0 0 8px">Which of the phone's voices the two buttons use. Download better ones under Settings → Accessibility → Spoken Content → Voices, then reopen the app.</p>
-        <div class="setting"><div class="l"><b>Marathi button</b><span>Reads the Devanagari. Hindi premium voice recommended.</span></div></div>
+        <div class="setting"><div class="l"><b>Marathi button</b><span>Reads the Devanagari. iPhone lists one voice per language and uses the premium download automatically once installed.</span></div></div>
         <select class="text" id="voiceIN" style="margin:-4px 0 10px">${voiceOptions('in') || '<option>No Hindi/Marathi voice found</option>'}</select>
         <div class="setting"><div class="l"><b>English button</b><span>Reads the respelling the American way.</span></div></div>
         <select class="text" id="voiceUS" style="margin:-4px 0 4px">${voiceOptions('us') || '<option>No English voice found</option>'}</select>
