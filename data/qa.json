@@ -1,0 +1,4817 @@
+{
+ "aagam": {
+  "name": "Aagam",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "strongly Jain-community name"
+ },
+ "aakar": {
+  "name": "Aakar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "aaroh": {
+  "name": "Aaroh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "achal": {
+  "name": "Achal",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "adit": {
+  "name": "Adit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "adri": {
+  "name": "Adri",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "Adri/Adrika also seen on girls"
+ },
+ "agni": {
+  "name": "Agni",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "agrim": {
+  "name": "Agrim",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ahlad": {
+  "name": "Ahlad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "airavat": {
+  "name": "Airavat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "name of Indra's elephant, heavy"
+ },
+ "aja": {
+  "name": "Aja",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "reads as female name in the US"
+ },
+ "ajinkya": {
+  "name": "Ajinkya",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "akalank": {
+  "name": "Akalank",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "akrur": {
+  "name": "Akrur",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "dated mythological, rare today"
+ },
+ "akshat": {
+  "name": "Akshat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "alaap": {
+  "name": "Alaap",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "alankar": {
+  "name": "Alankar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "alap": {
+  "name": "Alap",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "alark": {
+  "name": "Alark",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "alarka is Calotropis plant/mad dog, not white lotus"
+ },
+ "alhad": {
+  "name": "Alhad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "amal": {
+  "name": "Amal",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Arabic Amal is a girl's name"
+ },
+ "amartya": {
+  "name": "Amartya",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ambar": {
+  "name": "Ambar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "collides with English Amber"
+ },
+ "ambu": {
+  "name": "Ambu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ambud": {
+  "name": "Ambud",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ambuj": {
+  "name": "Ambuj",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "amod": {
+  "name": "Amod",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "anadi": {
+  "name": "Anadi",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "anahat": {
+  "name": "Anahat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "anant": {
+  "name": "Anant",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "angad": {
+  "name": "Angad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "angiras": {
+  "name": "Angiras",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "anmol": {
+  "name": "Anmol",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "more Punjabi/Hindi than Marathi"
+ },
+ "anshuman": {
+  "name": "Anshuman",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "antariksh": {
+  "name": "Antariksh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "anukul": {
+  "name": "Anukul",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "anunad": {
+  "name": "Anunad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "anuttam": {
+  "name": "Anuttam",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "anvesh": {
+  "name": "Anvesh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "skews Telugu in usage"
+ },
+ "anveshi": {
+  "name": "Anveshi",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "-i ending reads feminine in India"
+ },
+ "anvit": {
+  "name": "Anvit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "aranya": {
+  "name": "Aranya",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "used for girls too"
+ },
+ "aranyak": {
+  "name": "Aranyak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "archis": {
+  "name": "Archis",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "archit": {
+  "name": "Archit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "arihant": {
+  "name": "Arihant",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "strongly Jain-community name"
+ },
+ "arjav": {
+  "name": "Arjav",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "arka": {
+  "name": "Arka",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "arki": {
+  "name": "Arki",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "Saturn association seen as inauspicious"
+ },
+ "aroh": {
+  "name": "Aroh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "arpan": {
+  "name": "Arpan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "1980s-90s Marathi/Hindi name"
+ },
+ "aruni": {
+  "name": "Aruni",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "-i ending reads feminine in US"
+ },
+ "arunim": {
+  "name": "Arunim",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "aruṇimā is feminine noun 'redness'; Arunim is a back-formation"
+ },
+ "aryaman": {
+  "name": "Aryaman",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "aseem": {
+  "name": "Aseem",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ashray": {
+  "name": "Ashray",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "asit": {
+  "name": "Asit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": false,
+  "note": "'unbound' is invented; asita means black/dark"
+ },
+ "astik": {
+  "name": "Astik",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "atman": {
+  "name": "Atman",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "rarely used as a personal name"
+ },
+ "atreya": {
+  "name": "Atreya",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "atri": {
+  "name": "Atri",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "aurva": {
+  "name": "Aurva",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "obscure, harsh sound in English"
+ },
+ "avichal": {
+  "name": "Avichal",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "avirat": {
+  "name": "Avirat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "avyay": {
+  "name": "Avyay",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ayas": {
+  "name": "Ayas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "not established as a given name"
+ },
+ "ayu": {
+  "name": "Ayu",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "reads as Japanese/feminine nickname"
+ },
+ "ayur": {
+  "name": "Ayur",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "strongly evokes 'Ayurveda' as a word-fragment"
+ },
+ "bakul": {
+  "name": "Bakul",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Gujarati male and female usage; dated"
+ },
+ "balark": {
+  "name": "Balark",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "rare; awkward consonant cluster in English"
+ },
+ "bansi": {
+  "name": "Bansi",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "North Indian, dated; also female Bansi"
+ },
+ "bihag": {
+  "name": "Bihag",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "bilva": {
+  "name": "Bilva",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "a-ending reads feminine"
+ },
+ "champak": {
+  "name": "Champak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "dated Gujarati; 'chump' sound in US"
+ },
+ "charit": {
+  "name": "Charit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "charu": {
+  "name": "Charu",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "predominantly female in modern India"
+ },
+ "chatur": {
+  "name": "Chatur",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "comic connotation from '3 Idiots'"
+ },
+ "chekitan": {
+  "name": "Chekitan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "chinmay": {
+  "name": "Chinmay",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "very common Marathi name of 1980s-90s"
+ },
+ "chintan": {
+  "name": "Chintan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "chirayu": {
+  "name": "Chirayu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "chitrasen": {
+  "name": "Chitrasen",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "very long and archaic"
+ },
+ "darpan": {
+  "name": "Darpan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "dasra": {
+  "name": "Dasra",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "obscure Vedic epithet of the Ashvins"
+ },
+ "deval": {
+  "name": "Deval",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "also a Gujarati female name"
+ },
+ "devanik": {
+  "name": "Devanik",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "devapi": {
+  "name": "Devapi",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "obscure; -pi ending reads feminine"
+ },
+ "devavrat": {
+  "name": "Devavrat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Bhishma's name; formal/dated"
+ },
+ "devdar": {
+  "name": "Devdar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "tree word, rare as a given name"
+ },
+ "devrai": {
+  "name": "Devrai",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "place-word, not an established personal name"
+ },
+ "digant": {
+  "name": "Digant",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "divij": {
+  "name": "Divij",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "divodas": {
+  "name": "Divodas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "archaic Vedic king name"
+ },
+ "dushyant": {
+  "name": "Dushyant",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": false,
+  "note": "'destroyer of evil' is folk etymology; literally 'hard to subdue'"
+ },
+ "dyuman": {
+  "name": "Dyuman",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ekagra": {
+  "name": "Ekagra",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ekam": {
+  "name": "Ekam",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "strongly Sikh/Punjabi-coded"
+ },
+ "ekant": {
+  "name": "Ekant",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "'solitude' has a lonely connotation"
+ },
+ "falgun": {
+  "name": "Falgun",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "dated Gujarati/Marathi"
+ },
+ "gagan": {
+  "name": "Gagan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "gahan": {
+  "name": "Gahan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "galav": {
+  "name": "Galav",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "gangeya": {
+  "name": "Gangeya",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ganit": {
+  "name": "Ganit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "reads as school subject 'maths'"
+ },
+ "garud": {
+  "name": "Garud",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "also a common Marathi surname"
+ },
+ "girik": {
+  "name": "Girik",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "guha": {
+  "name": "Guha",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "Bengali surname; also Tamil Guhan variant"
+ },
+ "gunit": {
+  "name": "Gunit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "gunita literally 'multiplied'"
+ },
+ "hamir": {
+  "name": "Hamir",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "harin": {
+  "name": "Harin",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "harit": {
+  "name": "Harit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "hayagriv": {
+  "name": "Hayagriv",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "more common in South as Hayagriva"
+ },
+ "heerak": {
+  "name": "Heerak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "heramb": {
+  "name": "Heramb",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": false,
+  "note": "Heramba is an epithet of Ganesha; 'protector of the weak' is a loose gloss"
+ },
+ "hillol": {
+  "name": "Hillol",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "Bengali-flavored"
+ },
+ "himadri": {
+  "name": "Himadri",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "used for girls in Bengal/Odisha too"
+ },
+ "himal": {
+  "name": "Himal",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "himavan": {
+  "name": "Himavan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "himkar": {
+  "name": "Himkar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "hindol": {
+  "name": "Hindol",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "hiranmay": {
+  "name": "Hiranmay",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "indivar": {
+  "name": "Indivar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "indra": {
+  "name": "Indra",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "in Telugu also used for girls (Indira-like)"
+ },
+ "indranil": {
+  "name": "Indranil",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "strongly Bengali"
+ },
+ "indu": {
+  "name": "Indu",
+  "gender": "girl",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "reads clearly female in India"
+ },
+ "iravan": {
+  "name": "Iravan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "Iravan/Aravan is son of Arjuna and Ulupi, not of Iravati"
+ },
+ "jagat": {
+  "name": "Jagat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "jagrat": {
+  "name": "Jagrat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "jagrit": {
+  "name": "Jagrit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "jaimini": {
+  "name": "Jaimini",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": false,
+  "note": "Jaimini is a sage's name, not 'victorious'; Jaimini/Jaimin reads female in Gujarat"
+ },
+ "jaitra": {
+  "name": "Jaitra",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "jalad": {
+  "name": "Jalad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "jalaj": {
+  "name": "Jalaj",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "jambavan": {
+  "name": "Jambavan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "mythic bear-king, odd as a modern given name"
+ },
+ "janak": {
+  "name": "Janak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "jatayu": {
+  "name": "Jatayu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "Jatayu means 'having matted hair/tuft', not 'winged one'"
+ },
+ "jeet": {
+  "name": "Jeet",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "jigyasu": {
+  "name": "Jigyasu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "jimut": {
+  "name": "Jimut",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "jishnu": {
+  "name": "Jishnu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "jitin": {
+  "name": "Jitin",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "jyotish": {
+  "name": "Jyotish",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Assamese/Bengali flavor"
+ },
+ "kadamb": {
+  "name": "Kadamb",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kaivalya": {
+  "name": "Kaivalya",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "used in Maharashtra, occasionally for girls"
+ },
+ "kalavant": {
+  "name": "Kalavant",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "reads as a common noun, not a name"
+ },
+ "kalidas": {
+  "name": "Kalidas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "strongly dated"
+ },
+ "kalind": {
+  "name": "Kalind",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "Kalinda is the Yamuna's source mountain; 'the sun' is a stretch"
+ },
+ "kallol": {
+  "name": "Kallol",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Bengali"
+ },
+ "kalp": {
+  "name": "Kalp",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kalpa": {
+  "name": "Kalpa",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "final -a reads feminine in Marathi"
+ },
+ "kalpak": {
+  "name": "Kalpak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "kalpaka means creative/skillful; kalpa-vṛkṣa link is loose"
+ },
+ "kalpit": {
+  "name": "Kalpit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kalrav": {
+  "name": "Kalrav",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kamod": {
+  "name": "Kamod",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "very rare as a given name"
+ },
+ "kanad": {
+  "name": "Kanad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kanak": {
+  "name": "Kanak",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "also a common older women's name in Hindi/Gujarati"
+ },
+ "kanav": {
+  "name": "Kanav",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "modern coinage from Kanva"
+ },
+ "kanva": {
+  "name": "Kanva",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kardam": {
+  "name": "Kardam",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "word literally means mud/slime"
+ },
+ "karun": {
+  "name": "Karun",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kashyap": {
+  "name": "Kashyap",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "mostly used as a surname"
+ },
+ "katyayan": {
+  "name": "Katyayan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kautuk": {
+  "name": "Kautuk",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kavan": {
+  "name": "Kavan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "'kavana' as 'poem' is weakly attested; name is Gujarati/Punjabi in origin"
+ },
+ "kavi": {
+  "name": "Kavi",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kesar": {
+  "name": "Kesar",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "widely a women's name in Gujarat/Rajasthan"
+ },
+ "kesari": {
+  "name": "Kesari",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "dated, feels like Hanuman's father's name"
+ },
+ "ketak": {
+  "name": "Ketak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kinshuk": {
+  "name": "Kinshuk",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kirat": {
+  "name": "Kirat",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "also a Punjabi unisex name meaning 'labour/praise'"
+ },
+ "kiriti": {
+  "name": "Kiriti",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Bengali usage, dated"
+ },
+ "kirtan": {
+  "name": "Kirtan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kisalay": {
+  "name": "Kisalay",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kokanad": {
+  "name": "Kokanad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "essentially unused as a name"
+ },
+ "kratu": {
+  "name": "Kratu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "star identification varies by source"
+ },
+ "kripa": {
+  "name": "Kripa",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "today far more often a girl's name"
+ },
+ "krishanu": {
+  "name": "Krishanu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kuber": {
+  "name": "Kuber",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kuja": {
+  "name": "Kuja",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "not used as a real given name; awkward in English"
+ },
+ "kujan": {
+  "name": "Kujan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "not in actual use"
+ },
+ "kumud": {
+  "name": "Kumud",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "strongly reads as an older woman's name in Hindi/Gujarati"
+ },
+ "kunj": {
+  "name": "Kunj",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kuru": {
+  "name": "Kuru",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "unused as a name; clashes with 'kuru' disease in English"
+ },
+ "kushagra": {
+  "name": "Kushagra",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kushal": {
+  "name": "Kushal",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kushik": {
+  "name": "Kushik",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "primarily a sage's name (Kushika), gloss is loose"
+ },
+ "kuval": {
+  "name": "Kuval",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kuvalay": {
+  "name": "Kuvalay",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "lahar": {
+  "name": "Lahar",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "Lahari/Lahar also used for girls"
+ },
+ "lohit": {
+  "name": "Lohit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "lomash": {
+  "name": "Lomash",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "literal sense 'hairy' is unappealing"
+ },
+ "mahat": {
+  "name": "Mahat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "barely used as a name"
+ },
+ "mahit": {
+  "name": "Mahit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "mainak": {
+  "name": "Mainak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "strongly Bengali"
+ },
+ "maitrey": {
+  "name": "Maitrey",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "maitreya": {
+  "name": "Maitreya",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "malhar": {
+  "name": "Malhar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "manas": {
+  "name": "Manas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "manasvi": {
+  "name": "Manasvi",
+  "gender": "girl",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "predominantly a girl's name in India"
+ },
+ "manik": {
+  "name": "Manik",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "manit": {
+  "name": "Manit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "manjul": {
+  "name": "Manjul",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "feminine Manjula far more common"
+ },
+ "manu": {
+  "name": "Manu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "very dated, also a common nickname"
+ },
+ "manya": {
+  "name": "Manya",
+  "gender": "girl",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "popular girl name in India"
+ },
+ "marakat": {
+  "name": "Marakat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "essentially unused as a given name"
+ },
+ "marichi": {
+  "name": "Marichi",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "reads feminine to many Indians"
+ },
+ "markandey": {
+  "name": "Markandey",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "martand": {
+  "name": "Martand",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "maru": {
+  "name": "Maru",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "'enduring one' is invented; also a Gujarati surname"
+ },
+ "marut": {
+  "name": "Marut",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "matali": {
+  "name": "Matali",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "vanishingly rare, feminine-sounding ending"
+ },
+ "matang": {
+  "name": "Matang",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "Matang is a caste name in Maharashtra"
+ },
+ "mauktik": {
+  "name": "Mauktik",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "mauli": {
+  "name": "Mauli",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "used for girls at least as often in Maharashtra"
+ },
+ "mayukh": {
+  "name": "Mayukh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "strongly Bengali-coded"
+ },
+ "megh": {
+  "name": "Megh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "meru": {
+  "name": "Meru",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "mitra": {
+  "name": "Mitra",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "mainly a Bengali surname; female given name in Persian"
+ },
+ "mohak": {
+  "name": "Mohak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "moksh": {
+  "name": "Moksh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "mridul": {
+  "name": "Mridul",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Assamese/Bengali-coded"
+ },
+ "mudgal": {
+  "name": "Mudgal",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "'contented' invented; it is a sage/surname, root mudga = mung bean"
+ },
+ "mudit": {
+  "name": "Mudit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "mukhar": {
+  "name": "Mukhar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "mukhara usually means garrulous/noisy, mildly pejorative"
+ },
+ "murari": {
+  "name": "Murari",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nabhas": {
+  "name": "Nabhas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nachiket": {
+  "name": "Nachiket",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "peak Marathi usage was 1980s-90s"
+ },
+ "nadish": {
+  "name": "Nadish",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nalin": {
+  "name": "Nalin",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "namit": {
+  "name": "Namit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nanda": {
+  "name": "Nanda",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "female in Hindi film/North usage"
+ },
+ "nandan": {
+  "name": "Nandan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "narad": {
+  "name": "Narad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "connotes gossip-monger in colloquial use"
+ },
+ "nartan": {
+  "name": "Nartan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nayan": {
+  "name": "Nayan",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Gujarati male but read female via Nayana/Nayanthara"
+ },
+ "neer": {
+  "name": "Neer",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "neerad": {
+  "name": "Neerad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nidar": {
+  "name": "Nidar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "an adjective, rarely used as a name"
+ },
+ "nihit": {
+  "name": "Nihit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nikash": {
+  "name": "Nikash",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "niket": {
+  "name": "Niket",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nikunj": {
+  "name": "Nikunj",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nilay": {
+  "name": "Nilay",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nimi": {
+  "name": "Nimi",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "used as a girl's pet name in Kerala/North"
+ },
+ "nimish": {
+  "name": "Nimish",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nimit": {
+  "name": "Nimit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ninad": {
+  "name": "Ninad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "classic Marathi name of the 80s-90s"
+ },
+ "nipun": {
+  "name": "Nipun",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nirad": {
+  "name": "Nirad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nirantar": {
+  "name": "Nirantar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "reads as an adverb, not used as a name"
+ },
+ "nirjar": {
+  "name": "Nirjar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "very rare as a given name"
+ },
+ "nirman": {
+  "name": "Nirman",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nirmay": {
+  "name": "Nirmay",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nirmit": {
+  "name": "Nirmit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nischal": {
+  "name": "Nischal",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "more Nepali/Hindi-belt than Marathi"
+ },
+ "nishad": {
+  "name": "Nishad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "nishada also denotes a tribal/caste group"
+ },
+ "nishank": {
+  "name": "Nishank",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nishchay": {
+  "name": "Nishchay",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nishith": {
+  "name": "Nishith",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": false,
+  "note": "'steadfast/one who endures' is invented"
+ },
+ "nishnat": {
+  "name": "Nishnat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "not used as a name"
+ },
+ "ojasvi": {
+  "name": "Ojasvi",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "widely used for girls too"
+ },
+ "palash": {
+  "name": "Palash",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pallav": {
+  "name": "Pallav",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pancham": {
+  "name": "Pancham",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "strongly tied to R.D. Burman's nickname"
+ },
+ "pandu": {
+  "name": "Pandu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "sounds rustic/dated; 'pale, jaundiced' connotation"
+ },
+ "parakram": {
+  "name": "Parakram",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "param": {
+  "name": "Param",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "paras": {
+  "name": "Paras",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "parashar": {
+  "name": "Parashar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "also a common surname/gotra"
+ },
+ "parijat": {
+  "name": "Parijat",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "leans female in most regions"
+ },
+ "parjanya": {
+  "name": "Parjanya",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "parv": {
+  "name": "Parv",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "parvat": {
+  "name": "Parvat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "almost never used as a first name"
+ },
+ "pavak": {
+  "name": "Pavak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pavit": {
+  "name": "Pavit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "correct Sanskrit form is pavitra/puta, not 'pavita'"
+ },
+ "payod": {
+  "name": "Payod",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "awkward in English"
+ },
+ "phalgun": {
+  "name": "Phalgun",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pinaki": {
+  "name": "Pinaki",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "reads as Bengali; -i ending may seem feminine in US"
+ },
+ "pippalad": {
+  "name": "Pippalad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "archaic sage name, unusable"
+ },
+ "prabal": {
+  "name": "Prabal",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pradosh": {
+  "name": "Pradosh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pragun": {
+  "name": "Pragun",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pragyan": {
+  "name": "Pragyan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "prahar": {
+  "name": "Prahar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "also reads as 'strike/blow'"
+ },
+ "prahlad": {
+  "name": "Prahlad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "prajyot": {
+  "name": "Prajyot",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "prakhar": {
+  "name": "Prakhar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "prasham": {
+  "name": "Prasham",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "prashast": {
+  "name": "Prashast",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "prasun": {
+  "name": "Prasun",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pratardan": {
+  "name": "Pratardan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "obscure, violent connotation"
+ },
+ "pratip": {
+  "name": "Pratip",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": false,
+  "note": "pratipa means 'contrary/against the current', not 'steadfast'"
+ },
+ "pratyush": {
+  "name": "Pratyush",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pravah": {
+  "name": "Pravah",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pravahan": {
+  "name": "Pravahan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "praval": {
+  "name": "Praval",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pravar": {
+  "name": "Pravar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pravir": {
+  "name": "Pravir",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "prayag": {
+  "name": "Prayag",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "prerak": {
+  "name": "Prerak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "prerit": {
+  "name": "Prerit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "priyavrat": {
+  "name": "Priyavrat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Puranic king name, sounds older"
+ },
+ "pujit": {
+  "name": "Pujit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pulak": {
+  "name": "Pulak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Bengali-leaning, older cohort"
+ },
+ "punya": {
+  "name": "Punya",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "used for girls too"
+ },
+ "purab": {
+  "name": "Purab",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "purandar": {
+  "name": "Purandar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "dated, epithet of Indra"
+ },
+ "purnendu": {
+  "name": "Purnendu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Bengali, older generation"
+ },
+ "purnit": {
+  "name": "Purnit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "coined form, not a real Sanskrit word"
+ },
+ "puru": {
+  "name": "Puru",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "purujit": {
+  "name": "Purujit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pushan": {
+  "name": "Pushan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pushparag": {
+  "name": "Pushparag",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "raag": {
+  "name": "Raag",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "rachan": {
+  "name": "Rachan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "rachit": {
+  "name": "Rachit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "raikva": {
+  "name": "Raikva",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "raivat": {
+  "name": "Raivat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "rajas": {
+  "name": "Rajas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "guna with negative connotation"
+ },
+ "rajit": {
+  "name": "Rajit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "rantidev": {
+  "name": "Rantidev",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "rasik": {
+  "name": "Rasik",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ravik": {
+  "name": "Ravik",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "revant": {
+  "name": "Revant",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "richik": {
+  "name": "Richik",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "Rchika is a sage name, not 'hymn-knower'"
+ },
+ "rijul": {
+  "name": "Rijul",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ritam": {
+  "name": "Ritam",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "rituparn": {
+  "name": "Rituparn",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "rochan": {
+  "name": "Rochan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "rochis": {
+  "name": "Rochis",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "awkward as a given name"
+ },
+ "ruchir": {
+  "name": "Ruchir",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ruchit": {
+  "name": "Ruchit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "rupak": {
+  "name": "Rupak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "rupin": {
+  "name": "Rupin",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "rutuj": {
+  "name": "Rutuj",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ruturaj": {
+  "name": "Ruturaj",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "popular Marathi name"
+ },
+ "sachit": {
+  "name": "Sachit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sagun": {
+  "name": "Sagun",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "also a girl's name Saguna"
+ },
+ "sahadev": {
+  "name": "Sahadev",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sahaj": {
+  "name": "Sahaj",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sahas": {
+  "name": "Sahas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sahishnu": {
+  "name": "Sahishnu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sahyadri": {
+  "name": "Sahyadri",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "place name, rare as given name"
+ },
+ "sajag": {
+  "name": "Sajag",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "saket": {
+  "name": "Saket",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sakha": {
+  "name": "Sakha",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "rarely used as a name"
+ },
+ "saksham": {
+  "name": "Saksham",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "saman": {
+  "name": "Saman",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "samiran": {
+  "name": "Samiran",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "samit": {
+  "name": "Samit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sampati": {
+  "name": "Sampati",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "Sampati is Jatayu's vulture brother; 'prosperity' is sampatti"
+ },
+ "samudra": {
+  "name": "Samudra",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "samvad": {
+  "name": "Samvad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "samvaran": {
+  "name": "Samvaran",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "samvit": {
+  "name": "Samvit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "rare as a given name"
+ },
+ "samyak": {
+  "name": "Samyak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sanak": {
+  "name": "Sanak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "also Hindi 'sanak' = whim/madness"
+ },
+ "sanandan": {
+  "name": "Sanandan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sanat": {
+  "name": "Sanat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sanatan": {
+  "name": "Sanatan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sandipan": {
+  "name": "Sandipan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sangam": {
+  "name": "Sangam",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sankalp": {
+  "name": "Sankalp",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sankarshan": {
+  "name": "Sankarshan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sankriti": {
+  "name": "Sankriti",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "Sankriti is a sage patronymic; 'refined' is samskriti, a girls' name"
+ },
+ "sanu": {
+  "name": "Sanu",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "mostly a nickname, used for girls too"
+ },
+ "sanyam": {
+  "name": "Sanyam",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "saptarshi": {
+  "name": "Saptarshi",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "saral": {
+  "name": "Saral",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "saras": {
+  "name": "Saras",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sarit": {
+  "name": "Sarit",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "feminine noun; reads close to Sarita"
+ },
+ "sarovar": {
+  "name": "Sarovar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "satark": {
+  "name": "Satark",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sattva": {
+  "name": "Sattva",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "satya": {
+  "name": "Satya",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "used for women as well"
+ },
+ "satyajit": {
+  "name": "Satyajit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "satyakam": {
+  "name": "Satyakam",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "satyaki": {
+  "name": "Satyaki",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "satyavan": {
+  "name": "Satyavan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "saumya": {
+  "name": "Saumya",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "predominantly a girls' name in India today"
+ },
+ "savitar": {
+  "name": "Savitar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "root is savitṛ, not savitri (a girls' name)"
+ },
+ "senani": {
+  "name": "Senani",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shail": {
+  "name": "Shail",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shakra": {
+  "name": "Shakra",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shalin": {
+  "name": "Shalin",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shami": {
+  "name": "Shami",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "śamī is feminine; also a Muslim surname"
+ },
+ "shamit": {
+  "name": "Shamit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shantam": {
+  "name": "Shantam",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sharan": {
+  "name": "Sharan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sharva": {
+  "name": "Sharva",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shashin": {
+  "name": "Shashin",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shashwat": {
+  "name": "Shashwat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shatanik": {
+  "name": "Shatanik",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shaunak": {
+  "name": "Shaunak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shibi": {
+  "name": "Shibi",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "reads as a nickname in English"
+ },
+ "shikhar": {
+  "name": "Shikhar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shishir": {
+  "name": "Shishir",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shitanshu": {
+  "name": "Shitanshu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shravan": {
+  "name": "Shravan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shridam": {
+  "name": "Shridam",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shrutasen": {
+  "name": "Shrutasen",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "very rare, epic-only"
+ },
+ "shuka": {
+  "name": "Shuka",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "reads feminine in English; Shukadev more usual"
+ },
+ "shunya": {
+  "name": "Shunya",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "'zero/void' connotation risky as a name"
+ },
+ "sitanshu": {
+  "name": "Sitanshu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "skanda": {
+  "name": "Skanda",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "deity name, more common in South as Skandan"
+ },
+ "smaran": {
+  "name": "Smaran",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "soma": {
+  "name": "Soma",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Soma is a common girl's name in Bengal"
+ },
+ "somil": {
+  "name": "Somil",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "modern coinage, Gujarati-leaning"
+ },
+ "sopan": {
+  "name": "Sopan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Marathi saint name, feels dated/rural"
+ },
+ "spandan": {
+  "name": "Spandan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "srijan": {
+  "name": "Srijan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "North/Bihari-leaning spelling"
+ },
+ "srujan": {
+  "name": "Srujan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "spelling more Telugu/Kannada"
+ },
+ "stavan": {
+  "name": "Stavan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "Jain/Gujarati-leaning"
+ },
+ "suchir": {
+  "name": "Suchir",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "more used in Telugu families"
+ },
+ "suchit": {
+  "name": "Suchit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sudama": {
+  "name": "Sudama",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "associated with poverty in the Krishna story"
+ },
+ "sudas": {
+  "name": "Sudas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "Vedic king; 'das/servant' reading, unused today"
+ },
+ "sudev": {
+  "name": "Sudev",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sugriv": {
+  "name": "Sugriv",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "strongly tied to the monkey king"
+ },
+ "suhit": {
+  "name": "Suhit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sujal": {
+  "name": "Sujal",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sujan": {
+  "name": "Sujan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sukant": {
+  "name": "Sukant",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sukesh": {
+  "name": "Sukesh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sukrit": {
+  "name": "Sukrit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sukrut": {
+  "name": "Sukrut",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "spelling also common in Kannada/Telugu"
+ },
+ "sukta": {
+  "name": "Sukta",
+  "gender": "girl",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "feminine-sounding -a ending, rarely a given name"
+ },
+ "sumedh": {
+  "name": "Sumedh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sumeru": {
+  "name": "Sumeru",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sunay": {
+  "name": "Sunay",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "suneet": {
+  "name": "Suneet",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "easily confused with the female Suneeta/Sunita"
+ },
+ "sunrit": {
+  "name": "Sunrit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "surya": {
+  "name": "Surya",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sushen": {
+  "name": "Sushen",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sushrut": {
+  "name": "Sushrut",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "suvan": {
+  "name": "Suvan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "suvana means 'pressing soma/begetting', not 'sun'"
+ },
+ "suvir": {
+  "name": "Suvir",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "suvrat": {
+  "name": "Suvrat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "suyog": {
+  "name": "Suyog",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "very Marathi, feels 1980s"
+ },
+ "swanand": {
+  "name": "Swanand",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Marathi, dated"
+ },
+ "swar": {
+  "name": "Swar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "swarit": {
+  "name": "Swarit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "swarnim": {
+  "name": "Swarnim",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "also used for girls"
+ },
+ "swayam": {
+  "name": "Swayam",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "tamal": {
+  "name": "Tamal",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "strongly Bengali"
+ },
+ "tandav": {
+  "name": "Tandav",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "a dance, not traditionally a given name"
+ },
+ "tansen": {
+  "name": "Tansen",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "reads as a historical figure's name"
+ },
+ "tanuj": {
+  "name": "Tanuj",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "tapan": {
+  "name": "Tapan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "Bengali-leaning, dated"
+ },
+ "tapas": {
+  "name": "Tapas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "reads as Spanish 'tapas' in the USA"
+ },
+ "tapovan": {
+  "name": "Tapovan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "reads as a place-name, rarely used as a given name"
+ },
+ "tarak": {
+  "name": "Tarak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "taral": {
+  "name": "Taral",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "used for girls in Gujarati/Marathi too"
+ },
+ "taran": {
+  "name": "Taran",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "reads Punjabi/Sikh more than Marathi"
+ },
+ "tarang": {
+  "name": "Tarang",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "also used for girls"
+ },
+ "taresh": {
+  "name": "Taresh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "tarin": {
+  "name": "Tarin",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "tarin is 'one who crosses' from root tṛ, not 'of the stars'; also a female name in Bengali"
+ },
+ "tarit": {
+  "name": "Tarit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "distinctly Bengali"
+ },
+ "tark": {
+  "name": "Tark",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "abstract noun, almost unused as a name"
+ },
+ "taru": {
+  "name": "Taru",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "commonly a girl's nickname in North India"
+ },
+ "tavas": {
+  "name": "Tavas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "tavish": {
+  "name": "Tavish",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "tejomay": {
+  "name": "Tejomay",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "tishya": {
+  "name": "Tishya",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "-ya ending reads feminine to many"
+ },
+ "toran": {
+  "name": "Toran",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "'toran' is an object, unusual as a name"
+ },
+ "trilochan": {
+  "name": "Trilochan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "trivikram": {
+  "name": "Trivikram",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "tuhin": {
+  "name": "Tuhin",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "reads Bengali"
+ },
+ "udar": {
+  "name": "Udar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "homograph with udara 'belly' in Marathi ears"
+ },
+ "udatt": {
+  "name": "Udatt",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "primary sense is the raised Vedic accent"
+ },
+ "udayan": {
+  "name": "Udayan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "uddalak": {
+  "name": "Uddalak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "udyan": {
+  "name": "Udyan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "udyot": {
+  "name": "Udyot",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ugrasen": {
+  "name": "Ugrasen",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "'ugra' (fierce) connotation"
+ },
+ "ujas": {
+  "name": "Ujas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "Gujarati rather than Marathi"
+ },
+ "ullas": {
+  "name": "Ullas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "umang": {
+  "name": "Umang",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "peaked with 1980s-90s Gujarati/Hindi boys"
+ },
+ "unmesh": {
+  "name": "Unmesh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "unmukt": {
+  "name": "Unmukt",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "unnat": {
+  "name": "Unnat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "urjit": {
+  "name": "Urjit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "urmil": {
+  "name": "Urmil",
+  "gender": "girl",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "Urmil/Urmila is overwhelmingly female in India"
+ },
+ "ushanas": {
+  "name": "Ushanas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "ushinar": {
+  "name": "Ushinar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "utpal": {
+  "name": "Utpal",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "utsah": {
+  "name": "Utsah",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "abstract noun, rarely a name"
+ },
+ "utsav": {
+  "name": "Utsav",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "utsuk": {
+  "name": "Utsuk",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "also connotes restless/anxious"
+ },
+ "uttam": {
+  "name": "Uttam",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "uttank": {
+  "name": "Uttank",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "sage's name is usually Utanka/Uttanka"
+ },
+ "vachan": {
+  "name": "Vachan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vadanya": {
+  "name": "Vadanya",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "-anya ending reads feminine"
+ },
+ "vagish": {
+  "name": "Vagish",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vahni": {
+  "name": "Vahni",
+  "gender": "unisex",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "often given to girls"
+ },
+ "vaishakh": {
+  "name": "Vaishakh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "usage skews Kerala/Karnataka"
+ },
+ "vajra": {
+  "name": "Vajra",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "reads as an object/weapon rather than a name"
+ },
+ "valmiki": {
+  "name": "Valmiki",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "strong caste-community association in India"
+ },
+ "vamadev": {
+  "name": "Vamadev",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vaman": {
+  "name": "Vaman",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "literally 'dwarf'; grandfather-generation Marathi name"
+ },
+ "vandit": {
+  "name": "Vandit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "varad": {
+  "name": "Varad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "very common among Marathi boys born 2000s-2020s"
+ },
+ "varchas": {
+  "name": "Varchas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "varenya": {
+  "name": "Varenya",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "varid": {
+  "name": "Varid",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "varshan": {
+  "name": "Varshan",
+  "gender": "boy",
+  "south_specific": true,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "mostly Tamil usage; close to girl name Varsha"
+ },
+ "vasav": {
+  "name": "Vasav",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vasu": {
+  "name": "Vasu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "reads as an older/South-Indian uncle name"
+ },
+ "vasuki": {
+  "name": "Vasuki",
+  "gender": "unisex",
+  "south_specific": true,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "common female name in Tamil Nadu"
+ },
+ "vasusen": {
+  "name": "Vasusen",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vatsa": {
+  "name": "Vatsa",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "rarely used as an actual given name"
+ },
+ "vatsal": {
+  "name": "Vatsal",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vayu": {
+  "name": "Vayu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vayun": {
+  "name": "Vayun",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "vayuna means knowledge/mark, not 'lively' or a wind-god epithet"
+ },
+ "vibodh": {
+  "name": "Vibodh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vichar": {
+  "name": "Vichar",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "everyday Marathi word, not used as a name"
+ },
+ "vidit": {
+  "name": "Vidit",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": true,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vidrum": {
+  "name": "Vidrum",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vidur": {
+  "name": "Vidur",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vidyut": {
+  "name": "Vidyut",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vihayas": {
+  "name": "Vihayas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vinamra": {
+  "name": "Vinamra",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vinyas": {
+  "name": "Vinyas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "in the US reads as the yoga term vinyasa"
+ },
+ "viren": {
+  "name": "Viren",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vishrut": {
+  "name": "Vishrut",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vismay": {
+  "name": "Vismay",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vivasvan": {
+  "name": "Vivasvan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "viyat": {
+  "name": "Viyat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vyas": {
+  "name": "Vyas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "primarily a surname"
+ },
+ "vyomkesh": {
+  "name": "Vyomkesh",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "yadu": {
+  "name": "Yadu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "yajat": {
+  "name": "Yajat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "yaman": {
+  "name": "Yaman",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "raga name likely from Persian 'Iman', not Sanskrit yamana; also reads as Yemen"
+ },
+ "yamir": {
+  "name": "Yamir",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "'yamira = moon' is a baby-site invention, not attested Sanskrit"
+ },
+ "yuyutsu": {
+  "name": "Yuyutsu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "'for the right' is an embellishment of 'eager to fight'"
+ }
+}

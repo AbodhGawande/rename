@@ -42,6 +42,8 @@
     rebuildNames();
   }
   function rebuildNames() {
+    const banned = new Set(S.exclude || []);
+    S.extras = S.extras.filter(n => !banned.has(n.id) && !S.pool.some(p => p.id === n.id));
     S.extras.forEach(n => { if (n.unique == null) scoreExtra(n); });
     S.names = S.pool.concat(S.extras);
     S.byId = {}; S.names.forEach(n => { S.byId[n.id] = n; });
