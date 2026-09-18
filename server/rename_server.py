@@ -177,11 +177,19 @@ def to_extra(o, me):
         'us': None, 'unique': None, 'fresh': {'coined': 90, 'rare-traditional': 80}.get(trad, 60), 'generated': int(time.time() * 1000), 'by': PEOPLE.get(me, me),
     }
 
+def _gen_call(user):
+    text, _ = claude({'model': MODEL, 'max_tokens': 20000, 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': NAME_SCHEMA}},
+                      'system': 'You are a thoughtful Sanskrit- and Marathi-literate naming consultant helping two Indian-American parents. You are honest about etymology and never invent meanings.',
+                      'messages': [{'role': 'user', 'content': user}]})
+    return json.loads(text)['names']
+
 def generate_batch(me, direction, count, angle):
+    """Ask for `count` names; anything already taken is sent back for replacement (twice), so the
+    batch delivers new names instead of quietly shrinking."""
     names = all_names()
-    exclude = app_json('exclude.json')
+    exclude = set(app_json('exclude.json'))
     existing = ', '.join(sorted(n['name'] for n in names))
-    user = f"""{CRITERIA}
+    base = f"""{CRITERIA}
 
 WHAT THE PARENTS HAVE TOLD US SO FAR (their swipes, with the reasons they tapped):
 {profile(me)}
@@ -189,22 +197,29 @@ WHAT THE PARENTS HAVE TOLD US SO FAR (their swipes, with the reasons they tapped
 Lean this batch toward {angle}.
 Suggest {count} NEW boy names that fit all five criteria and lean into what they love (sound, endings, syllable count, meanings), steering away from what they passed on. Be creative: lesser-known Sanskrit vocabulary, Marathi words, ragas, nakshatras, rivers, sages, honest coinages.
 Do NOT suggest any name already in this list (or a spelling variant of one): {existing}
-Also NEVER suggest any of these (too common, older-generation, South-Indian-specific, or already rejected): {', '.join(exclude)}
+Also NEVER suggest any of these (too common, older-generation, South-Indian-specific, or already rejected): {', '.join(sorted(exclude))}
 Return exactly {count} names. Be honest about confidence; a coinage must say how it was built in "note"."""
-    text, _ = claude({'model': MODEL, 'max_tokens': 20000, 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': NAME_SCHEMA}},
-                      'system': 'You are a thoughtful Sanskrit- and Marathi-literate naming consultant helping two Indian-American parents. You are honest about etymology and never invent meanings.',
-                      'messages': [{'role': 'user', 'content': user}]})
-    arr = json.loads(text)['names']
-    have = {n['id'] for n in names} | set(exclude)
-    out = []
-    for o in arr:
-        if not isinstance(o, dict) or not o.get('name'):
-            continue
-        nid = norm(o['name'])
-        if not nid or nid in have or any(norm(a) in have for a in (o.get('alt') or [])):
-            continue
-        have.add(nid)
-        out.append(to_extra(o, me))
+    have = {n['id'] for n in names} | exclude
+    out, taken = [], []
+    arr = _gen_call(base)
+    for round_ in range(3):
+        for o in arr:
+            if not isinstance(o, dict) or not o.get('name'):
+                continue
+            nid = norm(o['name'])
+            if not nid or nid in have or any(norm(a) in have for a in (o.get('alt') or [])):
+                taken.append(o['name']); continue
+            have.add(nid)
+            out.append(to_extra(o, me))
+        missing = count - len(out)
+        if missing <= 0 or round_ == 2 or not taken:
+            break
+        # Send the rejects back and ask for different ones.
+        arr = _gen_call(base + f"""
+
+Your previous answer included these names, which are ALREADY TAKEN and must not appear again: {', '.join(taken)}.
+Now give {missing} DIFFERENT names (not those, not anything in the lists above). Return exactly {missing} names.""")
+        taken = []
     return out
 
 def qa_batch(cands):
@@ -237,18 +252,23 @@ One verdict per name, same order, {len(cands)} verdicts.
 # ---------------------------------------------------------------- generation job (one at a time, in a thread)
 JOB = {'status': 'idle', 'text': '', 'added': 0, 'started': None, 'finished': None, 'error': ''}
 ANGLES = ['short, crisp 2-syllable names with clean sounds', 'nature, sky, light and music words',
-          'Marathi-heritage words and lesser-known epic/sage names', 'fresh coinages and rare Sanskrit vocabulary']
+          'Marathi-heritage words and lesser-known epic/sage names', 'fresh coinages and rare Sanskrit vocabulary',
+          'virtues, wisdom and knowledge words with soft endings', 'rivers, mountains, seasons and weather',
+          'Vedic and Buddhist/Jain vocabulary for peace, awareness and light', 'art, dance, poetry and sound words']
 
 def run_job(me, direction, count):
-    """Four angled batches, two at a time (four in parallel hit the rate limit); each batch is
-    generated, quality-checked, scored and saved as soon as it finishes."""
+    """Angled batches, two at a time, until `count` NEW names have actually been added (or the
+    angles run out twice). Each batch is generated, quality-checked, scored and saved as it finishes."""
     from concurrent.futures import ThreadPoolExecutor
     ssa = app_json('ssa.json')
-    per = max(10, min(40, count // len(ANGLES)))
-    progress = {'added': 0, 'failed': 0, 'done': 0}
+    per = 25
+    progress = {'added': 0, 'failed': 0, 'done': 0, 'target': count}
+    JOB['target'] = count
 
     def one(i):
-        angle = ANGLES[i]
+        if progress['added'] >= count:
+            return
+        angle = ANGLES[i % len(ANGLES)]
         out = None
         for attempt in range(2):
             try:
@@ -271,13 +291,17 @@ def run_job(me, direction, count):
             STATE['extras'].extend(fresh)
             progress['added'] += len(fresh); progress['done'] += 1
             JOB['added'] = progress['added']
-            JOB['text'] = f"{progress['done']} of {len(ANGLES)} batches done · {progress['added']} new so far"
+            JOB['text'] = f"{progress['added']} new so far · target {count}"
         save_state()
 
     try:
-        JOB['text'] = f'Batches 1–2 of {len(ANGLES)} running…'
-        with ThreadPoolExecutor(max_workers=2) as ex:
-            list(ex.map(one, range(len(ANGLES))))
+        JOB['text'] = f'Working… target {count} new names'
+        max_batches = len(ANGLES) * 2
+        i = 0
+        while progress['added'] < count and i < max_batches:
+            with ThreadPoolExecutor(max_workers=2) as ex:
+                list(ex.map(one, [i, i + 1]))
+            i += 2
         JOB['status'] = 'done'
         JOB['text'] = f"Added {progress['added']} new names" + (f" · {progress['failed']} batch(es) failed" if progress['failed'] else '')
     except Exception as e:
