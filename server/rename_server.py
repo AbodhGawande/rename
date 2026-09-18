@@ -97,7 +97,21 @@ def claude(body, timeout=600):
         raise RuntimeError(f'Claude API {e.code} {msg}'.strip())
     if j.get('stop_reason') == 'refusal':
         raise RuntimeError('Claude declined this request')
-    return ''.join(b.get('text', '') for b in j.get('content', []) if b.get('type') == 'text'), j.get('stop_reason')
+    text = ''.join(b.get('text', '') for b in j.get('content', []) if b.get('type') == 'text')
+    if j.get('stop_reason') == 'max_tokens':
+        raise RuntimeError(f'Claude ran out of room (max_tokens) after {len(text)} chars')
+    return text, j.get('stop_reason')
+
+def claude_json(body, timeout=600, tries=2):
+    """Structured-output call; a malformed/cut-off body is retried once instead of failing the batch."""
+    last = None
+    for _ in range(tries):
+        text, stop = claude(body, timeout)
+        try:
+            return json.loads(text)
+        except ValueError as e:
+            last = RuntimeError(f'Bad JSON from Claude ({stop}, {len(text)} chars): {e}')
+    raise last
 
 CRITERIA = """The child is a BOY born in 2025 in the USA to Marathi (Maharashtrian) Indian immigrant parents (born 1985 and 1991). He will grow up in the USA. Surname: Gawande. His current first name is Aarush; the parents are choosing a new first name.
 Hard criteria for every suggestion:
@@ -178,10 +192,9 @@ def to_extra(o, me):
     }
 
 def _gen_call(user):
-    text, _ = claude({'model': MODEL, 'max_tokens': 20000, 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': NAME_SCHEMA}},
-                      'system': 'You are a thoughtful Sanskrit- and Marathi-literate naming consultant helping two Indian-American parents. You are honest about etymology and never invent meanings.',
-                      'messages': [{'role': 'user', 'content': user}]})
-    return json.loads(text)['names']
+    return claude_json({'model': MODEL, 'max_tokens': 20000, 'thinking': {'type': 'disabled'}, 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': NAME_SCHEMA}},
+                        'system': 'You are a thoughtful Sanskrit- and Marathi-literate naming consultant helping two Indian-American parents. You are honest about etymology and never invent meanings.',
+                        'messages': [{'role': 'user', 'content': user}]})['names']
 
 def generate_batch(me, direction, count, angle):
     """Ask for `count` names; anything already taken is sent back for replacement (twice), so the
@@ -227,7 +240,7 @@ def qa_batch(cands):
     if not cands:
         return []
     lines = '\n'.join(f"{n['name']} — {n['meaning']} ({n['root']})" for n in cands)
-    text, _ = claude({'model': MODEL, 'max_tokens': 8000, 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': QA_SCHEMA}},
+    verdict_doc = claude_json({'model': MODEL, 'max_tokens': 12000, 'thinking': {'type': 'disabled'}, 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': QA_SCHEMA}},
                       'messages': [{'role': 'user', 'content': f"""You are checking candidate first names for a BOY born 2025 in the USA to Marathi parents. For EACH name give a strict, honest verdict:
 - gender: 'girl' if used for girls in India, 'unisex' if commonly both, else 'boy'.
 - south_specific: true only if usage is clearly Tamil/Telugu/Kannada/Malayalam-specific.
@@ -237,7 +250,7 @@ def qa_batch(cands):
 One verdict per name, same order, {len(cands)} verdicts.
 
 {lines}"""}]})
-    verdicts = {norm(v['name']): v for v in json.loads(text)['verdicts']}
+    verdicts = {norm(v['name']): v for v in verdict_doc['verdicts']}
     keep = []
     for n in cands:
         v = verdicts.get(n['id'])
