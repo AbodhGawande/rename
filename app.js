@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 14;
-  const APP_BUILT = 'Sep 18, 2026 · 9:59 AM CDT';
+  const APP_VERSION = 15;
+  const APP_BUILT = 'Sep 18, 2026 · 10:19 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -240,9 +240,11 @@
         $('#reviewOff').onclick = () => { S.review = null; buildQueue([]); renderDeck(); };
       } else {
         deck.innerHTML = `<div class="empty glass"><div class="big">End of the list.</div><p class="muted">You've been through ${scope} — ${seen} so far${skipped.length ? `, ${skipped.length} of them parked as "later"` : ''}.</p>
-          ${skipped.length ? `<button class="btn primary" id="reviewOn" style="margin-bottom:10px">Go through the ${skipped.length} skipped names</button>` : ''}
-          <p class="mini">More names: ✦ Generate in the Taste tab, loosen the filters in Settings${S.settings.letter ? ', or clear the letter filter' : ''}.</p></div>`;
+          ${skipped.length ? `<button class="btn ${S.settings.apiKey ? '' : 'primary'}" id="reviewOn" style="margin-bottom:10px">Go through the ${skipped.length} skipped names</button>` : ''}
+          ${S.settings.apiKey ? `<button class="btn primary" id="genHere" style="margin-bottom:10px" ${S.generating ? 'disabled' : ''}>${S.generating ? '<span class="spin"></span> Claude is thinking (2–4 min)…' : ICON.spark + ' Generate 100 new names'}</button>` : ''}
+          <p class="mini">${S.settings.apiKey ? 'Claude reads both of your swipes and invents names in that direction. ' : 'Add your Claude key in Settings to generate more. '}${S.settings.letter ? 'Or clear the letter filter.' : 'Or loosen the filters in Settings.'}</p></div>`;
         if (skipped.length) $('#reviewOn').onclick = () => { S.review = new Set(skipped.map(n => n.id)); buildQueue([]); renderDeck(); toast('Reviewing skipped names'); };
+        if ($('#genHere')) $('#genHere').onclick = () => generateMore('');
       }
     } else {
       deck.innerHTML = top.map((n, i) => cardHTML(n, i === 0 ? 'top' : 'behind' + i)).reverse().join('');
@@ -512,7 +514,7 @@
     if (genOK) $('#genBtn').onclick = () => generateMore($('#direction').value.trim());
   }
   async function generateMore(direction) {
-    if (S.generating) return; S.generating = true; renderTaste(); $('#syncBtn').classList.add('busy');
+    if (S.generating) return; S.generating = true; renderTaste(); if (S.tab === 'discover') renderDeck(); $('#syncBtn').classList.add('busy');
     try {
       // 100 names = four batches of 25 in parallel, each nudged toward a different corner of the space.
       const angles = ['short, crisp 2-syllable names with clean sounds', 'nature, sky, light and music words', 'Marathi-heritage words and lesser-known epic/sage names', 'fresh coinages and rare Sanskrit vocabulary'];
@@ -527,7 +529,7 @@
       toast(`Claude added ${out.length} new names — see Discover` + (failed ? ` (${failed} of 4 batches failed, try again for more)` : ''));
       scheduleSync(0);
     } catch (e) { toast('Claude: ' + e.message); }
-    S.generating = false; $('#syncBtn').classList.remove('busy'); renderTaste();
+    S.generating = false; $('#syncBtn').classList.remove('busy'); renderTaste(); if (S.tab === 'discover') renderDeck();
   }
 
   // ---------- Add your own name ----------
