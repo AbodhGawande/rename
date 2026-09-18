@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 23;
-  const APP_BUILT = 'Sep 18, 2026 · 1:20 PM CDT';
+  const APP_VERSION = 24;
+  const APP_BUILT = 'Sep 18, 2026 · 1:32 PM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -345,6 +345,10 @@
 
   function openDetail(id) {
     const n = S.byId[id]; if (!n) return;
+    if (n.lean && !n._enriching) {   // a lean generated name: fetch the rest of its card once
+      n._enriching = true;
+      API.enrich(id).then(full => { Object.assign(n, full); n._enriching = false; save(); if ($('#sheetwrap').classList.contains('on') && $('.dname') && $('.dname').textContent === n.name) openDetail(id); }).catch(() => { n._enriching = false; });
+    }
     const my = S.votes[id], pv = S.partnerVotes[id];
     const both = my && pv && ['like', 'love'].includes(my.v) && ['like', 'love'].includes(pv.v);
     const partnerLine = pv ? `<b>${PEOPLE[S.partner]}</b> ${({ like: 'likes this', love: 'loves this ★', dislike: 'passed on this', skip: 'skipped this' })[pv.v]}${pv.tags && pv.tags.length ? ' — ' + esc(pv.tags.join(', ')) : ''}${pv.note ? ' · “' + esc(pv.note) + '”' : ''}` : `${PEOPLE[S.partner]} hasn't seen this yet`;
@@ -371,7 +375,7 @@
         ${n.custom ? `<span class="tag acc">✎ added by ${esc(n.by || 'you')}</span>` : n.generated ? '<span class="tag acc">✦ suggested by Claude</span>' : ''}
       </div>
       <div class="field"><div class="eyebrow">Meaning</div><div class="val serif">${esc(n.meaning)}</div></div>
-      <div class="field"><div class="eyebrow">Root</div><div class="val">${esc(n.root)} · ${esc(n.origin)}${n.confidence === 'medium' ? ' <span class="tag warn">meaning: medium confidence</span>' : ''}</div></div>
+      ${n.lean ? '<div class="field"><div class="val small muted"><span class="spin"></span> Fetching the rest of the card…</div></div>' : `<div class="field"><div class="eyebrow">Root</div><div class="val">${esc(n.root)} · ${esc(n.origin)}${n.confidence === 'medium' ? ' <span class="tag warn">meaning: medium confidence</span>' : ''}</div></div>`}
       ${n.note ? `<div class="field"><div class="eyebrow">Context</div><div class="val">${esc(n.note)}</div></div>` : ''}
       <div class="field"><div class="eyebrow">Saying it in the US</div><div class="val">${esc(n.say_note || '—')}</div>${n.collisions ? `<div class="val" style="color:var(--gold);margin-top:4px">⚠︎ ${esc(n.collisions)}</div>` : ''}</div>
       <div class="field"><div class="eyebrow">How common in the US</div><div class="val">${esc(usText(n))}</div></div>

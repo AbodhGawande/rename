@@ -26,6 +26,7 @@
     addExtras: names => call('extras', { names }),
     story: (id, name) => call('stories', { id, name }),
     lookup: name => call('lookup', { name }),
+    enrich: id => call('enrich', { id }),
     generate: (me, direction, count, deep) => call('generate', { me, direction, count, deep: !!deep }),
     job: () => call('job'),
     dismissJob: () => call('job/dismiss', {}),

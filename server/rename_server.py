@@ -144,6 +144,22 @@ NAME_SCHEMA = {
             'confidence': {'type': 'string', 'enum': ['high', 'medium']}, 'note': {'type': 'string'},
         }}}},
 }
+# Generation returns only what the deck and the ranker need; the rest is filled in on first tap (/api/enrich).
+LEAN_SCHEMA = {
+    'type': 'object', 'additionalProperties': False, 'required': ['names'],
+    'properties': {'names': {'type': 'array', 'items': {
+        'type': 'object', 'additionalProperties': False,
+        'required': ['name', 'dev', 'say', 'syllables', 'meaning', 'category', 'tradition'],
+        'properties': {
+            'name': {'type': 'string', 'description': 'Standard Latin spelling, capitalised'},
+            'dev': {'type': 'string', 'description': 'The name in Devanagari as written in Marathi'},
+            'say': {'type': 'string', 'description': 'US-friendly respelling, stressed syllable in CAPS, e.g. UN-vay'},
+            'syllables': {'type': 'integer'},
+            'meaning': {'type': 'string', 'description': 'one short line'},
+            'category': {'type': 'string', 'enum': ['nature', 'virtue', 'epic', 'marathi', 'sky', 'music', 'knowledge', 'light', 'sound', 'art', 'spirit', 'short', 'coined']},
+            'tradition': {'type': 'string', 'enum': ['traditional', 'rare-traditional', 'coined']},
+        }}}},
+}
 QA_SCHEMA = {
     'type': 'object', 'additionalProperties': False, 'required': ['verdicts'],
     'properties': {'verdicts': {'type': 'array', 'items': {
@@ -189,6 +205,7 @@ def to_extra(o, me):
         'say_note': o.get('say_note', ''), 'tradition': trad, 'region': o.get('region', 'pan-Indian'), 'collisions': o.get('collisions', ''),
         'nicknames': (o.get('nicknames') or [])[:4], 'confidence': o.get('confidence', 'medium'), 'note': o.get('note', ''),
         'us': None, 'unique': None, 'fresh': {'coined': 90, 'rare-traditional': 80}.get(trad, 60), 'generated': int(time.time() * 1000), 'by': PEOPLE.get(me, me),
+        'lean': not o.get('root'),   # details arrive on first tap via /api/enrich
     }
 
 DEEP_MODEL = 'claude-fable-5-1'   # thinks for a long time, but in tests returned 25/25 new, richer names
@@ -197,10 +214,10 @@ def _gen_call(user, deep=False):
     system = 'You are a thoughtful Sanskrit- and Marathi-literate naming consultant helping two Indian-American parents. You are honest about etymology and never invent meanings.'
     if deep:
         # Fable cannot switch thinking off and needs a big budget (~50k thinking tokens per batch).
-        body = {'model': DEEP_MODEL, 'max_tokens': 64000, 'fallbacks': 'default', 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': NAME_SCHEMA}},
+        body = {'model': DEEP_MODEL, 'max_tokens': 64000, 'fallbacks': 'default', 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': LEAN_SCHEMA}},
                 'system': system, 'messages': [{'role': 'user', 'content': user}]}
         return claude_json(body, timeout=1700, headers={'anthropic-beta': 'server-side-fallback-2026-07-01'})['names']
-    return claude_json({'model': MODEL, 'max_tokens': 20000, 'thinking': {'type': 'disabled'}, 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': NAME_SCHEMA}},
+    return claude_json({'model': MODEL, 'max_tokens': 12000, 'thinking': {'type': 'disabled'}, 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': LEAN_SCHEMA}},
                         'system': system, 'messages': [{'role': 'user', 'content': user}]})['names']
 
 def generate_batch(me, direction, count, angle, deep=False):
@@ -218,7 +235,7 @@ Lean this batch toward {angle}.
 Suggest {count} NEW boy names that fit all five criteria and lean into what they love (sound, endings, syllable count, meanings), steering away from what they passed on. Be creative: lesser-known Sanskrit vocabulary, Marathi words, ragas, nakshatras, rivers, sages, honest coinages.
 Do NOT suggest any name already in this list (or a spelling variant of one): {existing}
 Also NEVER suggest any of these (too common, older-generation, South-Indian-specific, or already rejected): {', '.join(sorted(exclude))}
-Return exactly {count} names. Be honest about confidence; a coinage must say how it was built in "note"."""
+Return exactly {count} names, each with just the Devanagari, a US respelling, syllable count, a one-line meaning, category and tradition."""
     have = {n['id'] for n in names} | exclude
     out, taken = [], []
     arr = _gen_call(base, deep)
@@ -246,7 +263,7 @@ def qa_batch(cands):
     """Second opinion on a batch of generated names; returns the ones that pass."""
     if not cands:
         return []
-    lines = '\n'.join(f"{n['name']} — {n['meaning']} ({n['root']})" for n in cands)
+    lines = '\n'.join(f"{n['name']} — {n['meaning']}" + (f" ({n['root']})" if n.get('root') else '') for n in cands)
     verdict_doc = claude_json({'model': MODEL, 'max_tokens': 12000, 'thinking': {'type': 'disabled'}, 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': QA_SCHEMA}},
                       'messages': [{'role': 'user', 'content': f"""You are checking candidate first names for a BOY born 2025 in the USA to Marathi parents. For EACH name give a strict, honest verdict:
 - gender: 'girl' if used for girls in India, 'unisex' if commonly both, else 'boy'.
@@ -409,6 +426,32 @@ async def lookup(req: Request):
     except Exception as e:
         raise HTTPException(502, str(e))
     return o
+
+@app.post('/api/enrich')
+async def enrich(req: Request):
+    """Fill in root, notes, collisions, nicknames, themes for a lean generated name (once)."""
+    b = await req.json()
+    nid = norm(b.get('id', ''))
+    with lock:
+        n = next((x for x in STATE['extras'] if x['id'] == nid), None)
+    if not n:
+        raise HTTPException(404, 'not a generated name')
+    if not n.get('lean'):
+        return n
+    one = {'type': 'object', 'additionalProperties': False, 'required': ['names'], 'properties': {'names': NAME_SCHEMA['properties']['names']}}
+    try:
+        text, _ = claude({'model': MODEL, 'max_tokens': 3000, 'thinking': {'type': 'disabled'}, 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': one}},
+                          'messages': [{'role': 'user', 'content': f'{CRITERIA}\n\nFill in the full card for the boy\'s name "{n["name"]}" ({n.get("dev", "")}), meaning "{n.get("meaning", "")}". Exactly one entry. Be honest about the root and confidence; note any English collisions or awkward nicknames (initials will be {n["name"][0]}.G.).'}]}, timeout=180)
+        o = json.loads(text)['names'][0]
+    except Exception as e:
+        raise HTTPException(502, str(e))
+    with lock:
+        for k in ('alt', 'root', 'origin', 'themes', 'sayability', 'say_note', 'region', 'collisions', 'nicknames', 'confidence', 'note'):
+            if k in o and (k not in n or not n.get(k) or k in ('sayability', 'say_note', 'confidence')):
+                n[k] = o[k] if k != 'sayability' else max(10, min(100, int(o[k] or 7) * 10))
+        n['lean'] = False
+    save_state()
+    return n
 
 @app.post('/api/generate')
 async def generate(req: Request):
