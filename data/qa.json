@@ -4813,5 +4813,383 @@
   "old_generation": false,
   "meaning_ok": true,
   "note": "'for the right' is an embellishment of 'eager to fight'"
+ },
+ "aalhad": {
+  "name": "Aalhad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "aamod": {
+  "name": "Aamod",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "familiar Marathi name of the 70s-90s"
+ },
+ "ashay": {
+  "name": "Ashay",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "very common for Marathi men born 1975-95"
+ },
+ "avakash": {
+  "name": "Avakash",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "barely used as a given name"
+ },
+ "chakor": {
+  "name": "Chakor",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "chokha": {
+  "name": "Chokha",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "reads as an adjective, not a modern given name"
+ },
+ "hambir": {
+  "name": "Hambir",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "historical title, rare as a first name"
+ },
+ "hemadri": {
+  "name": "Hemadri",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "-i ending may read feminine to non-Marathi ears"
+ },
+ "janjira": {
+  "name": "Janjira",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "fort/place name, not used for people; sounds feminine"
+ },
+ "kalash": {
+  "name": "Kalash",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "kavach": {
+  "name": "Kavach",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "object word, rarely a name"
+ },
+ "koyna": {
+  "name": "Koyna",
+  "gender": "girl",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "Koyna is used as a girl's name"
+ },
+ "lezim": {
+  "name": "Lezim",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "dance name, never a personal name"
+ },
+ "lohgad": {
+  "name": "Lohgad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "fort name, not used for people"
+ },
+ "modak": {
+  "name": "Modak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "common Marathi surname and a sweet; odd as first name"
+ },
+ "moraya": {
+  "name": "Moraya",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "nayak": {
+  "name": "Nayak",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "reads as a surname"
+ },
+ "niramay": {
+  "name": "Niramay",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pahat": {
+  "name": "Pahat",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "feminine-gender Marathi noun, not a given name"
+ },
+ "palkhi": {
+  "name": "Palkhi",
+  "gender": "girl",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "feminine word/object, not a boy's name"
+ },
+ "panhala": {
+  "name": "Panhala",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "fort name, not used for people"
+ },
+ "pasaydan": {
+  "name": "Pasaydan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "title of a prayer, not a name"
+ },
+ "pavas": {
+  "name": "Pavas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "pravas": {
+  "name": "Pravas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "plain noun, seldom a name"
+ },
+ "ratangad": {
+  "name": "Ratangad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "fort name, not used for people"
+ },
+ "sachiv": {
+  "name": "Sachiv",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "means 'secretary' in modern usage"
+ },
+ "sajjan": {
+  "name": "Sajjan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "dated, strongly North-Indian flavour"
+ },
+ "salher": {
+  "name": "Salher",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "fort name, not used for people"
+ },
+ "sanman": {
+  "name": "Sanman",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "sanvad": {
+  "name": "Sanvad",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "saumitra": {
+  "name": "Saumitra",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "associated with Marathi men of an earlier generation"
+ },
+ "savata": {
+  "name": "Savata",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "saint's name, feels archaic"
+ },
+ "setu": {
+  "name": "Setu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "shahu": {
+  "name": "Shahu",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": false,
+  "note": "Rajarshi Shahu of Kolhapur was not Shivaji's grandson; two different Shahus conflated"
+ },
+ "sumiran": {
+  "name": "Sumiran",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "more Hindi/Braj bhakti idiom than Marathi"
+ },
+ "suvas": {
+  "name": "Suvas",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "older Marathi/Gujarati flavour"
+ },
+ "swaraj": {
+  "name": "Swaraj",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "nationalist-era name, common for men born 1950-80"
+ },
+ "tikona": {
+  "name": "Tikona",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "fort/shape word, not a name"
+ },
+ "vadal": {
+  "name": "Vadal",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": false,
+  "meaning_ok": true,
+  "note": "noun, not used as a given name"
+ },
+ "vandan": {
+  "name": "Vandan",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "easily confused with the girl's name Vandana"
+ },
+ "vashisht": {
+  "name": "Vashisht",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": ""
+ },
+ "vishram": {
+  "name": "Vishram",
+  "gender": "boy",
+  "south_specific": false,
+  "trending": false,
+  "old_generation": true,
+  "meaning_ok": true,
+  "note": "dated; also means 'rest stop'"
  }
 }
