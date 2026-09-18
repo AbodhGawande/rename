@@ -406,3 +406,8 @@ input.text:focus { outline: none; border-color: rgba(var(--accent-rgb), .6); }
 select.text { -webkit-appearance: none; appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--ink3) 50%), linear-gradient(135deg, var(--ink3) 50%, transparent 50%); background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 34px; }
 
 .iconbtn.offline { color: var(--danger); border-color: rgba(253,164,175,.45); }
+
+/* auto-say toggle under the deck */
+.progress .autosay { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 999px; background: rgba(255,255,255,.06); border: 1px solid var(--hair); color: var(--ink3); font-size: 11.5px; font-weight: 700; vertical-align: middle; }
+.progress .autosay svg { width: 13px; height: 13px; }
+.progress .autosay.on { color: var(--accent); border-color: rgba(var(--accent-rgb), .5); background: rgba(var(--accent-rgb), .14); }

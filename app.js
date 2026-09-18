@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 25;
-  const APP_BUILT = 'Sep 18, 2026 · 1:38 PM CDT';
+  const APP_VERSION = 26;
+  const APP_BUILT = 'Sep 18, 2026 · 1:40 PM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -23,7 +23,7 @@
     partnerFaceoffs: LS.get('partnerFaceoffs', []),
     extras: LS.get('extras', []),          // Claude-generated names (pool schema)
     stories: LS.get('stories', {}),        // id -> markdown-ish text
-    settings: Object.assign({ accent: 'sky', token: '', apiKey: '', maxSyl: 4, minSay: 50, hideCoined: false, hideKnown: false, letter: '', voiceUS: '', voiceIN: '', motion: true, lastSync: 0, serverKey: true }, LS.get('settings', {})),
+    settings: Object.assign({ accent: 'sky', token: '', apiKey: '', maxSyl: 4, minSay: 50, hideCoined: false, hideKnown: false, letter: '', voiceUS: '', voiceIN: '', motion: true, autoSay: false, lastSync: 0, serverKey: true }, LS.get('settings', {})),
     pool: [], ssa: {}, exclude: [], names: [], byId: {},
     weights: {}, partnerWeights: {},
     queue: [], review: null, genText: '', history: [], tab: 'discover', listSeg: 'both', faceoffPair: null, generating: false, syncing: false,
@@ -178,6 +178,8 @@
       .map(v => `<option value="${esc(v.voiceURI || v.name + '|' + v.lang)}" ${cur === v ? 'selected' : ''}>${esc(v.name)} · ${tier(v)} · ${esc(v.lang)}</option>`).join('');
   }
   const sayIt = sayUS;
+  // Auto-say: after each swipe, read the new top card in Marathi (toggle on the deck or in Settings).
+  function autoSayNext() { if (S.settings.autoSay && S.queue[0]) setTimeout(() => sayIN(S.queue[0]), 250); }
   function sayRowHTML(n, cls) {
     return `<div class="sayrow ${cls || ''}"><button class="saybtn" data-say="us">${ICON.sound} English</button><button class="saybtn" data-say="in">${ICON.sound} Marathi</button></div>`;
   }
@@ -252,8 +254,9 @@
       wireSayRow($('.card.top'), top[0]);
     }
     const voted = Object.values(S.votes).filter(v => v.v !== 'skip').length;
-    $('#progress').innerHTML = `<b>${voted}</b> rated · <b>${S.queue.length}</b> to go · ${S.names.length} names` + (S.settings.letter ? `<span class="letterchip">only ${S.settings.letter}<button id="clearLetter" title="Show all letters">✕</button></span>` : '');
+    $('#progress').innerHTML = `<button class="autosay ${S.settings.autoSay ? 'on' : ''}" id="autoSayBtn" title="Say each name in Marathi as it appears">${ICON.sound} ${S.settings.autoSay ? 'auto-say on' : 'auto-say off'}</button> · <b>${voted}</b> rated · <b>${S.queue.length}</b> to go` + (S.settings.letter ? `<span class="letterchip">only ${S.settings.letter}<button id="clearLetter" title="Show all letters">✕</button></span>` : '');
     if (S.settings.letter) $('#clearLetter').onclick = () => { S.settings.letter = ''; save(); refreshAll(); toast('Showing every letter again'); };
+    $('#autoSayBtn').onclick = () => { S.settings.autoSay = !S.settings.autoSay; save(); renderDeck(); if (S.settings.autoSay && S.queue[0]) sayIN(S.queue[0]); };
     updateBadges();
   }
   function attachDrag(card) {
@@ -302,14 +305,14 @@
     if (S.review) S.review.delete(id);   // a reviewed name leaves this pass whatever you decide
     save(); retrain();
     buildQueue(S.queue.slice(1, 3).map(n => n.id).filter(x => x !== id));
-    if (!fromDetail) { renderDeck(); if (kind !== 'skip') showReasons(id, kind); else hideReasons(); }
+    if (!fromDetail) { renderDeck(); if (kind !== 'skip') showReasons(id, kind); else hideReasons(); autoSayNext(); }
     scheduleSync();
   }
   function undo() {
     const h = S.history.pop(); if (!h) { toast('Nothing to undo'); return; }
     if (h.prev) S.votes[h.id] = h.prev; else delete S.votes[h.id];
     if (S.review) S.review.add(h.id);
-    save(); retrain(); buildQueue([h.id].concat(S.queue.slice(0, 2).map(n => n.id))); renderDeck(); hideReasons();
+    save(); retrain(); buildQueue([h.id].concat(S.queue.slice(0, 2).map(n => n.id))); renderDeck(); hideReasons(); autoSayNext();
     toast('Undone: ' + S.byId[h.id].name);
   }
 
@@ -624,6 +627,7 @@
       </div>
       <div class="panel glass"><h3>Voices</h3>
         <p class="muted small" style="margin:0 0 8px">Which of the phone's voices the two buttons use. Best result: pick the voice you like under Settings → Accessibility → Spoken Content → Voices (Hindi and English), keep the "Phone's … voice" choice below, and the app inherits it.</p>
+        <div class="setting"><div class="l"><b>Auto-say on swipe</b><span>Reads each new card aloud in Marathi. Also toggled under the deck.</span></div><button class="toggle ${st.autoSay ? 'on' : ''}" id="tAutoSay"></button></div>
         <div class="setting"><div class="l"><b>Marathi button</b><span>Reads the Devanagari. Premium downloads (Kiyara…) never appear in this list — Safari can't see them by name — so leave "Phone's Hindi voice" selected and choose Kiyara under Settings → Accessibility → Spoken Content → Voices → Hindi.</span></div></div>
         <select class="text" id="voiceIN" style="margin:-4px 0 10px">${voiceOptions('in') || '<option>No Hindi/Marathi voice found</option>'}</select>
         <div class="setting"><div class="l"><b>English button</b><span>Reads the respelling the American way. Same trick: keep "Phone's English voice" and pick Zoe under Accessibility → Spoken Content → Voices → English.</span></div></div>
@@ -647,6 +651,7 @@
     $('#tCoined').onclick = e => { S.settings.hideCoined = !S.settings.hideCoined; e.target.classList.toggle('on'); save(); refreshAll(); };
     $('#tKnown').onclick = e => { S.settings.hideKnown = !S.settings.hideKnown; e.target.classList.toggle('on'); save(); refreshAll(); };
     $('#syncNow').onclick = async () => { await doSync(); openSettings(); };
+    $('#tAutoSay').onclick = e => { S.settings.autoSay = !S.settings.autoSay; e.target.classList.toggle('on'); save(); renderDeck(); };
     $('#voiceIN').onchange = e => { S.settings.voiceIN = e.target.value; save(); };
     $('#voiceUS').onchange = e => { S.settings.voiceUS = e.target.value; save(); };
     const demo = S.queue[0] || S.names[0] || { name: 'Anvay', say: 'UN-vay', dev: 'अन्वय' };
