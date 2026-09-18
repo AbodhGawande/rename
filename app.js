@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 19;
-  const APP_BUILT = 'Sep 18, 2026 · 10:52 AM CDT';
+  const APP_VERSION = 20;
+  const APP_BUILT = 'Sep 18, 2026 · 10:57 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -667,10 +667,12 @@
     const v = $('#auroraVideo'); if (!v) return;
     if (S.settings.motion) {
       if (!v.getAttribute('src')) { v.src = 'aurora.mp4'; v.load(); }
-      v.play().then(() => v.classList.add('playing')).catch(() => v.classList.remove('playing'));
-    } else { v.pause(); v.classList.remove('playing'); v.removeAttribute('src'); v.load(); }
+      v.play().then(() => { v.classList.add('playing'); document.body.classList.add('motion-on'); }).catch(() => { v.classList.remove('playing'); document.body.classList.remove('motion-on'); });
+    } else { v.pause(); v.classList.remove('playing'); document.body.classList.remove('motion-on'); v.removeAttribute('src'); v.load(); }
   }
   document.addEventListener('visibilitychange', () => { if (!document.hidden && S.settings.motion) applyMotion(); });
+  // Low Power Mode refuses autoplay but allows play() inside a tap — so retry on the first touch.
+  document.addEventListener('pointerdown', () => { const v = $('#auroraVideo'); if (S.settings.motion && v && v.paused) applyMotion(); }, { passive: true });
   function setMe(me) {
     if (me === S.me) return;
     // Swapping identity on one phone: my votes become the partner's and vice versa.
