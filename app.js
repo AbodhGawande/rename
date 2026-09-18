@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 27;
-  const APP_BUILT = 'Sep 18, 2026 · 2:49 PM CDT';
+  const APP_VERSION = 28;
+  const APP_BUILT = 'Sep 18, 2026 · 3:06 PM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -72,15 +72,32 @@
     if (f.letter && n.id[0] !== f.letter.toLowerCase()) return false;
     return true;
   }
+  // Similarity to the names you liked: shared syllable count, length, first letter, ending, category.
+  let likeProfile = null;
+  function buildLikeProfile() {
+    const likes = Object.keys(S.votes).filter(id => ['like', 'love'].includes(S.votes[id].v) && S.byId[id]).map(id => S.byId[id]);
+    if (likes.length < 5) { likeProfile = null; return; }
+    const count = (f) => { const c = {}; likes.forEach(n => { const k = f(n); c[k] = (c[k] || 0) + 1; }); Object.keys(c).forEach(k => { c[k] /= likes.length; }); return c; };
+    likeProfile = { n: likes.length, likes, syl: count(n => n.syllables), len: count(n => Math.min(7, n.id.length)), first: count(n => n.id[0]), end2: count(n => n.id.slice(-2)), last: count(n => n.id.slice(-1)), cat: count(n => n.category) };
+  }
+  function similarity(n) {   // 0–1
+    const p = likeProfile; if (!p) return 0;
+    return 0.25 * (p.syl[n.syllables] || 0) + 0.15 * (p.len[Math.min(7, n.id.length)] || 0) + 0.2 * (p.first[n.id[0]] || 0) + 0.2 * (p.end2[n.id.slice(-2)] || 0) + 0.1 * (p.last[n.id.slice(-1)] || 0) + 0.1 * (p.cat[n.category] || 0);
+  }
+  function nearestLikes(n, k) {   // for the "like Tanish, Kesar" chip
+    const p = likeProfile; if (!p) return [];
+    return p.likes.map(l => ({ l, s: (l.syllables === n.syllables) + (l.id[0] === n.id[0]) * 2 + (l.id.slice(-2) === n.id.slice(-2)) * 2 + (l.id.slice(-1) === n.id.slice(-1)) + (l.category === n.category) })).filter(x => x.s >= 3).sort((a, b) => b.s - a.s).slice(0, k).map(x => x.l.name);
+  }
   function baseScore(n) {
     const pv = S.partnerVotes[n.id];
     const pboost = pv ? ({ love: 28, like: 14, dislike: -18, skip: 0 }[pv.v] || 0) : 0;
-    const learned = 22 * Math.tanh(Learn.score(S.weights, n) / 2);
+    const learned = 30 * Math.tanh(Learn.score(S.weights, n) / 2) + 45 * similarity(n);
     const fresh = n.generated ? 12 : 0; // Claude's new suggestions surface quickly
     if (jitter[n.id] == null) jitter[n.id] = Math.random() * 14;
     return 0.34 * n.unique + 0.34 * n.sayability + 0.12 * n.fresh + learned + pboost + fresh + jitter[n.id];
   }
   function buildQueue(keepIds) {
+    buildLikeProfile();
     const voted = S.votes;
     const fresh = [], skipped = [];
     S.names.forEach(n => {
@@ -221,6 +238,7 @@
         ${sayRowHTML(n)}
         <div class="meaning">${esc(n.meaning)}</div>
         <div class="fullname">${esc(n.name)} ${SURNAME} · ${initials(n)} · ${n.syllables} syl · ${esc(n.origin)}</div>
+        ${(() => { const near = nearestLikes(n, 3); return near.length ? `<div class="likechip">like ${esc(near.join(', '))}</div>` : ''; })()}
       </div>
       <div class="stats">
         <div class="stat"><div class="v ${grade(n.unique)}">${n.unique}</div><div class="k">Unique</div></div>

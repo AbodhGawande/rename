@@ -180,6 +180,25 @@ def name_line(n, v):
     note = f' — note: "{v["note"]}"' if v.get('note') else ''
     return f"{n['name']} [{n.get('meaning', '')}]{tags}{note}"
 
+def fingerprint(me):
+    """What the liked names have in common — stated as explicit targets for the generator."""
+    from collections import Counter
+    by = {n['id']: n for n in all_names()}
+    likes = [by[i] for i, v in STATE['votes'].get(me, {}).items() if v.get('v') in ('like', 'love') and i in by]
+    if len(likes) < 8:
+        return ''
+    def top(c, n, total): return ', '.join(f'{k} ({round(100*v/total)}%)' for k, v in c.most_common(n))
+    N = len(likes)
+    syl = Counter(n['syllables'] for n in likes); length = Counter(len(n['id']) for n in likes)
+    first = Counter(n['id'][0].upper() for n in likes); end2 = Counter('-' + n['id'][-2:] for n in likes); last = Counter(n['id'][-1] for n in likes)
+    cat = Counter(n['category'] for n in likes)
+    return f"""THE TARGET — what {PEOPLE[me]}'s {N} liked names have in common (match this closely):
+- syllables: {top(syl, 3, N)} · letters: {top(length, 4, N)}
+- first letter: {top(first, 5, N)} · endings: {top(end2, 6, N)} · last letter: {top(last, 4, N)}
+- kinds: {top(cat, 4, N)} · crisp consonants (t, r, n, k, sh), no aspirates, short and clean
+- the liked names themselves: {', '.join(n['name'] for n in likes)}
+Every suggestion should be a plausible sibling of these — same length, rhythm and endings — not merely 'Indian and rare'."""
+
 def profile(me):
     partner = 'amruta' if me == 'abodh' else 'abodh'
     by = {n['id']: n for n in all_names()}
@@ -187,7 +206,7 @@ def profile(me):
         vs = STATE['votes'].get(who, {})
         rows = [name_line(by[i], v) for i, v in vs.items() if v.get('v') == kind and i in by]
         return '; '.join(rows[-limit:] if limit else rows) or '—'
-    lines = [f"{PEOPLE[me]} LOVES: {pick(me, 'love')}", f"{PEOPLE[me]} likes: {pick(me, 'like')}", f"{PEOPLE[me]} passed on: {pick(me, 'dislike', 60)}",
+    lines = [f"{PEOPLE[me]} LOVES: {pick(me, 'love')}", f"{PEOPLE[me]} likes: {pick(me, 'like')}", f"{PEOPLE[me]} passed on (a sample): {pick(me, 'dislike', 25)}",
              f"{PEOPLE[partner]} LOVES: {pick(partner, 'love')}", f"{PEOPLE[partner]} likes: {pick(partner, 'like')}", f"{PEOPLE[partner]} passed on: {pick(partner, 'dislike', 40)}"]
     return '\n'.join(lines)
 
@@ -229,11 +248,13 @@ def generate_batch(me, direction, count, angle, deep=False):
     existing = ', '.join(sorted(n['name'] for n in names))
     base = f"""{CRITERIA}
 
+{fingerprint(me)}
+
 WHAT THE PARENTS HAVE TOLD US SO FAR (their swipes, with the reasons they tapped):
 {profile(me)}
 {('SPECIAL REQUEST FROM THE PARENTS: ' + direction) if direction else ''}
 Lean this batch toward {angle}.
-Suggest {count} NEW boy names that fit all five criteria and lean into what they love (sound, endings, syllable count, meanings), steering away from what they passed on. Be creative: lesser-known Sanskrit vocabulary, Marathi words, ragas, nakshatras, rivers, sages, honest coinages.
+Suggest {count} NEW boy names that fit all five criteria AND match THE TARGET above — same syllable count, length, first letters and endings as the liked names — steering away from what they passed on. Be creative within that shape: lesser-known Sanskrit and Marathi words, Hindustani words, ragas, rivers, sages, honest coinages.
 Do NOT suggest any name already in this list (or a spelling variant of one): {existing}
 Also NEVER suggest any of these (too common, older-generation, South-Indian-specific, or already rejected): {', '.join(sorted(exclude))}
 Return exactly {count} names, each with just the Devanagari, a US respelling, syllable count, a one-line meaning, category and tradition."""
