@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 7;
-  const APP_BUILT = 'Sep 18, 2026 · 8:51 AM CDT';
+  const APP_VERSION = 8;
+  const APP_BUILT = 'Sep 18, 2026 · 8:57 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -140,9 +140,14 @@
   const tier = v => ['', 'Standard', 'Enhanced', 'Premium'][quality(v)];
   // Drop the novelty voices (Jester, Zarvox, Organ…) when real ones exist.
   const isReal = v => !/speech\.synthesis\.voice|eloquence/i.test(v.voiceURI) && !/^(bad news|bahh|bells|boing|bubbles|cellos|good news|jester|junior|kathy|organ|ralph|superstar|trinoids|whisper|wobble|zarvox|albert|fred|eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley|nicky)\b/i.test(v.name);
+  // '' or 'default' = no explicit voice: iOS then uses the voice chosen under Accessibility → Spoken
+  // Content → Voices for that language — the only way a web app can reach the Premium downloads
+  // (Kiyara, Zoe…), which Safari never lists by name.
+  const DEFAULT_VOICE = 'default';
   function pickVoice(kind) {
     const wanted = S.settings[kind === 'us' ? 'voiceUS' : 'voiceIN'];
-    if (wanted) { const v = voices.find(x => x.voiceURI === wanted) || voices.find(x => x.name + '|' + x.lang === wanted); if (v) return v; }
+    if (!wanted || wanted === DEFAULT_VOICE) return null;
+    { const v = voices.find(x => x.voiceURI === wanted) || voices.find(x => x.name + '|' + x.lang === wanted); if (v) return v; }
     let pool = kind === 'us'
       ? voices.filter(x => /^en[-_]US/i.test(x.lang)).concat(voices.filter(x => /^en/i.test(x.lang) && !/^en[-_]US/i.test(x.lang)))
       : voices.filter(x => /^hi/i.test(x.lang)).concat(voices.filter(x => /^mr/i.test(x.lang)));
@@ -154,7 +159,7 @@
   function sayIN(n) {
     if (!voices.length) loadVoices();
     const v = pickVoice('in');
-    speak(n.dev || n.name, v ? v.lang : 'hi-IN', v, 0.8);
+    speak(n.dev || n.name, v ? v.lang : 'hi-IN', v, 0.85);
   }
   function voiceOptions(kind) {
     let list = kind === 'us' ? voices.filter(x => /^en/i.test(x.lang)) : voices.filter(x => /^(hi|mr)/i.test(x.lang));
@@ -163,7 +168,9 @@
     const cur = pickVoice(kind);
     if (cur && !list.includes(cur)) list.unshift(cur);
     const seen = new Set();
-    return list.filter(v => { const k = v.voiceURI || v.name + v.lang; if (seen.has(k)) return false; seen.add(k); return true; })
+    const lang = kind === 'us' ? 'English' : 'Hindi';
+    return `<option value="${DEFAULT_VOICE}" ${cur ? '' : 'selected'}>Phone's ${lang} voice (Accessibility → Spoken Content)</option>` +
+      list.filter(v => { const k = v.name + v.lang + quality(v); if (seen.has(k)) return false; seen.add(k); return true; })
       .sort((a, b) => quality(b) - quality(a))
       .map(v => `<option value="${esc(v.voiceURI || v.name + '|' + v.lang)}" ${cur === v ? 'selected' : ''}>${esc(v.name)} · ${tier(v)} · ${esc(v.lang)}</option>`).join('');
   }
@@ -551,10 +558,10 @@
         <div class="status" id="keyStatus">${st.apiKey ? 'Key saved · model ' + Claude.MODEL : 'No key yet'}</div>
       </div>
       <div class="panel glass"><h3>Voices</h3>
-        <p class="muted small" style="margin:0 0 8px">Which of the phone's voices the two buttons use. Download better ones under Settings → Accessibility → Spoken Content → Voices, then <b>close the app fully and reopen it</b> — the phone hands over the voice list only at launch.</p>
-        <div class="setting"><div class="l"><b>Marathi button</b><span>Reads the Devanagari. iPhone lists one voice per language and uses the premium download automatically once installed.</span></div></div>
+        <p class="muted small" style="margin:0 0 8px">Which of the phone's voices the two buttons use. Best result: pick the voice you like under Settings → Accessibility → Spoken Content → Voices (Hindi and English), keep the "Phone's … voice" choice below, and the app inherits it.</p>
+        <div class="setting"><div class="l"><b>Marathi button</b><span>Reads the Devanagari. Premium downloads (Kiyara…) never appear in this list — Safari can't see them by name — so leave "Phone's Hindi voice" selected and choose Kiyara under Settings → Accessibility → Spoken Content → Voices → Hindi.</span></div></div>
         <select class="text" id="voiceIN" style="margin:-4px 0 10px">${voiceOptions('in') || '<option>No Hindi/Marathi voice found</option>'}</select>
-        <div class="setting"><div class="l"><b>English button</b><span>Reads the respelling the American way.</span></div></div>
+        <div class="setting"><div class="l"><b>English button</b><span>Reads the respelling the American way. Same trick: keep "Phone's English voice" and pick Zoe under Accessibility → Spoken Content → Voices → English.</span></div></div>
         <select class="text" id="voiceUS" style="margin:-4px 0 4px">${voiceOptions('us') || '<option>No English voice found</option>'}</select>
         <div class="btnrow" style="margin-top:8px"><button class="btn ghost" id="voiceTestIN">▶ Test Marathi</button><button class="btn ghost" id="voiceTestUS">▶ Test English</button></div>
         <button class="btn ghost" id="voiceReload" style="margin-top:8px">↻ Re-scan voices (${voices.length} found)</button>
