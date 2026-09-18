@@ -116,6 +116,13 @@ if os.path.exists(qa_path):
         elif v['gender'] == 'unisex' and 'used for girls too' not in names[key]['note']:
             names[key]['note'] = (names[key]['note'] + ' · ' if names[key]['note'] else '') + 'used for girls too'
 
+# Devanagari spellings (tools/add_devanagari.py) for the Marathi-voice button.
+dev_path = os.path.join(here, '..', 'data', 'devanagari.json')
+if os.path.exists(dev_path):
+    dev = json.load(open(dev_path))
+    for key, n in names.items():
+        if key in dev: n['dev'] = dev[key]
+
 arr = sorted(names.values(), key=lambda x: x['name'])
 data = {
     'version': datetime.datetime.now().strftime('%Y-%m-%d'),

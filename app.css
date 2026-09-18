@@ -377,3 +377,15 @@ input.text:focus { outline: none; border-color: rgba(var(--accent-rgb), .6); }
   .sheet { left: 50%; right: auto; width: 464px; transform: translate(-50%, 100%); }
   .sheetwrap.on .sheet { transform: translate(-50%, 0); }
 }
+
+/* ---------- Pronunciation buttons + Devanagari ---------- */
+.dev { font-size: 22px; color: var(--ink2); margin-top: 6px; letter-spacing: .02em; }
+.sayrow { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
+.sayrow.center { margin-bottom: 4px; }
+.saybtn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 999px;
+  background: rgba(255,255,255,.07); border: 1px solid var(--hair); color: var(--ink2); font-size: 12.5px; font-weight: 700;
+  transition: transform .12s, background .2s; touch-action: manipulation;
+}
+.saybtn:active { transform: scale(.95); background: rgba(var(--accent-rgb), .2); color: var(--ink); }
+.saybtn svg { width: 15px; height: 15px; color: var(--accent); }

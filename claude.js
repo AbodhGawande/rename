@@ -23,9 +23,10 @@ Hard criteria for every suggestion:
         type: 'array',
         items: {
           type: 'object', additionalProperties: false,
-          required: ['name', 'alt', 'say', 'syllables', 'meaning', 'root', 'origin', 'category', 'themes', 'sayability', 'say_note', 'tradition', 'region', 'collisions', 'nicknames', 'confidence', 'note'],
+          required: ['name', 'dev', 'alt', 'say', 'syllables', 'meaning', 'root', 'origin', 'category', 'themes', 'sayability', 'say_note', 'tradition', 'region', 'collisions', 'nicknames', 'confidence', 'note'],
           properties: {
             name: { type: 'string', description: 'Standard Latin spelling, capitalised' },
+            dev: { type: 'string', description: 'The name in Devanagari as written in Marathi, e.g. अन्वय' },
             alt: { type: 'array', items: { type: 'string' }, description: 'Other common spellings, may be empty' },
             say: { type: 'string', description: 'US-friendly respelling, stressed syllable in CAPS, e.g. UN-vay' },
             syllables: { type: 'integer' },
@@ -140,7 +141,7 @@ Return exactly ${count} names. Be honest about confidence; a coinage must say ho
       if ((o.alt || []).some(a => banned.has(String(a).toLowerCase().replace(/[^a-z]/g, '')))) continue;
       have.add(id);
       out.push({
-        id, name: o.name.trim(), alt: (o.alt || []).slice(0, 4), say: o.say || '', syllables: +o.syllables || 2,
+        id, name: o.name.trim(), dev: o.dev || '', alt: (o.alt || []).slice(0, 4), say: o.say || '', syllables: +o.syllables || 2,
         meaning: o.meaning || '', root: o.root || '', origin: o.origin || 'Sanskrit', category: o.category || 'coined',
         themes: (o.themes || []).map(t => String(t).toLowerCase()).slice(0, 3), sayability: Math.max(10, Math.min(100, (+o.sayability || 7) * 10)),
         say_note: o.say_note || '', tradition: o.tradition || 'coined', region: o.region || 'pan-Indian', collisions: o.collisions || '',

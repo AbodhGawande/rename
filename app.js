@@ -1,7 +1,7 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 1;
+  const APP_VERSION = 2;
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -114,11 +114,35 @@
     return `${n.us.c24} US boys named this in 2024${n.us.rank24 ? ' (#' + n.us.rank24.toLocaleString() + ')' : ''}${n.us.trend === 'rising' ? ' · rising' : n.us.trend === 'falling' ? ' · falling' : ''}`;
   }
   function initials(n) { return n.name[0].toUpperCase() + '.G.'; }
-  function sayIt(n) {
+  // Two voices: how an American reads the spelling, and how it sounds in Marathi (Devanagari in,
+  // Marathi voice if the phone has one, else Hindi — same script, near-identical for a name).
+  let voices = [];
+  function loadVoices() { try { voices = speechSynthesis.getVoices() || []; } catch (e) {} }
+  if ('speechSynthesis' in window) { loadVoices(); speechSynthesis.addEventListener('voiceschanged', loadVoices); }
+  function speak(text, lang, voice, rate) {
     try {
-      const u = new SpeechSynthesisUtterance((n.say || n.name).replace(/-/g, ' ').toLowerCase());
-      u.lang = 'en-US'; u.rate = 0.85; speechSynthesis.cancel(); speechSynthesis.speak(u);
-    } catch (e) {}
+      const u = new SpeechSynthesisUtterance(text); u.lang = lang; u.rate = rate; if (voice) u.voice = voice;
+      speechSynthesis.cancel(); speechSynthesis.speak(u);
+    } catch (e) { toast('Speech is not available here'); }
+  }
+  function sayUS(n) {
+    const v = voices.find(x => /^en[-_]US/i.test(x.lang) && !/enhanced|premium/i.test(x.name)) || voices.find(x => /^en/i.test(x.lang));
+    speak((n.say || n.name).replace(/-/g, ' ').toLowerCase(), 'en-US', v, 0.85);
+  }
+  function sayIN(n) {
+    const v = voices.find(x => /^mr/i.test(x.lang)) || voices.find(x => /^hi/i.test(x.lang));
+    if (!v && !voices.length) loadVoices();
+    speak(n.dev || n.name, v ? v.lang : 'hi-IN', v, 0.8);
+  }
+  const sayIt = sayUS;
+  function sayRowHTML(n, cls) {
+    return `<div class="sayrow ${cls || ''}"><button class="saybtn" data-say="us">${ICON.sound} English</button><button class="saybtn" data-say="in">${ICON.sound} Marathi</button></div>`;
+  }
+  function wireSayRow(scope, n) {
+    $$('.saybtn', scope).forEach(b => {
+      b.addEventListener('pointerdown', e => e.stopPropagation());
+      b.onclick = e => { e.stopPropagation(); if (b.dataset.say === 'us') sayUS(n); else sayIN(n); };
+    });
   }
   const ICON = {
     nope: $('.deckbtns .nope').innerHTML, like: $('.deckbtns .like').innerHTML, love: $('.deckbtns .love').innerHTML,
@@ -147,7 +171,9 @@
       <div class="cat"><span class="catchip ${n.generated ? 'new' : ''}">${shapeIcon(n.category)}${n.generated ? ' new · ' : ''}${esc(n.category)}</span>${partnerLine}</div>
       <div class="namebox">
         <div class="name">${esc(n.name)}</div>
+        ${n.dev ? `<div class="dev">${esc(n.dev)}</div>` : ''}
         <div class="say">say <b>${esc(n.say)}</b></div>
+        ${sayRowHTML(n)}
         <div class="meaning">${esc(n.meaning)}</div>
         <div class="fullname">${esc(n.name)} ${SURNAME} · ${initials(n)} · ${n.syllables} syl · ${esc(n.origin)}</div>
       </div>
@@ -168,6 +194,7 @@
     } else {
       deck.innerHTML = top.map((n, i) => cardHTML(n, i === 0 ? 'top' : 'behind' + i)).reverse().join('');
       attachDrag($('.card.top'));
+      wireSayRow($('.card.top'), top[0]);
     }
     const voted = Object.values(S.votes).filter(v => v.v !== 'skip').length;
     $('#progress').innerHTML = `<b>${voted}</b> rated · <b>${S.queue.length}</b> to go · ${S.names.length} names in the pool`;
@@ -264,7 +291,9 @@
     const story = S.stories[id];
     openSheet(`
       <div class="dname">${esc(n.name)}</div>
-      <div class="dsay">say <b>${esc(n.say)}</b> <button class="iconbtn" id="sayBtn" style="width:32px;height:32px;display:inline-grid;vertical-align:middle;margin-left:6px">${ICON.sound}</button></div>
+      ${n.dev ? `<div class="dev" style="text-align:center">${esc(n.dev)}</div>` : ''}
+      <div class="dsay">say <b>${esc(n.say)}</b></div>
+      ${sayRowHTML(n, 'center')}
       <div class="dfull">${esc(n.name)} ${SURNAME} · ${initials(n)}${n.alt && n.alt.length ? ' · also spelled ' + esc(n.alt.join(', ')) : ''}</div>
       <div class="votes">
         <button class="nope ${my && my.v === 'dislike' ? 'on' : ''}" data-v="dislike">${ICON.nope}</button>
@@ -295,7 +324,7 @@
         <button class="btn ghost" id="storyBtn" style="margin-top:8px">${ICON.spark} ${story ? 'Ask Claude again' : 'Ask Claude about ' + esc(n.name)}</button>
       </div>
     `, 'detail');
-    $('#sayBtn').onclick = () => sayIt(n);
+    wireSayRow($('#sheetBody'), n);
     $$('.detail .votes button').forEach(b => b.onclick = () => {
       const kind = b.dataset.v;
       if (my && my.v === kind) { delete S.votes[id]; save(); retrain(); } else { vote(id, kind, true); }
@@ -559,7 +588,7 @@
   // ---------- Onboarding + boot ----------
   function onboard() {
     const o = $('#onboard'); o.style.display = 'flex'; let pick = null;
-    $('#onboardWho').innerHTML = Object.keys(PEOPLE).map(k => `<button data-me="${k}">${PEOPLE[k]}<small>${k === 'abodh' ? 'baba' : 'aai'}</small></button>`).join('');
+    $('#onboardWho').innerHTML = Object.keys(PEOPLE).map(k => `<button data-me="${k}">${PEOPLE[k]}</button>`).join('');
     $$('#onboardWho button').forEach(b => b.onclick = () => { pick = b.dataset.me; $$('#onboardWho button').forEach(x => x.classList.toggle('on', x === b)); $('#onboardGo').disabled = false; });
     $('#onboardGo').onclick = () => { S.me = pick; S.partner = partnerOf(pick); LS.set('me', pick); $('#whoLabel').textContent = PEOPLE[pick]; o.style.display = 'none'; buildQueue([]); renderDeck(); };
   }
