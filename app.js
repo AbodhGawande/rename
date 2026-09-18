@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 21;
-  const APP_BUILT = 'Sep 18, 2026 · 11:42 AM CDT';
+  const APP_VERSION = 22;
+  const APP_BUILT = 'Sep 18, 2026 · 12:23 PM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -23,7 +23,7 @@
     partnerFaceoffs: LS.get('partnerFaceoffs', []),
     extras: LS.get('extras', []),          // Claude-generated names (pool schema)
     stories: LS.get('stories', {}),        // id -> markdown-ish text
-    settings: Object.assign({ accent: 'sky', token: '', apiKey: '', maxSyl: 4, minSay: 50, hideCoined: false, hideKnown: false, letter: '', voiceUS: '', voiceIN: '', motion: true, lastSync: 0 }, LS.get('settings', {})),
+    settings: Object.assign({ accent: 'sky', token: '', apiKey: '', maxSyl: 4, minSay: 50, hideCoined: false, hideKnown: false, letter: '', voiceUS: '', voiceIN: '', motion: true, lastSync: 0, serverKey: true }, LS.get('settings', {})),
     pool: [], ssa: {}, exclude: [], names: [], byId: {},
     weights: {}, partnerWeights: {},
     queue: [], review: null, genText: '', history: [], tab: 'discover', listSeg: 'both', faceoffPair: null, generating: false, syncing: false,
@@ -240,9 +240,9 @@
         $('#reviewOff').onclick = () => { S.review = null; buildQueue([]); renderDeck(); };
       } else {
         deck.innerHTML = `<div class="empty glass"><div class="big">End of the list.</div><p class="muted">You've been through ${scope} — ${seen} so far${skipped.length ? `, ${skipped.length} of them parked as "later"` : ''}.</p>
-          ${skipped.length ? `<button class="btn ${S.settings.apiKey ? '' : 'primary'}" id="reviewOn" style="margin-bottom:10px">Go through the ${skipped.length} skipped names</button>` : ''}
-          ${S.settings.apiKey ? `<button class="btn primary" id="genHere" style="margin-bottom:10px" ${S.generating ? 'disabled' : ''}>${S.generating ? '<span class="spin"></span> ' + (S.genText || 'Claude is thinking…') : genLabel()}</button>` : ''}
-          <p class="mini">${S.settings.apiKey ? 'Claude reads both of your swipes and invents names in that direction. ' : 'Add your Claude key in Settings to generate more. '}${S.settings.letter ? 'Or clear the letter filter.' : 'Or loosen the filters in Settings.'}</p></div>`;
+          ${skipped.length ? `<button class="btn" id="reviewOn" style="margin-bottom:10px">Go through the ${skipped.length} skipped names</button>` : ''}
+          ${true ? `<button class="btn primary" id="genHere" style="margin-bottom:10px" ${S.generating ? 'disabled' : ''}>${S.generating ? '<span class="spin"></span> ' + (S.genText || 'Claude is thinking…') : ICON.spark + ' Generate 100 new names'}</button>` : ''}
+          <p class="mini">${'The mini asks Claude for names in the direction of your swipes — you can close the app while it works. '}${S.settings.letter ? 'Or clear the letter filter.' : 'Or loosen the filters in Settings.'}</p></div>`;
         if (skipped.length) $('#reviewOn').onclick = () => { S.review = new Set(skipped.map(n => n.id)); buildQueue([]); renderDeck(); toast('Reviewing skipped names'); };
         if ($('#genHere')) $('#genHere').onclick = () => generateMore('');
       }
@@ -399,9 +399,8 @@
     const ratedN = Object.values(S.votes).filter(v => v.v !== 'skip').length;
     $('#whyLine').textContent = ratedN < 6 ? 'Ranked on uniqueness and ease of saying for now — your taste kicks in after a few more swipes.' : fs.length ? fs.map(x => (x.w > 0 ? '+ ' : '− ') + Learn.label(x.f)).join(' · ') : 'A neutral pick for you — ranked on uniqueness and ease.';
     $('#storyBtn').onclick = async () => {
-      const key = S.settings.apiKey; if (!key) { toast('Add your Claude key in Settings first'); return; }
       const btn = $('#storyBtn'); btn.disabled = true; btn.innerHTML = '<span class="spin"></span> Asking Claude…';
-      try { const t = await Claude.story(key, n); S.stories[id] = t; save(); $('#storyBox').innerHTML = fmtStory(t); btn.innerHTML = ICON.spark + ' Ask Claude again'; scheduleSync(); }
+      try { const r = await API.story(id, n); S.stories[id] = r.text; save(); $('#storyBox').innerHTML = fmtStory(r.text); btn.innerHTML = ICON.spark + ' Ask Claude again'; }
       catch (e) { toast('Claude: ' + e.message); btn.innerHTML = ICON.spark + ' Try again'; }
       btn.disabled = false;
     };
@@ -492,7 +491,7 @@
     const mine = Learn.explain(S.weights, S.names, S.votes, 10);
     const theirs = Learn.explain(S.partnerWeights, S.names, S.partnerVotes, 6);
     const bars = rows => rows.length ? `<div class="bars">${rows.map(r => `<div class="bar"><span class="k">${esc(r.label)}</span><span class="t"><i class="${r.w < 0 ? 'neg' : ''}" style="width:${Math.min(50, Math.abs(r.w) * 18)}%;${r.w < 0 ? 'left:auto;right:50%' : ''}"></i></span><span class="v">${r.w > 0 ? '+' : ''}${r.w.toFixed(1)}</span></div>`).join('')}</div>` : '<p class="muted small">Not enough swipes yet — rate 10 or so names and the pattern appears here.</p>';
-    const genOK = !!S.settings.apiKey;
+    const genOK = true;
     $('#taste').innerHTML = `
       <h2 class="title">Your taste</h2>
       <div class="panel glass"><div class="kv">
@@ -503,75 +502,16 @@
       <div class="panel glass"><h3>What ${PEOPLE[S.me]} leans toward</h3>${bars(mine)}</div>
       ${Object.keys(S.partnerVotes).length ? `<div class="panel glass"><h3>What ${PEOPLE[S.partner]} leans toward</h3>${bars(theirs)}</div>` : ''}
       <div class="panel glass"><h3>${ICON.spark} Ask Claude for more</h3>
-        <p class="muted small" style="margin:0 0 10px">Claude reads both of your swipes and reasons, then invents about 100 new names in that direction — checked against real US baby-name counts. They show up in Discover with a ✦.</p>
+        <p class="muted small" style="margin:0 0 10px">The Mac mini asks Claude for about 100 new names in the direction of both your swipes, checks each one (boys only, not common, not your parents' generation, meaning verified), adds the Devanagari, and drops them into Discover with a ✦ — you can close the app while it works.</p>
         <input class="text" id="direction" placeholder="Optional steer, e.g. “more Marathi words”, “2 syllables only”, “names about the sky”" style="margin-bottom:10px">
-        <button class="btn primary" id="genBtn" ${genOK ? '' : 'disabled'}>${S.generating ? '<span class="spin"></span> ' + (S.genText || 'Claude is thinking…') : genLabel()}</button>
-        ${genOK ? '<div class="status">About 8–10 minutes in four batches (two at a time) — it only runs while the app is open, and the screen stays on. If you leave, what already arrived is kept and the button offers to resume.</div>' : '<div class="status">Add your Claude API key in Settings to enable this.</div>'}
+        <button class="btn primary" id="genBtn" ${genOK ? '' : 'disabled'}>${S.generating ? '<span class="spin"></span> ' + (S.genText || 'Claude is thinking…') : ICON.spark + ' Generate 100 new names'}</button>
+        <div class="status">Takes 10–15 minutes on the mini. Come back any time — new names appear as each batch lands.</div>
         <div class="status" id="genStatus">${S.extras.length ? S.extras.length + ' Claude-suggested names in the pool so far.' : ''}</div>
       </div>
       <div class="panel glass"><h3>How names are ranked</h3><p class="muted small" style="margin:0">Every name starts with a score from <b>uniqueness</b> (real Social Security counts — how many US boys got the name in 2024) and <b>ease of saying</b> for non-Indian Americans, plus a little for freshness. Your swipes train a small model on syllables, endings, sounds, themes and origins — that pushes names you'd probably like to the front. ${PEOPLE[S.partner]}'s likes get a boost too, so you converge instead of drifting apart.</p></div>
       <div style="height:20px"></div>`;
-    if (genOK) $('#genBtn').onclick = () => generateMore($('#direction').value.trim());
+    $('#genBtn').onclick = () => generateMore($('#direction').value.trim());
   }
-  let wakeLock = null;
-  async function keepAwake(on) {
-    try { if (on && 'wakeLock' in navigator && !wakeLock) wakeLock = await navigator.wakeLock.request('screen'); if (!on && wakeLock) { await wakeLock.release(); wakeLock = null; } } catch (e) {}
-  }
-  function genProgress(text) {
-    S.genText = text; const st = $('#genStatus'); if (st) st.textContent = text;
-    const b = $('#genBtn'); if (b && S.generating) b.innerHTML = '<span class="spin"></span> ' + text;
-    const d = $('#genHere'); if (d && S.generating) d.innerHTML = '<span class="spin"></span> ' + text;
-  }
-  // A run that was interrupted (app closed / phone asleep) is remembered so it can pick up where it stopped.
-  const pendingGen = () => LS.get('genPending', null);
-  function genLabel() {
-    const p = pendingGen();
-    return p ? `${ICON.spark} Resume — ${4 - p.done} of 4 batches left` : ICON.spark + ' Generate 100 new names';
-  }
-  async function generateMore(direction) {
-    if (S.generating) return;
-    const pending = pendingGen();
-    const startAt = pending ? pending.done : 0;
-    if (pending && !direction) direction = pending.direction || '';
-    S.generating = true; renderTaste(); if (S.tab === 'discover') renderDeck(); $('#syncBtn').classList.add('busy');
-    keepAwake(true);
-    // 100 names = four batches of 25, one after another (parallel calls hit the rate limit), each nudged
-    // toward a different corner of the space; every batch lands in the deck as soon as it arrives.
-    const angles = ['short, crisp 2-syllable names with clean sounds', 'nature, sky, light and music words', 'Marathi-heritage words and lesser-known epic/sage names', 'fresh coinages and rare Sanskrit vocabulary'];
-    let added = pending ? pending.added || 0 : 0, failed = 0;
-    const absorb = out => {   // save a finished batch straight into the deck
-      const seen = new Set(S.names.map(n => n.id));
-      const fresh = out.filter(n => !seen.has(n.id));
-      fresh.forEach(scoreExtra);
-      S.extras = S.extras.concat(fresh); added += fresh.length; save(); rebuildNames();
-      buildQueue(S.queue.slice(0, 3).map(n => n.id)); if (S.tab === 'discover') renderDeck();
-    };
-    const runBatch = async i => {
-      const ctx = { apiKey: S.settings.apiKey, names: S.names, exclude: S.exclude, votes: S.votes, partnerVotes: S.partnerVotes, me: PEOPLE[S.me], partner: PEOPLE[S.partner], explain: Learn.explain(S.weights, S.names, S.votes, 8), count: 25, direction: [direction, 'Lean this batch toward ' + angles[i] + '.'].filter(Boolean).join(' ') };
-      for (let attempt = 0; attempt < 2; attempt++) {
-        try { const out = await Claude.generate(ctx); absorb(out); return true; }
-        catch (e) { if (/rate|429|overloaded|529/i.test(e.message)) { genProgress('Rate limit — waiting a minute…'); await new Promise(r => setTimeout(r, 65000)); } else if (attempt) toast('Claude: ' + e.message); }
-      }
-      return false;
-    };
-    try {
-      // two batches at a time: half the wait, and two calls stay well inside the rate limit
-      for (let i = startAt; i < angles.length; i += 2) {
-        LS.set('genPending', { direction, done: i, added });
-        genProgress(`Batches ${i + 1}–${Math.min(i + 2, 4)} of 4 · ${added} new so far`);
-        const pair = [runBatch(i)]; if (i + 1 < angles.length) pair.push(runBatch(i + 1));
-        const ok = await Promise.all(pair);
-        failed += ok.filter(x => !x).length;
-        genProgress(`${added} new so far`);
-      }
-      LS.set('genPending', null);
-      if (!added) throw new Error('No new names came back' + (failed ? ' — ' + failed + ' batches failed (rate limit or the app was put to sleep). Try again with the screen on.' : '.'));
-      toast(`Claude added ${added} new names` + (failed ? ` · ${failed} of 4 batches failed — tap Generate again for more` : ''));
-      scheduleSync(0);
-    } catch (e) { toast('Claude: ' + e.message); }
-    S.generating = false; S.genText = ''; keepAwake(false); $('#syncBtn').classList.remove('busy'); renderTaste(); if (S.tab === 'discover') renderDeck();
-  }
-
   // ---------- Add your own name ----------
   function toExtra(o, name) {
     const id = name.toLowerCase().replace(/[^a-z]/g, '');
@@ -588,7 +528,7 @@
     openSheet(`<h2 class="title">Add a name you found</h2>
       <p class="muted small" style="margin:0 0 10px">It joins the pool as your own find, is marked as liked by you, and syncs to ${PEOPLE[S.partner]}'s phone.</p>
       <input class="text" id="addName" placeholder="Name, e.g. Anvay" autocapitalize="words" autocomplete="off" value="${esc(prefill || '')}">
-      <div class="btnrow" style="margin:10px 0"><button class="btn ghost" id="addLookup" ${S.settings.apiKey ? '' : 'disabled'}>${ICON.spark} Fill in with Claude</button></div>
+      <div class="btnrow" style="margin:10px 0"><button class="btn ghost" id="addLookup">${ICON.spark} Fill in with Claude</button></div>
       <div id="addPreview"></div>
       <div class="field"><div class="eyebrow">Meaning (optional if Claude fills it)</div><input class="text" id="addMeaning" placeholder="e.g. connection, harmony"></div>
       <div class="field"><div class="eyebrow">In Devanagari (optional)</div><input class="text" id="addDev" placeholder="अन्वय"></div>
@@ -601,7 +541,7 @@
       const name = $('#addName').value.trim(); if (!name) { toast('Type the name first'); return; }
       const b = $('#addLookup'); b.disabled = true; b.innerHTML = '<span class="spin"></span> Asking Claude…';
       try {
-        looked = await Claude.lookup(S.settings.apiKey, name);
+        looked = await API.lookup(name);
         $('#addMeaning').value = looked.meaning || ''; $('#addDev').value = looked.dev || '';
         $('#addPreview').innerHTML = `<div class="panel glass" style="padding:12px"><div class="mini">say <b style="color:var(--accent)">${esc(looked.say)}</b> · ${looked.syllables} syl · ${esc(looked.origin)} · ${esc(looked.root)}</div>${looked.collisions ? `<div class="mini" style="color:var(--gold);margin-top:4px">⚠︎ ${esc(looked.collisions)}</div>` : ''}${looked.note ? `<div class="mini" style="margin-top:4px">${esc(looked.note)}</div>` : ''}</div>`;
       } catch (e) { toast('Claude: ' + e.message); }
@@ -617,6 +557,7 @@
         n.meaning = $('#addMeaning').value.trim() || n.meaning; n.dev = $('#addDev').value.trim() || n.dev;
         const where = $('#addNote').value.trim(); if (where) n.note = (n.note ? n.note + ' · ' : '') + where;
         scoreExtra(n); S.extras.push(n); rebuildNames();
+        API.addExtras([n]).catch(e => toast('Mini: ' + e.message));
       }
       vote(id, kind, true);
       buildQueue(S.queue.slice(0, 3).map(x => x.id)); refreshAll(true); closeSheet();
@@ -669,16 +610,10 @@
         <div class="setting"><div class="l"><b>Hide coined names</b><span>Only names with a traditional track record.</span></div><button class="toggle ${st.hideCoined ? 'on' : ''}" id="tCoined"></button></div>
         <div class="setting"><div class="l"><b>Hide better-known names</b><span>Only names under ~25 US boys a year.</span></div><button class="toggle ${st.hideKnown ? 'on' : ''}" id="tKnown"></button></div>
       </div>
-      <div class="panel glass"><h3>Sync with ${PEOPLE[S.partner]}</h3>
-        <p class="muted small" style="margin:0 0 8px">Votes travel through the private GitHub repo <b>${Sync.OWNER}/${Sync.REPO}</b>. Paste a fine-grained token with <b>Contents: read &amp; write</b> on that one repo.</p>
-        <input class="text" id="tokenBox" type="password" placeholder="github_pat_…" value="${esc(st.token)}" autocapitalize="off" autocomplete="off">
-        <div class="status" id="tokenStatus">${st.lastSync ? 'Last synced ' + new Date(st.lastSync).toLocaleString() : 'Not connected yet'}</div>
-        <div class="btnrow" style="margin-top:10px"><button class="btn" id="tokenTest">Connect &amp; sync</button></div>
-      </div>
-      <div class="panel glass"><h3>Claude</h3>
-        <p class="muted small" style="margin:0 0 8px">Your Anthropic API key powers “Ask Claude for more” and the deeper stories. It stays on this phone.</p>
-        <input class="text" id="keyBox" type="password" placeholder="sk-ant-…" value="${esc(st.apiKey)}" autocapitalize="off" autocomplete="off">
-        <div class="status" id="keyStatus">${st.apiKey ? 'Key saved · model ' + Claude.MODEL : 'No key yet'}</div>
+      <div class="panel glass"><h3>The mini</h3>
+        <p class="muted small" style="margin:0 0 6px">This app lives on the Mac mini at home. Votes from both phones, Claude's work and the name pool all sit there; the phone keeps a copy for when the mini is out of reach.</p>
+        <div class="status ${S.online ? 'ok' : 'err'}" id="serverStatus">${S.online ? 'Connected' : 'Not reachable right now'}${st.lastSync ? ' · last sync ' + new Date(st.lastSync).toLocaleString() : ''}</div>
+        <div class="btnrow" style="margin-top:10px"><button class="btn" id="syncNow">Sync now</button></div>
       </div>
       <div class="panel glass"><h3>Voices</h3>
         <p class="muted small" style="margin:0 0 8px">Which of the phone's voices the two buttons use. Best result: pick the voice you like under Settings → Accessibility → Spoken Content → Voices (Hindi and English), keep the "Phone's … voice" choice below, and the app inherits it.</p>
@@ -704,16 +639,7 @@
     $('#tMotion').onclick = e => { S.settings.motion = !S.settings.motion; e.target.classList.toggle('on'); save(); applyMotion(); };
     $('#tCoined').onclick = e => { S.settings.hideCoined = !S.settings.hideCoined; e.target.classList.toggle('on'); save(); refreshAll(); };
     $('#tKnown').onclick = e => { S.settings.hideKnown = !S.settings.hideKnown; e.target.classList.toggle('on'); save(); refreshAll(); };
-    $('#tokenBox').onchange = e => { S.settings.token = e.target.value.trim(); save(); };
-    $('#keyBox').onchange = e => { S.settings.apiKey = e.target.value.trim(); save(); $('#keyStatus').textContent = S.settings.apiKey ? 'Key saved · model ' + Claude.MODEL : 'No key yet'; };
-    $('#tokenTest').onclick = async () => {
-      S.settings.token = $('#tokenBox').value.trim(); save();
-      const s = $('#tokenStatus'); s.className = 'status';
-      if (!S.settings.token) { s.textContent = 'Paste a token first.'; return; }
-      s.innerHTML = '<span class="spin"></span> Checking…';
-      try { await Sync.check(S.settings.token); await doSync(); s.className = 'status ok'; s.textContent = 'Connected · synced just now'; }
-      catch (e) { s.className = 'status err'; s.textContent = e.message; }
-    };
+    $('#syncNow').onclick = async () => { await doSync(); openSettings(); };
     $('#voiceIN').onchange = e => { S.settings.voiceIN = e.target.value; save(); };
     $('#voiceUS').onchange = e => { S.settings.voiceUS = e.target.value; save(); };
     const demo = S.queue[0] || S.names[0] || { name: 'Anvay', say: 'UN-vay', dev: 'अन्वय' };
@@ -721,7 +647,7 @@
     $('#voiceTestIN').onclick = () => sayIN(demo);
     $('#voiceTestUS').onclick = () => sayUS(demo);
     $('#exportBtn').onclick = async () => {
-      const blob = JSON.stringify({ rename: APP_VERSION, me: S.me, votes: S.votes, faceoffs: S.faceoffs, extras: S.extras, stories: S.stories, settings: Object.assign({}, S.settings, { token: '', apiKey: '' }) });
+      const blob = JSON.stringify({ rename: APP_VERSION, me: S.me, votes: S.votes, faceoffs: S.faceoffs, extras: S.extras, stories: S.stories, settings: Object.assign({}, S.settings) });
       try { await navigator.clipboard.writeText(blob); toast('Backup copied — paste it somewhere safe'); }
       catch (e) { openSheet(`<h2 class="title">Backup</h2><textarea class="note" style="min-height:200px">${esc(blob)}</textarea><p class="mini">Select all and copy.</p>`); }
     };
@@ -736,12 +662,11 @@
       };
     };
     $('#resetBtn').onclick = () => {
-      openSheet(`<h2 class="title">Clear my votes?</h2><p class="muted">This wipes ${PEOPLE[S.me]}'s swipes, notes and face-offs on this phone. ${S.settings.token ? 'The next sync will also clear them in the shared repo.' : ''}</p><div class="btnrow"><button class="btn ghost" id="noReset">Keep</button><button class="btn danger" id="yesReset">Clear</button></div>`);
+      openSheet(`<h2 class="title">Clear my votes?</h2><p class="muted">This wipes ${PEOPLE[S.me]}'s swipes, notes and face-offs — on this phone and on the mini.</p><div class="btnrow"><button class="btn ghost" id="noReset">Keep</button><button class="btn danger" id="yesReset">Clear</button></div>`);
       $('#noReset').onclick = openSettings;
-      $('#yesReset').onclick = () => { S.votes = {}; S.faceoffs = []; S.history = []; save(); retrain(); buildQueue([]); refreshAll(); closeSheet(); toast('Cleared'); resetWritten = true; };
+      $('#yesReset').onclick = () => { S.votes = {}; S.faceoffs = []; S.history = []; save(); retrain(); buildQueue([]); refreshAll(); closeSheet(); toast('Cleared'); doSync(true); };
     };
   }
-  let resetWritten = false;
   function applyAccent() { document.documentElement.dataset.accent = S.settings.accent; }
   // Settings → Moving aurora: live CSS animation on, or everything held still.
   function applyMotion() { document.documentElement.classList.toggle('motion-off', !S.settings.motion); }
@@ -753,22 +678,45 @@
     $('#whoLabel').textContent = PEOPLE[me];
   }
 
-  // ---------- Sync orchestration ----------
+  // ---------- Server sync (Mac mini) ----------
   let syncTimer = null;
-  function scheduleSync(ms) { if (!S.settings.token) return; clearTimeout(syncTimer); syncTimer = setTimeout(doSync, ms == null ? 4000 : ms); }
-  async function doSync() {
-    if (!S.settings.token || S.syncing) return; S.syncing = true; $('#syncBtn').classList.add('busy');
-    try {
-      const res = await Sync.syncAll(S.settings.token, { me: S.me, partner: S.partner, votes: S.votes, faceoffs: S.faceoffs, extras: S.extras, stories: S.stories });
-      if (resetWritten) resetWritten = false;
-      S.votes = res.votes; S.faceoffs = res.faceoffs; S.partnerVotes = res.partnerVotes; S.partnerFaceoffs = res.partnerFaceoffs; S.stories = res.stories;
-      const before = S.extras.length; S.extras = res.extras; if (S.extras.length !== before) { rebuildNames(); }
-      if (res.secrets && res.secrets.anthropicKey && !S.settings.apiKey) { S.settings.apiKey = res.secrets.anthropicKey; }
-      S.settings.lastSync = Date.now(); save(); retrain(); buildQueue(S.queue.slice(0, 3).map(n => n.id)); refreshAll(true);
-    } catch (e) { toast('Sync: ' + e.message); }
-    S.syncing = false; $('#syncBtn').classList.remove('busy');
+  function scheduleSync(ms) { clearTimeout(syncTimer); syncTimer = setTimeout(doSync, ms == null ? 2500 : ms); }
+  function adopt(res) {
+    S.votes = res.votes || {}; S.faceoffs = res.faceoffs || []; S.partnerVotes = res.partnerVotes || {}; S.partnerFaceoffs = res.partnerFaceoffs || [];
+    S.stories = res.stories || {};
+    const before = S.extras.length; S.extras = res.extras || [];
+    if (res.job) applyJob(res.job);
+    S.settings.lastSync = Date.now(); S.online = true; save(); retrain();
+    if (S.extras.length !== before) rebuildNames();
   }
-  $('#syncBtn').onclick = () => { if (!S.settings.token) { openSettings(); toast('Connect sync first'); } else { doSync(); toast('Syncing…'); } };
+  async function doSync(reset) {
+    if (S.syncing || !S.me) return; S.syncing = true; $('#syncBtn').classList.add('busy');
+    try {
+      const res = await API.pushVotes(S.me, S.votes, S.faceoffs, reset);
+      adopt(res);
+      buildQueue(S.queue.slice(0, 3).map(n => n.id)); refreshAll(true);
+    } catch (e) { S.online = false; toast('Mini not reachable — ' + e.message); }
+    S.syncing = false; $('#syncBtn').classList.remove('busy'); $('#syncBtn').classList.toggle('offline', !S.online);
+  }
+  $('#syncBtn').onclick = () => { doSync(); toast('Syncing with the mini…'); };
+  // Generation runs on the mini; the phone just watches the job.
+  let jobTimer = null;
+  function applyJob(job) {
+    const was = S.generating;
+    S.generating = job.status === 'running'; S.genText = job.text || '';
+    if (S.generating && !jobTimer) jobTimer = setInterval(pollJob, 5000);
+    if (!S.generating && jobTimer) { clearInterval(jobTimer); jobTimer = null; }
+    if (was && !S.generating) { toast(job.status === 'done' ? (job.text || 'Claude finished') : 'Claude: ' + (job.error || 'failed')); API.dismissJob().catch(() => {}); }
+  }
+  async function pollJob() {
+    try { const job = await API.job(); const running = job.status === 'running'; applyJob(job); if (!running || job.added !== S.jobAdded) { S.jobAdded = job.added; const res = await API.state(S.me); adopt(res); buildQueue(S.queue.slice(0, 3).map(n => n.id)); }
+      renderTaste(); if (S.tab === 'discover') renderDeck(); } catch (e) {}
+  }
+  async function generateMore(direction) {
+    if (S.generating) return;
+    try { const job = await API.generate(S.me, direction, 100); applyJob(job); toast('Claude is working on the mini — you can close the app'); renderTaste(); if (S.tab === 'discover') renderDeck(); }
+    catch (e) { toast('Mini: ' + e.message); }
+  }
 
   // ---------- Tabs / refresh ----------
   function showTab(t) {
@@ -785,7 +733,7 @@
   $('#settingsBtn').onclick = openSettings;
   $('#undoBtn').onclick = undo;
   $$('.deckbtns [data-vote]').forEach(b => b.onclick = () => { const c = $('.card.top'); if (!c) return; if (b.dataset.vote === 'skip') vote(c.dataset.id, 'skip'); else flyOff(c, b.dataset.vote); });
-  document.addEventListener('visibilitychange', () => { if (!document.hidden && S.settings.token && Date.now() - S.settings.lastSync > 60000) doSync(); });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) doSync(); });
   // Keyboard (Mac preview / iPad keyboard)
   document.addEventListener('keydown', e => {
     if ($('#sheetwrap').classList.contains('on') || /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
@@ -798,7 +746,7 @@
     const o = $('#onboard'); o.style.display = 'flex'; let pick = null;
     $('#onboardWho').innerHTML = Object.keys(PEOPLE).map(k => `<button data-me="${k}">${PEOPLE[k]}</button>`).join('');
     $$('#onboardWho button').forEach(b => b.onclick = () => { pick = b.dataset.me; $$('#onboardWho button').forEach(x => x.classList.toggle('on', x === b)); $('#onboardGo').disabled = false; });
-    $('#onboardGo').onclick = () => { S.me = pick; S.partner = partnerOf(pick); LS.set('me', pick); $('#whoLabel').textContent = PEOPLE[pick]; o.style.display = 'none'; buildQueue([]); renderDeck(); };
+    $('#onboardGo').onclick = () => { S.me = pick; S.partner = partnerOf(pick); LS.set('me', pick); $('#whoLabel').textContent = PEOPLE[pick]; o.style.display = 'none'; buildQueue([]); renderDeck(); doSync(); };
   }
   // iOS Home-Screen mode reports a viewport shorter than the screen (a black band under the tab bar),
   // so pin the app to the real screen size there. Same fix as Tote.
@@ -813,14 +761,10 @@
   async function boot() {
     applyAccent(); fitStandalone(); applyMotion();
     await loadData();
-    if (!S.me) onboard(); else { S.partner = partnerOf(S.me); $('#whoLabel').textContent = PEOPLE[S.me]; buildQueue([]); renderDeck(); if (S.settings.token) doSync(); }
-    if ('serviceWorker' in navigator) {
+    if (!S.me) onboard(); else { S.partner = partnerOf(S.me); $('#whoLabel').textContent = PEOPLE[S.me]; buildQueue([]); renderDeck(); doSync(); }
+    if ('serviceWorker' in navigator && window.isSecureContext) {
       navigator.serviceWorker.register('sw.js').catch(() => {});
       let reloaded = false; navigator.serviceWorker.addEventListener('controllerchange', () => { if (!reloaded) { reloaded = true; location.reload(); } });
-    }
-    // A setup link (#setup=…) from Abodh's Mac pre-fills the tokens once, then is removed from the URL.
-    if (location.hash.startsWith('#setup=')) {
-      try { const j = JSON.parse(atob(decodeURIComponent(location.hash.slice(7)))); if (j.token) S.settings.token = j.token; if (j.apiKey) S.settings.apiKey = j.apiKey; if (j.me && PEOPLE[j.me]) { S.me = j.me; S.partner = partnerOf(j.me); LS.set('me', j.me); $('#whoLabel').textContent = PEOPLE[j.me]; $('#onboard').style.display = 'none'; buildQueue([]); renderDeck(); } save(); history.replaceState(null, '', location.pathname); toast('Set up ✓ — syncing'); doSync(); } catch (e) {}
     }
   }
   window.__rename = S;
