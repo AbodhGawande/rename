@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 6;
-  const APP_BUILT = 'Sep 18, 2026 · 8:46 AM CDT';
+  const APP_VERSION = 7;
+  const APP_BUILT = 'Sep 18, 2026 · 8:51 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -135,14 +135,20 @@
   // Voice choice: a voice picked in Settings wins; otherwise the best-quality one we can spot by name
   // (Premium > Enhanced > plain). For the Indian button Hindi is preferred over Marathi because the
   // Marathi voice on iPhones is the robotic compact one and the Hindi premium voice reads Devanagari well.
-  const quality = v => (/premium/i.test(v.name) ? 3 : /enhanced/i.test(v.name) ? 2 : /siri/i.test(v.name) ? 2 : 1);
+  // iPhone hides quality in voiceURI (com.apple.voice.premium|enhanced|compact.xx-XX.Name); Mac puts it in the name.
+  const quality = v => (/premium/i.test(v.voiceURI + v.name) ? 3 : /enhanced|siri/i.test(v.voiceURI + v.name) ? 2 : 1);
+  const tier = v => ['', 'Standard', 'Enhanced', 'Premium'][quality(v)];
+  // Drop the novelty voices (Jester, Zarvox, Organ…) when real ones exist.
+  const isReal = v => !/speech\.synthesis\.voice|eloquence/i.test(v.voiceURI) && !/^(bad news|bahh|bells|boing|bubbles|cellos|good news|jester|junior|kathy|organ|ralph|superstar|trinoids|whisper|wobble|zarvox|albert|fred|eddy|flo|grandma|grandpa|reed|rocko|sandy|shelley|nicky)\b/i.test(v.name);
   function pickVoice(kind) {
     const wanted = S.settings[kind === 'us' ? 'voiceUS' : 'voiceIN'];
-    if (wanted) { const v = voices.find(x => x.name + '|' + x.lang === wanted); if (v) return v; }
-    const pool = kind === 'us'
-      ? voices.filter(x => /^en[-_]US/i.test(x.lang)).concat(voices.filter(x => /^en/i.test(x.lang)))
+    if (wanted) { const v = voices.find(x => x.voiceURI === wanted) || voices.find(x => x.name + '|' + x.lang === wanted); if (v) return v; }
+    let pool = kind === 'us'
+      ? voices.filter(x => /^en[-_]US/i.test(x.lang)).concat(voices.filter(x => /^en/i.test(x.lang) && !/^en[-_]US/i.test(x.lang)))
       : voices.filter(x => /^hi/i.test(x.lang)).concat(voices.filter(x => /^mr/i.test(x.lang)));
-    return pool.sort((a, b) => quality(b) - quality(a))[0];
+    const real = pool.filter(isReal); if (real.length) pool = real;
+    // stable sort: best quality first, original (language) order otherwise
+    return pool.map((v, i) => ({ v, i })).sort((a, b) => quality(b.v) - quality(a.v) || a.i - b.i).map(x => x.v)[0];
   }
   function sayUS(n) { speak((n.say || n.name).replace(/-/g, ' ').toLowerCase(), 'en-US', pickVoice('us'), 0.85); }
   function sayIN(n) {
@@ -152,13 +158,14 @@
   }
   function voiceOptions(kind) {
     let list = kind === 'us' ? voices.filter(x => /^en/i.test(x.lang)) : voices.filter(x => /^(hi|mr)/i.test(x.lang));
-    // Only the good ones when the engine labels quality (iPhone shows one entry per voice and
-    // automatically uses the premium/enhanced download under that same name).
-    const good = list.filter(x => quality(x) >= 2);
-    if (good.length) list = good;
+    const real = list.filter(isReal); if (real.length) list = real;
+    const good = list.filter(x => quality(x) >= 2); if (good.length) list = good;   // premium/enhanced only, when any exist
     const cur = pickVoice(kind);
     if (cur && !list.includes(cur)) list.unshift(cur);
-    return list.map(v => `<option value="${esc(v.name + '|' + v.lang)}" ${cur && cur.name === v.name && cur.lang === v.lang ? 'selected' : ''}>${esc(v.name)} · ${esc(v.lang)}</option>`).join('');
+    const seen = new Set();
+    return list.filter(v => { const k = v.voiceURI || v.name + v.lang; if (seen.has(k)) return false; seen.add(k); return true; })
+      .sort((a, b) => quality(b) - quality(a))
+      .map(v => `<option value="${esc(v.voiceURI || v.name + '|' + v.lang)}" ${cur === v ? 'selected' : ''}>${esc(v.name)} · ${tier(v)} · ${esc(v.lang)}</option>`).join('');
   }
   const sayIt = sayUS;
   function sayRowHTML(n, cls) {
@@ -544,12 +551,13 @@
         <div class="status" id="keyStatus">${st.apiKey ? 'Key saved · model ' + Claude.MODEL : 'No key yet'}</div>
       </div>
       <div class="panel glass"><h3>Voices</h3>
-        <p class="muted small" style="margin:0 0 8px">Which of the phone's voices the two buttons use. Download better ones under Settings → Accessibility → Spoken Content → Voices, then reopen the app.</p>
+        <p class="muted small" style="margin:0 0 8px">Which of the phone's voices the two buttons use. Download better ones under Settings → Accessibility → Spoken Content → Voices, then <b>close the app fully and reopen it</b> — the phone hands over the voice list only at launch.</p>
         <div class="setting"><div class="l"><b>Marathi button</b><span>Reads the Devanagari. iPhone lists one voice per language and uses the premium download automatically once installed.</span></div></div>
         <select class="text" id="voiceIN" style="margin:-4px 0 10px">${voiceOptions('in') || '<option>No Hindi/Marathi voice found</option>'}</select>
         <div class="setting"><div class="l"><b>English button</b><span>Reads the respelling the American way.</span></div></div>
         <select class="text" id="voiceUS" style="margin:-4px 0 4px">${voiceOptions('us') || '<option>No English voice found</option>'}</select>
         <div class="btnrow" style="margin-top:8px"><button class="btn ghost" id="voiceTestIN">▶ Test Marathi</button><button class="btn ghost" id="voiceTestUS">▶ Test English</button></div>
+        <button class="btn ghost" id="voiceReload" style="margin-top:8px">↻ Re-scan voices (${voices.length} found)</button>
       </div>
       <div class="panel glass"><h3>Backup</h3>
         <div class="btnrow"><button class="btn ghost" id="exportBtn">Copy backup</button><button class="btn ghost" id="importBtn">Paste backup</button></div>
@@ -578,6 +586,7 @@
     $('#voiceIN').onchange = e => { S.settings.voiceIN = e.target.value; save(); };
     $('#voiceUS').onchange = e => { S.settings.voiceUS = e.target.value; save(); };
     const demo = S.queue[0] || S.names[0] || { name: 'Anvay', say: 'UN-vay', dev: 'अन्वय' };
+    $('#voiceReload').onclick = () => { loadVoices(); const n = voices.length; openSettings(); toast(n + ' voices on this phone — if a new download is missing, close the app fully and reopen'); $('#sheetBody').scrollTop = $('#voiceReload').offsetTop - 200; };
     $('#voiceTestIN').onclick = () => sayIN(demo);
     $('#voiceTestUS').onclick = () => sayUS(demo);
     $('#exportBtn').onclick = async () => {
