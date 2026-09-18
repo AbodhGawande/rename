@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 20;
-  const APP_BUILT = 'Sep 18, 2026 · 10:57 AM CDT';
+  const APP_VERSION = 21;
+  const APP_BUILT = 'Sep 18, 2026 · 11:42 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -572,6 +572,88 @@
     S.generating = false; S.genText = ''; keepAwake(false); $('#syncBtn').classList.remove('busy'); renderTaste(); if (S.tab === 'discover') renderDeck();
   }
 
+  // ---------- Add your own name ----------
+  function toExtra(o, name) {
+    const id = name.toLowerCase().replace(/[^a-z]/g, '');
+    return {
+      id, name: name[0].toUpperCase() + name.slice(1), dev: o.dev || '', alt: (o.alt || []).slice(0, 4), say: o.say || '', syllables: +o.syllables || 2,
+      meaning: o.meaning || '', root: o.root || '', origin: o.origin || 'Sanskrit', category: o.category || 'coined',
+      themes: (o.themes || []).map(t => String(t).toLowerCase()).slice(0, 3), sayability: Math.max(10, Math.min(100, (+o.sayability || 7) * 10)),
+      say_note: o.say_note || '', tradition: o.tradition || 'traditional', region: o.region || 'pan-Indian', collisions: o.collisions || '',
+      nicknames: (o.nicknames || []).slice(0, 4), confidence: o.confidence || 'medium', note: o.note || '',
+      us: null, unique: null, fresh: 70, generated: Date.now(), by: PEOPLE[S.me], custom: true,
+    };
+  }
+  function openAddName(prefill) {
+    openSheet(`<h2 class="title">Add a name you found</h2>
+      <p class="muted small" style="margin:0 0 10px">It joins the pool as your own find, is marked as liked by you, and syncs to ${PEOPLE[S.partner]}'s phone.</p>
+      <input class="text" id="addName" placeholder="Name, e.g. Anvay" autocapitalize="words" autocomplete="off" value="${esc(prefill || '')}">
+      <div class="btnrow" style="margin:10px 0"><button class="btn ghost" id="addLookup" ${S.settings.apiKey ? '' : 'disabled'}>${ICON.spark} Fill in with Claude</button></div>
+      <div id="addPreview"></div>
+      <div class="field"><div class="eyebrow">Meaning (optional if Claude fills it)</div><input class="text" id="addMeaning" placeholder="e.g. connection, harmony"></div>
+      <div class="field"><div class="eyebrow">In Devanagari (optional)</div><input class="text" id="addDev" placeholder="अन्वय"></div>
+      <div class="field"><div class="eyebrow">Where you found it (optional)</div><input class="text" id="addNote" placeholder="e.g. Aaji suggested it"></div>
+      <div class="btnrow"><button class="btn" id="addLike">♥ Add & like</button><button class="btn primary" id="addLove">★ Add & love</button></div>
+      <div class="status" id="addStatus"></div>`);
+    let looked = null;
+    const idOf = () => $('#addName').value.trim().toLowerCase().replace(/[^a-z]/g, '');
+    $('#addLookup').onclick = async () => {
+      const name = $('#addName').value.trim(); if (!name) { toast('Type the name first'); return; }
+      const b = $('#addLookup'); b.disabled = true; b.innerHTML = '<span class="spin"></span> Asking Claude…';
+      try {
+        looked = await Claude.lookup(S.settings.apiKey, name);
+        $('#addMeaning').value = looked.meaning || ''; $('#addDev').value = looked.dev || '';
+        $('#addPreview').innerHTML = `<div class="panel glass" style="padding:12px"><div class="mini">say <b style="color:var(--accent)">${esc(looked.say)}</b> · ${looked.syllables} syl · ${esc(looked.origin)} · ${esc(looked.root)}</div>${looked.collisions ? `<div class="mini" style="color:var(--gold);margin-top:4px">⚠︎ ${esc(looked.collisions)}</div>` : ''}${looked.note ? `<div class="mini" style="margin-top:4px">${esc(looked.note)}</div>` : ''}</div>`;
+      } catch (e) { toast('Claude: ' + e.message); }
+      b.disabled = false; b.innerHTML = ICON.spark + ' Fill in with Claude';
+    };
+    const add = kind => {
+      const name = $('#addName').value.trim(); const id = idOf();
+      if (!id) { toast('Type a name'); return; }
+      let n = S.byId[id];
+      if (!n) {
+        n = toExtra(looked || {}, name);
+        if (!looked) { n.meaning = $('#addMeaning').value.trim(); n.say = name; }
+        n.meaning = $('#addMeaning').value.trim() || n.meaning; n.dev = $('#addDev').value.trim() || n.dev;
+        const where = $('#addNote').value.trim(); if (where) n.note = (n.note ? n.note + ' · ' : '') + where;
+        scoreExtra(n); S.extras.push(n); rebuildNames();
+      }
+      vote(id, kind, true);
+      buildQueue(S.queue.slice(0, 3).map(x => x.id)); refreshAll(true); closeSheet();
+      toast(`${n.name} added to your ${kind === 'love' ? 'loved' : 'liked'} names`);
+      setTimeout(() => openDetail(id), 350);
+    };
+    $('#addLike').onclick = () => add('like');
+    $('#addLove').onclick = () => add('love');
+    setTimeout(() => $('#addName').focus(), 350);
+  }
+
+  // ---------- Browse by letter ----------
+  function openAZ() {
+    const counts = {};
+    S.names.forEach(n => { const L = n.name[0].toUpperCase(); counts[L] = (counts[L] || 0) + 1; });
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    openSheet(`<h2 class="title">Browse by letter</h2>
+      <p class="muted small" style="margin:0 0 12px">Tap a letter to see every name that starts with it${S.settings.letter ? ` · currently swiping only <b>${S.settings.letter}</b>` : ''}.</p>
+      <div class="azgrid">${letters.map(L => `<button data-l="${L}" ${counts[L] ? '' : 'disabled'} class="${S.settings.letter === L ? 'on' : ''}">${L}<small>${counts[L] || '—'}</small></button>`).join('')}</div>
+      ${S.settings.letter ? '<button class="btn ghost" id="azAll" style="margin-top:14px">Swipe every letter again</button>' : ''}`);
+    $$('.azgrid button').forEach(b => b.onclick = () => openLetter(b.dataset.l));
+    if ($('#azAll')) $('#azAll').onclick = () => { S.settings.letter = ''; save(); refreshAll(); openAZ(); };
+  }
+  function openLetter(L) {
+    const list = S.names.filter(n => n.name[0].toUpperCase() === L).sort((a, b) => a.name.localeCompare(b.name));
+    const only = S.settings.letter === L;
+    openSheet(`<button class="backlink" id="azBack">‹ All letters</button>
+      <h2 class="title" style="margin-top:0">${L} <span class="muted" style="font-size:16px">· ${list.length} names</span></h2>
+      <button class="btn ${only ? 'primary' : ''}" id="azOnly" style="margin-bottom:12px">${only ? '✓ Swiping only ' + L + ' — tap to show all letters' : 'Swipe only ' + L + ' names in Discover'}</button>
+      ${list.map(n => `<div class="row glass" data-id="${n.id}">${shapeIcon(n.category)}<div class="rn">${esc(n.name)}${n.dev ? ' <span class="muted" style="font-size:15px">' + esc(n.dev) + '</span>' : ''}<small>${esc(n.say)} · ${esc(n.meaning)}</small></div><div class="marks">${markHTML(S.votes[n.id], PEOPLE[S.me])}${markHTML(S.partnerVotes[n.id], PEOPLE[S.partner])}</div></div>`).join('')}`);
+    $('#azBack').onclick = openAZ;
+    $('#azOnly').onclick = () => { S.settings.letter = only ? '' : L; save(); refreshAll(); showTab('discover'); closeSheet(); toast(only ? 'Showing every letter' : 'Discover now shows only ' + L + ' names'); };
+    $$('#sheetBody .row').forEach(r => r.onclick = () => openDetail(r.dataset.id));
+  }
+  $('#azBtn').onclick = openAZ;
+  $('#addBtn').onclick = () => openAddName();
+
   // ---------- Settings ----------
   function openSettings() {
     const st = S.settings;
@@ -581,7 +663,7 @@
         <div class="who">${Object.keys(PEOPLE).map(k => `<button class="${S.me === k ? 'on' : ''}" data-me="${k}">${PEOPLE[k]}<small>${k === S.me ? 'you' : 'switch'}</small></button>`).join('')}</div></div>
       <div class="panel glass">
         <div class="setting"><div class="l"><b>Accent</b><span>The glow colour.</span></div><div class="swatches">${['sky', 'violet', 'mint', 'rose', 'gold'].map(a => `<button class="swatch ${st.accent === a ? 'on' : ''}" data-a="${a}" style="background:${({ sky: '#38bdf8', violet: '#a78bfa', mint: '#34d399', rose: '#fb7185', gold: '#fbbf24' })[a]}"></button>`).join('')}</div></div>
-        <div class="setting"><div class="l"><b>Moving aurora</b><span>A pre-rendered loop, gentle on the battery. Off = still gradient.</span></div><button class="toggle ${st.motion ? 'on' : ''}" id="tMotion"></button></div>
+        <div class="setting"><div class="l"><b>Moving aurora</b><span>Drifting glow and shapes. Turn off if the phone runs warm.</span></div><button class="toggle ${st.motion ? 'on' : ''}" id="tMotion"></button></div>
         <div class="setting"><div class="l"><b>Max syllables</b><span>Hide longer names from Discover.</span></div><div class="stepper"><button data-s="-1">−</button><b id="sylVal">${st.maxSyl}</b><button data-s="1">+</button></div></div>
         <div class="setting"><div class="l"><b>Min “easy to say”</b><span>Hide names below this score.</span></div><div class="stepper"><button data-e="-10">−</button><b id="sayVal">${st.minSay}</b><button data-e="10">+</button></div></div>
         <div class="setting"><div class="l"><b>Hide coined names</b><span>Only names with a traditional track record.</span></div><button class="toggle ${st.hideCoined ? 'on' : ''}" id="tCoined"></button></div>
@@ -661,18 +743,8 @@
   }
   let resetWritten = false;
   function applyAccent() { document.documentElement.dataset.accent = S.settings.accent; }
-  // The moving aurora is a pre-rendered 24 s loop (hardware-decoded — cheap), not live CSS blur.
-  // Low Power Mode blocks autoplay, in which case the static gradient underneath simply shows.
-  function applyMotion() {
-    const v = $('#auroraVideo'); if (!v) return;
-    if (S.settings.motion) {
-      if (!v.getAttribute('src')) { v.src = 'aurora.mp4'; v.load(); }
-      v.play().then(() => { v.classList.add('playing'); document.body.classList.add('motion-on'); }).catch(() => { v.classList.remove('playing'); document.body.classList.remove('motion-on'); });
-    } else { v.pause(); v.classList.remove('playing'); document.body.classList.remove('motion-on'); v.removeAttribute('src'); v.load(); }
-  }
-  document.addEventListener('visibilitychange', () => { if (!document.hidden && S.settings.motion) applyMotion(); });
-  // Low Power Mode refuses autoplay but allows play() inside a tap — so retry on the first touch.
-  document.addEventListener('pointerdown', () => { const v = $('#auroraVideo'); if (S.settings.motion && v && v.paused) applyMotion(); }, { passive: true });
+  // Settings → Moving aurora: live CSS animation on, or everything held still.
+  function applyMotion() { document.documentElement.classList.toggle('motion-off', !S.settings.motion); }
   function setMe(me) {
     if (me === S.me) return;
     // Swapping identity on one phone: my votes become the partner's and vice versa.

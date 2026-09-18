@@ -44,26 +44,29 @@ input, textarea, select { font: inherit; color: inherit; }
 ::selection { background: rgba(var(--accent-rgb), .35); }
 
 /* ---------- Aurora backdrop ---------- */
-/* Painted once as gradients — no blur filters, no animation. Blur + motion behind frosted panels
-   made iPhones (iOS 27 especially) re-render the backdrop every frame and cook the battery. */
-.aurora {
-  position: fixed; inset: 0; z-index: 0; overflow: hidden;
-  background:
-    radial-gradient(60vw 60vw at 25% -8%, rgba(99,102,241,.40), transparent 70%),
-    radial-gradient(48vw 48vw at 92% 10%, rgba(34,211,238,.26), transparent 70%),
-    radial-gradient(70vw 70vw at 50% 108%, rgba(168,85,247,.38), transparent 70%),
-    radial-gradient(44vw 44vw at 45% 52%, rgba(61,117,255,.16), transparent 70%),
-    radial-gradient(36vw 36vw at 100% 80%, rgba(var(--accent-rgb), .20), transparent 70%),
-    linear-gradient(180deg, var(--bg), var(--bg2));
+.aurora { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: linear-gradient(180deg, var(--bg), var(--bg2)); }
+.aurora i {
+  position: absolute; border-radius: 50%; filter: blur(70px); opacity: .9;
+  animation: drift 26s ease-in-out infinite alternate;
+  will-change: transform;
 }
-.aurora video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.2s; pointer-events: none; }
-.aurora video.playing { opacity: 1; }
-.aurora::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.10); }
+.aurora .a1 { width: 70vw; height: 70vw; left: -8vw; top: -22vw; background: rgba(99,102,241,.42); }
+.aurora .a2 { width: 55vw; height: 55vw; right: -10vw; top: 2vh; background: rgba(34,211,238,.28); animation-delay: -8s; }
+.aurora .a3 { width: 80vw; height: 80vw; left: 10vw; bottom: -30vw; background: rgba(168,85,247,.40); animation-delay: -15s; }
+.aurora .a4 { width: 50vw; height: 50vw; left: 22vw; top: 40vh; background: rgba(61,117,255,.18); animation-delay: -4s; }
+.aurora .a5 { width: 40vw; height: 40vw; right: -5vw; bottom: 8vh; background: rgba(var(--accent-rgb), .22); animation-delay: -20s; }
+.aurora::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.22); }
+@keyframes drift {
+  from { transform: translate3d(0,0,0) scale(1); }
+  to   { transform: translate3d(6vw, 4vh, 0) scale(1.12); }
+}
+@media (prefers-reduced-motion: reduce) { .aurora i { animation: none; } }
+/* Settings → Moving aurora off: everything holds still. */
+.motion-off .aurora i, .motion-off .shapes .sh, .motion-off .shaperow svg { animation: none !important; }
 
 /* ---------- Aarush's shapes ---------- */
 .shapes { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
-.motion-on .shapes { display: none; }   /* the video carries the floating shapes */
-.shapes .sh { fill: rgba(255,255,255,.035); stroke: rgba(255,255,255,.16); stroke-width: 1.5; transform-box: fill-box; transform-origin: center; }
+.shapes .sh { fill: rgba(255,255,255,.035); stroke: rgba(255,255,255,.16); stroke-width: 1.5; animation: floaty 18s ease-in-out infinite alternate; transform-box: fill-box; transform-origin: center; }
 .shapes .s1 { transform: translate(52px, 130px); stroke: rgba(56,189,248,.45); }
 .shapes .s2 { transform: translate(330px, 92px); stroke: rgba(251,191,36,.45); animation-duration: 22s; animation-delay: -6s; }
 .shapes .s3 { transform: translate(70px, 700px); stroke: rgba(52,211,153,.45); animation-duration: 26s; animation-delay: -12s; }
@@ -74,8 +77,10 @@ input, textarea, select { font: inherit; color: inherit; }
 .shapes .s8 { transform: translate(120px, 40px); stroke: rgba(52,211,153,.35); animation-duration: 19s; animation-delay: -1s; }
 .shapes .s9 { transform: translate(360px, 250px); stroke: rgba(167,139,250,.35); animation-duration: 23s; animation-delay: -11s; }
 .shapes .s10 { transform: translate(30px, 300px); stroke: rgba(251,113,133,.35); animation-duration: 21s; animation-delay: -17s; }
+@keyframes floaty { from { translate: 0 0; rotate: 0deg; } to { translate: 14px -22px; rotate: 28deg; } }
+@media (prefers-reduced-motion: reduce) { .shapes .sh { animation: none; } }
 .shaperow { display: flex; justify-content: center; gap: 10px; margin-bottom: 8px; }
-.shaperow svg { width: 26px; height: 26px; }
+.shaperow svg { width: 26px; height: 26px; animation: bob 3s ease-in-out infinite; }
 .shaperow svg:nth-child(2) { animation-delay: .3s; } .shaperow svg:nth-child(3) { animation-delay: .6s; } .shaperow svg:nth-child(4) { animation-delay: .9s; } .shaperow svg:nth-child(5) { animation-delay: 1.2s; }
 @keyframes bob { 50% { transform: translateY(-6px) rotate(8deg); } }
 .shapeglyph { width: 14px; height: 14px; vertical-align: -2px; margin-right: 2px; }
@@ -89,8 +94,8 @@ input, textarea, select { font: inherit; color: inherit; }
   border: 1px solid var(--hair);
   border-radius: var(--panel-r);
   box-shadow: 0 18px 40px rgba(4,8,24,.55);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
-  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  backdrop-filter: blur(22px) saturate(150%);
 }
 .glass::before {
   content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
