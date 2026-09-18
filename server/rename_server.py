@@ -215,7 +215,7 @@ def _gen_call(user, deep=False):
     system = 'You are a thoughtful Sanskrit- and Marathi-literate naming consultant helping two Indian-American parents. You are honest about etymology and never invent meanings.'
     if deep:
         # Fable cannot switch thinking off and needs a big budget (~50k thinking tokens per batch).
-        body = {'model': DEEP_MODEL, 'max_tokens': 64000, 'fallbacks': 'default', 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': LEAN_SCHEMA}},
+        body = {'model': DEEP_MODEL, 'max_tokens': 96000, 'fallbacks': 'default', 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': LEAN_SCHEMA}},
                 'system': system, 'messages': [{'role': 'user', 'content': user}]}
         return claude_json(body, timeout=1700, headers={'anthropic-beta': 'server-side-fallback-2026-07-01'})['names']
     return claude_json({'model': MODEL, 'max_tokens': 12000, 'thinking': {'type': 'disabled'}, 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': LEAN_SCHEMA}},
