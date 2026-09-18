@@ -25,12 +25,15 @@ Nikhil Rahul Raj Sai Samar Sahil Zayan Arav Ayush Agastya Reyan Jay Jai Ishan Ki
 def norm(n):
     return re.sub(r'[^a-z]', '', n.lower())
 
+# Pan-Indian names the south-specific list caught by mistake.
+KEEP = {'manu', 'pavan', 'tarak'}
 excluded = set()
 for key in ('old_generation', 'trending_indian_us', 'south_indian_specific'):
     for n in exc.get(key, []):
         excluded.add(norm(n))
 for n in SEED:
     excluded.add(norm(n))
+excluded -= KEEP
 south_patterns = [p.lower() for p in exc.get('south_patterns', []) if len(p) >= 4]
 
 names = {}
