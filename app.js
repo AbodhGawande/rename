@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 9;
-  const APP_BUILT = 'Sep 18, 2026 · 9:02 AM CDT';
+  const APP_VERSION = 10;
+  const APP_BUILT = 'Sep 18, 2026 · 9:05 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -222,7 +222,7 @@
         <div class="stat"><div class="v ${grade(n.sayability)}">${n.sayability}</div><div class="k">Easy to say</div></div>
         <div class="stat"><div class="v">${n.us && n.us.c24 ? n.us.c24 : '<5'}</div><div class="k">US boys/yr</div></div>
       </div>
-      <div class="stamp like">Later</div><div class="stamp nope">Back</div>
+      <div class="stamp like">Back</div><div class="stamp nope">Later</div>
     </article>`;
   }
   function renderDeck() {
@@ -254,24 +254,24 @@
       if (Math.abs(dx) > 6 || Math.abs(dy) > 6) moved = true;
       const rot = dx / 18;
       card.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg)`;
-      like.style.opacity = Math.max(0, Math.min(1, dx / 90));
-      nope.style.opacity = Math.max(0, Math.min(1, -dx / 90));
+      nope.style.opacity = Math.max(0, Math.min(1, -dx / 90));   // dragging left: "Later"
+      like.style.opacity = Math.max(0, Math.min(1, dx / 90));    // dragging right: "Back"
     });
     const end = e => {
       if (!dragging) return; dragging = false; card.classList.remove('dragging');
       try { card.releasePointerCapture(pid); } catch (err) {}
       if (!moved) { card.style.transform = ''; openDetail(card.dataset.id); return; }
-      // Gestures only move through the deck: right = skip for now, left = bring back the previous card.
-      // Verdicts (pass / like / love) are the buttons, so a careless flick never judges a name.
-      if (dx > 100) return flyOff(card, 'skip');
-      if (dx < -100) { if (S.history.length) { flyOff(card, 'back'); } else { card.style.transform = ''; like.style.opacity = nope.style.opacity = 0; toast('Nothing to go back to'); } return; }
+      // Gestures only move through the deck, like turning pages: swipe LEFT = next (skip for now),
+      // swipe RIGHT = bring back the previous card. Verdicts (pass / like / love) are the buttons.
+      if (dx < -100) return flyOff(card, 'skip');
+      if (dx > 100) { if (S.history.length) { flyOff(card, 'back'); } else { card.style.transform = ''; like.style.opacity = nope.style.opacity = 0; toast('Nothing to go back to'); } return; }
       card.style.transform = ''; like.style.opacity = nope.style.opacity = 0;
     };
     card.addEventListener('pointerup', end); card.addEventListener('pointercancel', end);
   }
   function flyOff(card, kind) {
     const id = card.dataset.id;
-    const right = kind === 'like' || kind === 'skip', left = kind === 'dislike' || kind === 'back';
+    const right = kind === 'like' || kind === 'back', left = kind === 'dislike' || kind === 'skip';
     const tx = right ? '120vw' : left ? '-120vw' : '0', ty = kind === 'love' ? '-120vh' : '10vh';
     card.style.transition = 'transform .4s ease-in, opacity .4s';
     card.style.transform = `translate(${tx}, ${ty}) rotate(${right ? 20 : left ? -20 : 0}deg)`;
@@ -664,7 +664,7 @@
   document.addEventListener('keydown', e => {
     if ($('#sheetwrap').classList.contains('on') || /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
     const c = $('.card.top'); if (!c || S.tab !== 'discover') return;
-    if (e.key === 'ArrowRight') flyOff(c, 'skip'); else if (e.key === 'ArrowLeft') undo(); else if (e.key === 'l') flyOff(c, 'like'); else if (e.key === 'x') flyOff(c, 'dislike'); else if (e.key === 's') flyOff(c, 'love'); else if (e.key === 'Enter') openDetail(c.dataset.id);
+    if (e.key === 'ArrowLeft') flyOff(c, 'skip'); else if (e.key === 'ArrowRight') undo(); else if (e.key === 'l') flyOff(c, 'like'); else if (e.key === 'x') flyOff(c, 'dislike'); else if (e.key === 's') flyOff(c, 'love'); else if (e.key === 'Enter') openDetail(c.dataset.id);
   });
 
   // ---------- Onboarding + boot ----------
