@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 10;
-  const APP_BUILT = 'Sep 18, 2026 · 9:05 AM CDT';
+  const APP_VERSION = 11;
+  const APP_BUILT = 'Sep 18, 2026 · 9:24 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -26,7 +26,7 @@
     settings: Object.assign({ accent: 'sky', token: '', apiKey: '', maxSyl: 4, minSay: 50, hideCoined: false, hideKnown: false, letter: '', voiceUS: '', voiceIN: '', lastSync: 0 }, LS.get('settings', {})),
     pool: [], ssa: {}, exclude: [], names: [], byId: {},
     weights: {}, partnerWeights: {},
-    queue: [], history: [], tab: 'discover', listSeg: 'both', faceoffPair: null, generating: false, syncing: false,
+    queue: [], review: null, history: [], tab: 'discover', listSeg: 'both', faceoffPair: null, generating: false, syncing: false,
   };
   const partnerOf = me => (me === 'abodh' ? 'amruta' : 'abodh');
   const save = () => { LS.set('votes', S.votes); LS.set('faceoffs', S.faceoffs); LS.set('extras', S.extras); LS.set('stories', S.stories); LS.set('settings', S.settings); LS.set('partnerVotes', S.partnerVotes); LS.set('partnerFaceoffs', S.partnerFaceoffs); };
@@ -87,7 +87,9 @@
       const v = voted[n.id];
       if (!v) fresh.push(n); else if (v.v === 'skip') skipped.push(n);
     });
-    const scored = (fresh.length ? fresh : skipped).map(n => ({ n, s: baseScore(n) })).sort((a, b) => b.s - a.s).map(x => x.n);
+    // Skipped names never sneak back on their own: the deck ends, and a button offers a review pass.
+    const base = S.review ? skipped.filter(n => S.review.has(n.id)) : fresh;
+    const scored = base.map(n => ({ n, s: baseScore(n) })).sort((a, b) => b.s - a.s).map(x => x.n);
     // Diversity: avoid three of the same category in a row.
     const out = []; const kept = (keepIds || []).map(id => S.byId[id]).filter(n => n && passesFilters(n) && (!voted[n.id] || voted[n.id].v === 'skip'));
     kept.forEach(n => out.push(n));
@@ -229,8 +231,18 @@
     const deck = $('#deck');
     const top = S.queue.slice(0, 3);
     if (!top.length) {
-      const voted = Object.keys(S.votes).length;
-      deck.innerHTML = `<div class="empty glass"><div class="big">That's every name.</div><p class="muted">${S.settings.letter ? `Every ${S.settings.letter} name has been rated. ` : ''}You've been through ${voted} names. Ask Claude for a fresh batch in the Taste tab, loosen the filters in Settings, or head to Face-off.</p></div>`;
+      const seen = Object.keys(S.votes).length;
+      const skipped = S.names.filter(n => passesFilters(n) && S.votes[n.id] && S.votes[n.id].v === 'skip');
+      const scope = S.settings.letter ? `every ${S.settings.letter} name` : 'every name';
+      if (S.review) {
+        deck.innerHTML = `<div class="empty glass"><div class="big">Skipped names reviewed.</div><p class="muted">Nothing left in this pass. ${skipped.length ? skipped.length + ' still parked as "later".' : ''}</p><button class="btn ghost" id="reviewOff">Back to the deck</button></div>`;
+        $('#reviewOff').onclick = () => { S.review = null; buildQueue([]); renderDeck(); };
+      } else {
+        deck.innerHTML = `<div class="empty glass"><div class="big">End of the list.</div><p class="muted">You've been through ${scope} — ${seen} so far${skipped.length ? `, ${skipped.length} of them parked as "later"` : ''}.</p>
+          ${skipped.length ? `<button class="btn primary" id="reviewOn" style="margin-bottom:10px">Go through the ${skipped.length} skipped names</button>` : ''}
+          <p class="mini">More names: ✦ Generate in the Taste tab, loosen the filters in Settings${S.settings.letter ? ', or clear the letter filter' : ''}.</p></div>`;
+        if (skipped.length) $('#reviewOn').onclick = () => { S.review = new Set(skipped.map(n => n.id)); buildQueue([]); renderDeck(); toast('Reviewing skipped names'); };
+      }
     } else {
       deck.innerHTML = top.map((n, i) => cardHTML(n, i === 0 ? 'top' : 'behind' + i)).reverse().join('');
       attachDrag($('.card.top'));
@@ -283,6 +295,7 @@
     S.history.push({ id, prev });
     if (S.history.length > 50) S.history.shift();
     S.votes[id] = { v: kind, t: Date.now(), tags: [], note: prev && prev.note || '' };
+    if (S.review) S.review.delete(id);   // a reviewed name leaves this pass whatever you decide
     save(); retrain();
     buildQueue(S.queue.slice(1, 3).map(n => n.id).filter(x => x !== id));
     if (!fromDetail) { renderDeck(); if (kind !== 'skip') showReasons(id, kind); else hideReasons(); }
@@ -291,6 +304,7 @@
   function undo() {
     const h = S.history.pop(); if (!h) { toast('Nothing to undo'); return; }
     if (h.prev) S.votes[h.id] = h.prev; else delete S.votes[h.id];
+    if (S.review) S.review.add(h.id);
     save(); retrain(); buildQueue([h.id].concat(S.queue.slice(0, 2).map(n => n.id))); renderDeck(); hideReasons();
     toast('Undone: ' + S.byId[h.id].name);
   }
@@ -653,7 +667,7 @@
   }
   $$('nav.tabs button').forEach(b => b.onclick = () => showTab(b.dataset.tab));
   function refreshAll(keepDeck) {
-    if (!keepDeck) buildQueue(S.queue.slice(0, 3).map(n => n.id));
+    if (!keepDeck) { S.review = null; buildQueue(S.queue.slice(0, 3).map(n => n.id)); }
     renderDeck(); if (S.tab === 'shortlist') renderList(); if (S.tab === 'faceoff') renderFaceoff(); if (S.tab === 'taste') renderTaste();
   }
   $('#settingsBtn').onclick = openSettings;
