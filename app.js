@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 17;
-  const APP_BUILT = 'Sep 18, 2026 · 10:35 AM CDT';
+  const APP_VERSION = 18;
+  const APP_BUILT = 'Sep 18, 2026 · 10:42 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -23,7 +23,7 @@
     partnerFaceoffs: LS.get('partnerFaceoffs', []),
     extras: LS.get('extras', []),          // Claude-generated names (pool schema)
     stories: LS.get('stories', {}),        // id -> markdown-ish text
-    settings: Object.assign({ accent: 'sky', token: '', apiKey: '', maxSyl: 4, minSay: 50, hideCoined: false, hideKnown: false, letter: '', voiceUS: '', voiceIN: '', lastSync: 0 }, LS.get('settings', {})),
+    settings: Object.assign({ accent: 'sky', token: '', apiKey: '', maxSyl: 4, minSay: 50, hideCoined: false, hideKnown: false, letter: '', voiceUS: '', voiceIN: '', motion: true, lastSync: 0 }, LS.get('settings', {})),
     pool: [], ssa: {}, exclude: [], names: [], byId: {},
     weights: {}, partnerWeights: {},
     queue: [], review: null, genText: '', history: [], tab: 'discover', listSeg: 'both', faceoffPair: null, generating: false, syncing: false,
@@ -506,7 +506,7 @@
         <p class="muted small" style="margin:0 0 10px">Claude reads both of your swipes and reasons, then invents about 100 new names in that direction — checked against real US baby-name counts. They show up in Discover with a ✦.</p>
         <input class="text" id="direction" placeholder="Optional steer, e.g. “more Marathi words”, “2 syllables only”, “names about the sky”" style="margin-bottom:10px">
         <button class="btn primary" id="genBtn" ${genOK ? '' : 'disabled'}>${S.generating ? '<span class="spin"></span> ' + (S.genText || 'Claude is thinking…') : genLabel()}</button>
-        ${genOK ? '<div class="status">Takes 4–8 minutes and only runs while the app is open (the screen stays on). If you leave, what already arrived is kept and the button offers to resume.</div>' : '<div class="status">Add your Claude API key in Settings to enable this.</div>'}
+        ${genOK ? '<div class="status">Four batches, each a few minutes (a full run can take 20+ minutes) — it only runs while the app is open, and the screen stays on. If you leave, what already arrived is kept and the button offers to resume.</div>' : '<div class="status">Add your Claude API key in Settings to enable this.</div>'}
         <div class="status" id="genStatus">${S.extras.length ? S.extras.length + ' Claude-suggested names in the pool so far.' : ''}</div>
       </div>
       <div class="panel glass"><h3>How names are ranked</h3><p class="muted small" style="margin:0">Every name starts with a score from <b>uniqueness</b> (real Social Security counts — how many US boys got the name in 2024) and <b>ease of saying</b> for non-Indian Americans, plus a little for freshness. Your swipes train a small model on syllables, endings, sounds, themes and origins — that pushes names you'd probably like to the front. ${PEOPLE[S.partner]}'s likes get a boost too, so you converge instead of drifting apart.</p></div>
@@ -575,6 +575,7 @@
         <div class="who">${Object.keys(PEOPLE).map(k => `<button class="${S.me === k ? 'on' : ''}" data-me="${k}">${PEOPLE[k]}<small>${k === S.me ? 'you' : 'switch'}</small></button>`).join('')}</div></div>
       <div class="panel glass">
         <div class="setting"><div class="l"><b>Accent</b><span>The glow colour.</span></div><div class="swatches">${['sky', 'violet', 'mint', 'rose', 'gold'].map(a => `<button class="swatch ${st.accent === a ? 'on' : ''}" data-a="${a}" style="background:${({ sky: '#38bdf8', violet: '#a78bfa', mint: '#34d399', rose: '#fb7185', gold: '#fbbf24' })[a]}"></button>`).join('')}</div></div>
+        <div class="setting"><div class="l"><b>Moving aurora</b><span>A pre-rendered loop, gentle on the battery. Off = still gradient.</span></div><button class="toggle ${st.motion ? 'on' : ''}" id="tMotion"></button></div>
         <div class="setting"><div class="l"><b>Max syllables</b><span>Hide longer names from Discover.</span></div><div class="stepper"><button data-s="-1">−</button><b id="sylVal">${st.maxSyl}</b><button data-s="1">+</button></div></div>
         <div class="setting"><div class="l"><b>Min “easy to say”</b><span>Hide names below this score.</span></div><div class="stepper"><button data-e="-10">−</button><b id="sayVal">${st.minSay}</b><button data-e="10">+</button></div></div>
         <div class="setting"><div class="l"><b>Hide coined names</b><span>Only names with a traditional track record.</span></div><button class="toggle ${st.hideCoined ? 'on' : ''}" id="tCoined"></button></div>
@@ -612,6 +613,7 @@
     $$('.swatch').forEach(b => b.onclick = () => { S.settings.accent = b.dataset.a; applyAccent(); save(); openSettings(); });
     $$('[data-s]').forEach(b => b.onclick = () => { S.settings.maxSyl = Math.max(1, Math.min(5, S.settings.maxSyl + +b.dataset.s)); $('#sylVal').textContent = S.settings.maxSyl; save(); refreshAll(); });
     $$('[data-e]').forEach(b => b.onclick = () => { S.settings.minSay = Math.max(10, Math.min(100, S.settings.minSay + +b.dataset.e)); $('#sayVal').textContent = S.settings.minSay; save(); refreshAll(); });
+    $('#tMotion').onclick = e => { S.settings.motion = !S.settings.motion; e.target.classList.toggle('on'); save(); applyMotion(); };
     $('#tCoined').onclick = e => { S.settings.hideCoined = !S.settings.hideCoined; e.target.classList.toggle('on'); save(); refreshAll(); };
     $('#tKnown').onclick = e => { S.settings.hideKnown = !S.settings.hideKnown; e.target.classList.toggle('on'); save(); refreshAll(); };
     $('#tokenBox').onchange = e => { S.settings.token = e.target.value.trim(); save(); };
@@ -653,6 +655,16 @@
   }
   let resetWritten = false;
   function applyAccent() { document.documentElement.dataset.accent = S.settings.accent; }
+  // The moving aurora is a pre-rendered 24 s loop (hardware-decoded — cheap), not live CSS blur.
+  // Low Power Mode blocks autoplay, in which case the static gradient underneath simply shows.
+  function applyMotion() {
+    const v = $('#auroraVideo'); if (!v) return;
+    if (S.settings.motion) {
+      if (!v.getAttribute('src')) { v.src = 'aurora.mp4'; v.load(); }
+      v.play().then(() => v.classList.add('playing')).catch(() => v.classList.remove('playing'));
+    } else { v.pause(); v.classList.remove('playing'); v.removeAttribute('src'); v.load(); }
+  }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && S.settings.motion) applyMotion(); });
   function setMe(me) {
     if (me === S.me) return;
     // Swapping identity on one phone: my votes become the partner's and vice versa.
@@ -719,7 +731,7 @@
   window.addEventListener('resize', fitStandalone);
   window.addEventListener('orientationchange', () => setTimeout(fitStandalone, 300));
   async function boot() {
-    applyAccent(); fitStandalone();
+    applyAccent(); fitStandalone(); applyMotion();
     await loadData();
     if (!S.me) onboard(); else { S.partner = partnerOf(S.me); $('#whoLabel').textContent = PEOPLE[S.me]; buildQueue([]); renderDeck(); if (S.settings.token) doSync(); }
     if ('serviceWorker' in navigator) {
