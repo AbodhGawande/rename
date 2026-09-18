@@ -2,6 +2,7 @@
 (function () {
   'use strict';
   const APP_VERSION = 4;
+  const APP_BUILT = 'Sep 18, 2026 · 8:36 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -120,10 +121,15 @@
   let voices = [];
   function loadVoices() { try { voices = speechSynthesis.getVoices() || []; } catch (e) {} }
   if ('speechSynthesis' in window) { loadVoices(); speechSynthesis.addEventListener('voiceschanged', loadVoices); }
-  function speak(text, lang, voice, rate) {
+  function speak(text, lang, voice, rate, retry) {
     try {
       const u = new SpeechSynthesisUtterance(text); u.lang = lang; u.rate = rate; if (voice) u.voice = voice;
+      let started = false; u.onstart = () => { started = true; };
+      // Some engines silently drop an utterance with an explicit voice; fall back to lang-only once.
+      const fallback = () => { if (!started && !retry) speak(text, lang, null, rate, true); };
+      u.onerror = fallback;
       speechSynthesis.cancel(); speechSynthesis.speak(u);
+      setTimeout(() => { if (!started && !speechSynthesis.speaking) fallback(); }, 1200);
     } catch (e) { toast('Speech is not available here'); }
   }
   // Voice choice: a voice picked in Settings wins; otherwise the best-quality one we can spot by name
@@ -544,7 +550,7 @@
         <div class="status">A backup is a text blob of your votes, notes and Claude names. Deleting the app from the Home Screen deletes its data — copy a backup first.</div>
         <button class="btn danger" id="resetBtn" style="margin-top:10px">Clear my votes on this phone</button>
       </div>
-      <p class="mini" style="text-align:center">Rename v${APP_VERSION} · ${S.pool.length} names in the pool · built for ${PEOPLE.abodh} &amp; ${PEOPLE.amruta}</p>
+      <p class="mini" style="text-align:center">Rename v${APP_VERSION} · built ${APP_BUILT}<br>${S.pool.length} names in the pool · for ${PEOPLE.abodh} &amp; ${PEOPLE.amruta}</p>
       <div style="height:10px"></div>
     `);
     $$('.who button', $('#sheetBody')).forEach(b => b.onclick = () => { setMe(b.dataset.me); openSettings(); });
