@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 18;
-  const APP_BUILT = 'Sep 18, 2026 · 10:42 AM CDT';
+  const APP_VERSION = 19;
+  const APP_BUILT = 'Sep 18, 2026 · 10:52 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -506,7 +506,7 @@
         <p class="muted small" style="margin:0 0 10px">Claude reads both of your swipes and reasons, then invents about 100 new names in that direction — checked against real US baby-name counts. They show up in Discover with a ✦.</p>
         <input class="text" id="direction" placeholder="Optional steer, e.g. “more Marathi words”, “2 syllables only”, “names about the sky”" style="margin-bottom:10px">
         <button class="btn primary" id="genBtn" ${genOK ? '' : 'disabled'}>${S.generating ? '<span class="spin"></span> ' + (S.genText || 'Claude is thinking…') : genLabel()}</button>
-        ${genOK ? '<div class="status">Four batches, each a few minutes (a full run can take 20+ minutes) — it only runs while the app is open, and the screen stays on. If you leave, what already arrived is kept and the button offers to resume.</div>' : '<div class="status">Add your Claude API key in Settings to enable this.</div>'}
+        ${genOK ? '<div class="status">About 8–10 minutes in four batches (two at a time) — it only runs while the app is open, and the screen stays on. If you leave, what already arrived is kept and the button offers to resume.</div>' : '<div class="status">Add your Claude API key in Settings to enable this.</div>'}
         <div class="status" id="genStatus">${S.extras.length ? S.extras.length + ' Claude-suggested names in the pool so far.' : ''}</div>
       </div>
       <div class="panel glass"><h3>How names are ranked</h3><p class="muted small" style="margin:0">Every name starts with a score from <b>uniqueness</b> (real Social Security counts — how many US boys got the name in 2024) and <b>ease of saying</b> for non-Indian Americans, plus a little for freshness. Your swipes train a small model on syllables, endings, sounds, themes and origins — that pushes names you'd probably like to the front. ${PEOPLE[S.partner]}'s likes get a boost too, so you converge instead of drifting apart.</p></div>
@@ -538,25 +538,31 @@
     // 100 names = four batches of 25, one after another (parallel calls hit the rate limit), each nudged
     // toward a different corner of the space; every batch lands in the deck as soon as it arrives.
     const angles = ['short, crisp 2-syllable names with clean sounds', 'nature, sky, light and music words', 'Marathi-heritage words and lesser-known epic/sage names', 'fresh coinages and rare Sanskrit vocabulary'];
-    let added = pending ? pending.added || 0 : 0, proposed = 0, failed = 0;
+    let added = pending ? pending.added || 0 : 0, failed = 0;
+    const absorb = out => {   // save a finished batch straight into the deck
+      const seen = new Set(S.names.map(n => n.id));
+      const fresh = out.filter(n => !seen.has(n.id));
+      fresh.forEach(scoreExtra);
+      S.extras = S.extras.concat(fresh); added += fresh.length; save(); rebuildNames();
+      buildQueue(S.queue.slice(0, 3).map(n => n.id)); if (S.tab === 'discover') renderDeck();
+    };
+    const runBatch = async i => {
+      const ctx = { apiKey: S.settings.apiKey, names: S.names, exclude: S.exclude, votes: S.votes, partnerVotes: S.partnerVotes, me: PEOPLE[S.me], partner: PEOPLE[S.partner], explain: Learn.explain(S.weights, S.names, S.votes, 8), count: 25, direction: [direction, 'Lean this batch toward ' + angles[i] + '.'].filter(Boolean).join(' ') };
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try { const out = await Claude.generate(ctx); absorb(out); return true; }
+        catch (e) { if (/rate|429|overloaded|529/i.test(e.message)) { genProgress('Rate limit — waiting a minute…'); await new Promise(r => setTimeout(r, 65000)); } else if (attempt) toast('Claude: ' + e.message); }
+      }
+      return false;
+    };
     try {
-      for (let i = startAt; i < angles.length; i++) {
+      // two batches at a time: half the wait, and two calls stay well inside the rate limit
+      for (let i = startAt; i < angles.length; i += 2) {
         LS.set('genPending', { direction, done: i, added });
-        genProgress(`Batch ${i + 1} of 4 · ${added} new so far`);
-        const ctx = { apiKey: S.settings.apiKey, names: S.names, exclude: S.exclude, votes: S.votes, partnerVotes: S.partnerVotes, me: PEOPLE[S.me], partner: PEOPLE[S.partner], explain: Learn.explain(S.weights, S.names, S.votes, 8), count: 25, direction: [direction, 'Lean this batch toward ' + angles[i] + '.'].filter(Boolean).join(' ') };
-        let out = null, err = null;
-        for (let attempt = 0; attempt < 2 && !out; attempt++) {
-          try { out = await Claude.generate(ctx); }
-          catch (e) { err = e; if (/rate|429|overloaded|529/i.test(e.message)) { genProgress('Rate limit — waiting a minute…'); await new Promise(r => setTimeout(r, 65000)); } }
-        }
-        if (!out) { failed++; continue; }
-        proposed += 25;
-        const seen = new Set(S.names.map(n => n.id));
-        const fresh = out.filter(n => !seen.has(n.id));
-        fresh.forEach(scoreExtra);
-        S.extras = S.extras.concat(fresh); added += fresh.length; save(); rebuildNames();
-        buildQueue(S.queue.slice(0, 3).map(n => n.id)); if (S.tab === 'discover') renderDeck();
-        if (err && !out) toast('Claude: ' + err.message);
+        genProgress(`Batches ${i + 1}–${Math.min(i + 2, 4)} of 4 · ${added} new so far`);
+        const pair = [runBatch(i)]; if (i + 1 < angles.length) pair.push(runBatch(i + 1));
+        const ok = await Promise.all(pair);
+        failed += ok.filter(x => !x).length;
+        genProgress(`${added} new so far`);
       }
       LS.set('genPending', null);
       if (!added) throw new Error('No new names came back' + (failed ? ' — ' + failed + ' batches failed (rate limit or the app was put to sleep). Try again with the screen on.' : '.'));

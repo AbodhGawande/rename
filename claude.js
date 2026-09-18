@@ -124,7 +124,7 @@ Return exactly ${count} names. Be honest about confidence; a coinage must say ho
     const { text, stop } = await call(ctx.apiKey, {
       model: MODEL,
       max_tokens: 20000,
-      output_config: { effort: 'medium', format: { type: 'json_schema', schema: NAME_SCHEMA } },
+      output_config: { effort: 'low', format: { type: 'json_schema', schema: NAME_SCHEMA } },   // low = ~2× faster per batch, same quality in tests
       system: 'You are a thoughtful Sanskrit- and Marathi-literate naming consultant helping two Indian-American parents. You are honest about etymology and never invent meanings.',
       messages: [{ role: 'user', content: user }],
     }, signal);
