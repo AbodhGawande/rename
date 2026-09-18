@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 11;
-  const APP_BUILT = 'Sep 18, 2026 · 9:24 AM CDT';
+  const APP_VERSION = 12;
+  const APP_BUILT = 'Sep 18, 2026 · 9:42 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -224,7 +224,7 @@
         <div class="stat"><div class="v ${grade(n.sayability)}">${n.sayability}</div><div class="k">Easy to say</div></div>
         <div class="stat"><div class="v">${n.us && n.us.c24 ? n.us.c24 : '<5'}</div><div class="k">US boys/yr</div></div>
       </div>
-      <div class="stamp like">Back</div><div class="stamp nope">Later</div>
+      <div class="stamp like">Like</div><div class="stamp nope">Pass</div><div class="stamp love">Love</div>
     </article>`;
   }
   function renderDeck() {
@@ -256,7 +256,7 @@
   function attachDrag(card) {
     if (!card) return;
     let x0 = 0, y0 = 0, dx = 0, dy = 0, dragging = false, moved = false, pid = null;
-    const like = $('.stamp.like', card), nope = $('.stamp.nope', card);
+    const like = $('.stamp.like', card), nope = $('.stamp.nope', card), love = $('.stamp.love', card);
     card.addEventListener('pointerdown', e => {
       if (e.button) return; pid = e.pointerId; x0 = e.clientX; y0 = e.clientY; dx = dy = 0; dragging = true; moved = false;
       card.setPointerCapture(pid); card.classList.add('dragging');
@@ -266,18 +266,19 @@
       if (Math.abs(dx) > 6 || Math.abs(dy) > 6) moved = true;
       const rot = dx / 18;
       card.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg)`;
-      nope.style.opacity = Math.max(0, Math.min(1, -dx / 90));   // dragging left: "Later"
-      like.style.opacity = Math.max(0, Math.min(1, dx / 90));    // dragging right: "Back"
+      like.style.opacity = Math.max(0, Math.min(1, dx / 90));
+      nope.style.opacity = Math.max(0, Math.min(1, -dx / 90));
+      love.style.opacity = Math.max(0, Math.min(1, (-dy - 60) / 90)) * (Math.abs(dx) < 60 ? 1 : 0);
     });
     const end = e => {
       if (!dragging) return; dragging = false; card.classList.remove('dragging');
       try { card.releasePointerCapture(pid); } catch (err) {}
       if (!moved) { card.style.transform = ''; openDetail(card.dataset.id); return; }
-      // Gestures only move through the deck, like turning pages: swipe LEFT = next (skip for now),
-      // swipe RIGHT = bring back the previous card. Verdicts (pass / like / love) are the buttons.
-      if (dx < -100) return flyOff(card, 'skip');
-      if (dx > 100) { if (S.history.length) { flyOff(card, 'back'); } else { card.style.transform = ''; like.style.opacity = nope.style.opacity = 0; toast('Nothing to go back to'); } return; }
-      card.style.transform = ''; like.style.opacity = nope.style.opacity = 0;
+      // Swipe right = like, left = pass, up = love. The ⏮ ⏭ buttons move without judging.
+      if (dx > 100) return flyOff(card, 'like');
+      if (dx < -100) return flyOff(card, 'dislike');
+      if (dy < -150 && Math.abs(dx) < 60) return flyOff(card, 'love');
+      card.style.transform = ''; like.style.opacity = nope.style.opacity = love.style.opacity = 0;
     };
     card.addEventListener('pointerup', end); card.addEventListener('pointercancel', end);
   }
@@ -499,9 +500,9 @@
       <div class="panel glass"><h3>What ${PEOPLE[S.me]} leans toward</h3>${bars(mine)}</div>
       ${Object.keys(S.partnerVotes).length ? `<div class="panel glass"><h3>What ${PEOPLE[S.partner]} leans toward</h3>${bars(theirs)}</div>` : ''}
       <div class="panel glass"><h3>${ICON.spark} Ask Claude for more</h3>
-        <p class="muted small" style="margin:0 0 10px">Claude reads both of your swipes and reasons, then invents 20 new names in that direction — checked against real US baby-name counts. They show up in Discover with a ✦.</p>
+        <p class="muted small" style="margin:0 0 10px">Claude reads both of your swipes and reasons, then invents about 100 new names in that direction — checked against real US baby-name counts. They show up in Discover with a ✦.</p>
         <input class="text" id="direction" placeholder="Optional steer, e.g. “more Marathi words”, “2 syllables only”, “names about the sky”" style="margin-bottom:10px">
-        <button class="btn primary" id="genBtn" ${genOK ? '' : 'disabled'}>${S.generating ? '<span class="spin"></span> Claude is thinking…' : ICON.spark + ' Generate 20 new names'}</button>
+        <button class="btn primary" id="genBtn" ${genOK ? '' : 'disabled'}>${S.generating ? '<span class="spin"></span> Claude is thinking (2–4 min)…' : ICON.spark + ' Generate 100 new names'}</button>
         ${genOK ? '' : '<div class="status">Add your Claude API key in Settings to enable this.</div>'}
         <div class="status" id="genStatus">${S.extras.length ? S.extras.length + ' Claude-suggested names in the pool so far.' : ''}</div>
       </div>
@@ -512,10 +513,17 @@
   async function generateMore(direction) {
     if (S.generating) return; S.generating = true; renderTaste(); $('#syncBtn').classList.add('busy');
     try {
-      const out = await Claude.generate({ apiKey: S.settings.apiKey, names: S.names, exclude: S.exclude, votes: S.votes, partnerVotes: S.partnerVotes, me: PEOPLE[S.me], partner: PEOPLE[S.partner], explain: Learn.explain(S.weights, S.names, S.votes, 8), count: 20, direction });
+      // 100 names = four batches of 25 in parallel, each nudged toward a different corner of the space.
+      const angles = ['short, crisp 2-syllable names with clean sounds', 'nature, sky, light and music words', 'Marathi-heritage words and lesser-known epic/sage names', 'fresh coinages and rare Sanskrit vocabulary'];
+      const ctx = { apiKey: S.settings.apiKey, names: S.names, exclude: S.exclude, votes: S.votes, partnerVotes: S.partnerVotes, me: PEOPLE[S.me], partner: PEOPLE[S.partner], explain: Learn.explain(S.weights, S.names, S.votes, 8), count: 25 };
+      const results = await Promise.allSettled(angles.map(a => Claude.generate(Object.assign({}, ctx, { direction: [direction, 'Lean this batch toward ' + a + '.'].filter(Boolean).join(' ') }))));
+      const seen = new Set(S.names.map(n => n.id)); const out = [];
+      results.forEach(r => { if (r.status === 'fulfilled') r.value.forEach(n => { if (!seen.has(n.id)) { seen.add(n.id); out.push(n); } }); });
+      const failed = results.filter(r => r.status === 'rejected').length;
+      if (!out.length) throw new Error(results.find(r => r.status === 'rejected').reason.message);
       out.forEach(scoreExtra);
       S.extras = S.extras.concat(out); save(); rebuildNames(); buildQueue([]); renderDeck();
-      toast(`Claude added ${out.length} new names — see Discover`);
+      toast(`Claude added ${out.length} new names — see Discover` + (failed ? ` (${failed} of 4 batches failed, try again for more)` : ''));
       scheduleSync(0);
     } catch (e) { toast('Claude: ' + e.message); }
     S.generating = false; $('#syncBtn').classList.remove('busy'); renderTaste();
@@ -678,7 +686,7 @@
   document.addEventListener('keydown', e => {
     if ($('#sheetwrap').classList.contains('on') || /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
     const c = $('.card.top'); if (!c || S.tab !== 'discover') return;
-    if (e.key === 'ArrowLeft') flyOff(c, 'skip'); else if (e.key === 'ArrowRight') undo(); else if (e.key === 'l') flyOff(c, 'like'); else if (e.key === 'x') flyOff(c, 'dislike'); else if (e.key === 's') flyOff(c, 'love'); else if (e.key === 'Enter') openDetail(c.dataset.id);
+    if (e.key === 'ArrowRight') flyOff(c, 'like'); else if (e.key === 'ArrowLeft') flyOff(c, 'dislike'); else if (e.key === 'ArrowUp') flyOff(c, 'love'); else if (e.key === 'ArrowDown') vote(c.dataset.id, 'skip'); else if (e.key === 'z') undo(); else if (e.key === 'l') flyOff(c, 'like'); else if (e.key === 'x') flyOff(c, 'dislike'); else if (e.key === 's') flyOff(c, 'love'); else if (e.key === 'Enter') openDetail(c.dataset.id);
   });
 
   // ---------- Onboarding + boot ----------

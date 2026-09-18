@@ -5,7 +5,7 @@ no build step, installed to the iPhone Home Screen from GitHub Pages.
 
 ## What it does
 
-- **Discover** — a swipe deck. Swipe left = next name (skip for now), swipe right = bring back the previous card, tap = the name's full story. The ✕ ♥ ★ buttons record pass / like / love.
+- **Discover** — a swipe deck. Right = like, left = pass, up = love, tap = the name's full story. ⏮ brings the previous name back, ⏭ skips without judging.
   After a swipe a quick "why?" sheet appears; the chips you tap teach the ranker what you care about.
 - **Shortlist** — Both ♥ (names you both liked), Mine, Amruta's/Abodh's, Loved, Passed.
 - **Face-off** — two shortlisted names at a time; an Elo rating turns your picks into standings.
