@@ -1,7 +1,7 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 3;
+  const APP_VERSION = 4;
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -22,7 +22,7 @@
     partnerFaceoffs: LS.get('partnerFaceoffs', []),
     extras: LS.get('extras', []),          // Claude-generated names (pool schema)
     stories: LS.get('stories', {}),        // id -> markdown-ish text
-    settings: Object.assign({ accent: 'sky', token: '', apiKey: '', maxSyl: 4, minSay: 50, hideCoined: false, hideKnown: false, letter: '', lastSync: 0 }, LS.get('settings', {})),
+    settings: Object.assign({ accent: 'sky', token: '', apiKey: '', maxSyl: 4, minSay: 50, hideCoined: false, hideKnown: false, letter: '', voiceUS: '', voiceIN: '', lastSync: 0 }, LS.get('settings', {})),
     pool: [], ssa: {}, exclude: [], names: [], byId: {},
     weights: {}, partnerWeights: {},
     queue: [], history: [], tab: 'discover', listSeg: 'both', faceoffPair: null, generating: false, syncing: false,
@@ -126,14 +126,28 @@
       speechSynthesis.cancel(); speechSynthesis.speak(u);
     } catch (e) { toast('Speech is not available here'); }
   }
-  function sayUS(n) {
-    const v = voices.find(x => /^en[-_]US/i.test(x.lang) && !/enhanced|premium/i.test(x.name)) || voices.find(x => /^en/i.test(x.lang));
-    speak((n.say || n.name).replace(/-/g, ' ').toLowerCase(), 'en-US', v, 0.85);
+  // Voice choice: a voice picked in Settings wins; otherwise the best-quality one we can spot by name
+  // (Premium > Enhanced > plain). For the Indian button Hindi is preferred over Marathi because the
+  // Marathi voice on iPhones is the robotic compact one and the Hindi premium voice reads Devanagari well.
+  const quality = v => (/premium/i.test(v.name) ? 3 : /enhanced/i.test(v.name) ? 2 : /siri/i.test(v.name) ? 2 : 1);
+  function pickVoice(kind) {
+    const wanted = S.settings[kind === 'us' ? 'voiceUS' : 'voiceIN'];
+    if (wanted) { const v = voices.find(x => x.name + '|' + x.lang === wanted); if (v) return v; }
+    const pool = kind === 'us'
+      ? voices.filter(x => /^en[-_]US/i.test(x.lang)).concat(voices.filter(x => /^en/i.test(x.lang)))
+      : voices.filter(x => /^hi/i.test(x.lang)).concat(voices.filter(x => /^mr/i.test(x.lang)));
+    return pool.sort((a, b) => quality(b) - quality(a))[0];
   }
+  function sayUS(n) { speak((n.say || n.name).replace(/-/g, ' ').toLowerCase(), 'en-US', pickVoice('us'), 0.85); }
   function sayIN(n) {
-    const v = voices.find(x => /^mr/i.test(x.lang)) || voices.find(x => /^hi/i.test(x.lang));
-    if (!v && !voices.length) loadVoices();
+    if (!voices.length) loadVoices();
+    const v = pickVoice('in');
     speak(n.dev || n.name, v ? v.lang : 'hi-IN', v, 0.8);
+  }
+  function voiceOptions(kind) {
+    const list = kind === 'us' ? voices.filter(x => /^en/i.test(x.lang)) : voices.filter(x => /^(hi|mr)/i.test(x.lang));
+    const cur = pickVoice(kind);
+    return list.map(v => `<option value="${esc(v.name + '|' + v.lang)}" ${cur && cur.name === v.name && cur.lang === v.lang ? 'selected' : ''}>${esc(v.name)} · ${esc(v.lang)}</option>`).join('');
   }
   const sayIt = sayUS;
   function sayRowHTML(n, cls) {
@@ -517,6 +531,14 @@
         <input class="text" id="keyBox" type="password" placeholder="sk-ant-…" value="${esc(st.apiKey)}" autocapitalize="off" autocomplete="off">
         <div class="status" id="keyStatus">${st.apiKey ? 'Key saved · model ' + Claude.MODEL : 'No key yet'}</div>
       </div>
+      <div class="panel glass"><h3>Voices</h3>
+        <p class="muted small" style="margin:0 0 8px">Which of the phone's voices the two buttons use. Download better ones under Settings → Accessibility → Spoken Content → Voices, then reopen the app.</p>
+        <div class="setting"><div class="l"><b>Marathi button</b><span>Reads the Devanagari. Hindi premium voice recommended.</span></div></div>
+        <select class="text" id="voiceIN" style="margin:-4px 0 10px">${voiceOptions('in') || '<option>No Hindi/Marathi voice found</option>'}</select>
+        <div class="setting"><div class="l"><b>English button</b><span>Reads the respelling the American way.</span></div></div>
+        <select class="text" id="voiceUS" style="margin:-4px 0 4px">${voiceOptions('us') || '<option>No English voice found</option>'}</select>
+        <div class="btnrow" style="margin-top:8px"><button class="btn ghost" id="voiceTestIN">▶ Test Marathi</button><button class="btn ghost" id="voiceTestUS">▶ Test English</button></div>
+      </div>
       <div class="panel glass"><h3>Backup</h3>
         <div class="btnrow"><button class="btn ghost" id="exportBtn">Copy backup</button><button class="btn ghost" id="importBtn">Paste backup</button></div>
         <div class="status">A backup is a text blob of your votes, notes and Claude names. Deleting the app from the Home Screen deletes its data — copy a backup first.</div>
@@ -541,6 +563,11 @@
       try { await Sync.check(S.settings.token); await doSync(); s.className = 'status ok'; s.textContent = 'Connected · synced just now'; }
       catch (e) { s.className = 'status err'; s.textContent = e.message; }
     };
+    $('#voiceIN').onchange = e => { S.settings.voiceIN = e.target.value; save(); };
+    $('#voiceUS').onchange = e => { S.settings.voiceUS = e.target.value; save(); };
+    const demo = S.queue[0] || S.names[0] || { name: 'Anvay', say: 'UN-vay', dev: 'अन्वय' };
+    $('#voiceTestIN').onclick = () => sayIN(demo);
+    $('#voiceTestUS').onclick = () => sayUS(demo);
     $('#exportBtn').onclick = async () => {
       const blob = JSON.stringify({ rename: APP_VERSION, me: S.me, votes: S.votes, faceoffs: S.faceoffs, extras: S.extras, stories: S.stories, settings: Object.assign({}, S.settings, { token: '', apiKey: '' }) });
       try { await navigator.clipboard.writeText(blob); toast('Backup copied — paste it somewhere safe'); }
