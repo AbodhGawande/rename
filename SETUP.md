@@ -34,7 +34,7 @@ The key stays in that phone's storage.
 
 ## Everyday use
 
-- **Discover:** swipe right = like, left = pass, up = love. Tap the card for the full story.
+- **Discover:** swipe right = skip for now, swipe left = previous card. The buttons decide: ✕ pass, ♥ like, ★ love. Tap the card for the full story.
   After a swipe, tap a reason or two — that's what trains the ranking.
 - **Shortlist → Both ♥** is the list that matters. **Face-off** ranks it.
 - Undo is the ↶ button. Skip (⏭) parks a name for later without judging it.

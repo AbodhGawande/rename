@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 4;
-  const APP_BUILT = 'Sep 18, 2026 · 8:36 AM CDT';
+  const APP_VERSION = 5;
+  const APP_BUILT = 'Sep 18, 2026 · 8:43 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -203,7 +203,7 @@
         <div class="stat"><div class="v ${grade(n.sayability)}">${n.sayability}</div><div class="k">Easy to say</div></div>
         <div class="stat"><div class="v">${n.us && n.us.c24 ? n.us.c24 : '<5'}</div><div class="k">US boys/yr</div></div>
       </div>
-      <div class="stamp like">Like</div><div class="stamp nope">Pass</div><div class="stamp love">Love</div>
+      <div class="stamp like">Later</div><div class="stamp nope">Back</div>
     </article>`;
   }
   function renderDeck() {
@@ -225,7 +225,7 @@
   function attachDrag(card) {
     if (!card) return;
     let x0 = 0, y0 = 0, dx = 0, dy = 0, dragging = false, moved = false, pid = null;
-    const like = $('.stamp.like', card), nope = $('.stamp.nope', card), love = $('.stamp.love', card);
+    const like = $('.stamp.like', card), nope = $('.stamp.nope', card);
     card.addEventListener('pointerdown', e => {
       if (e.button) return; pid = e.pointerId; x0 = e.clientX; y0 = e.clientY; dx = dy = 0; dragging = true; moved = false;
       card.setPointerCapture(pid); card.classList.add('dragging');
@@ -237,26 +237,27 @@
       card.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg)`;
       like.style.opacity = Math.max(0, Math.min(1, dx / 90));
       nope.style.opacity = Math.max(0, Math.min(1, -dx / 90));
-      love.style.opacity = Math.max(0, Math.min(1, (-dy - 60) / 90)) * (Math.abs(dx) < 60 ? 1 : 0);
     });
     const end = e => {
       if (!dragging) return; dragging = false; card.classList.remove('dragging');
       try { card.releasePointerCapture(pid); } catch (err) {}
       if (!moved) { card.style.transform = ''; openDetail(card.dataset.id); return; }
-      if (dx > 100) return flyOff(card, 'like');
-      if (dx < -100) return flyOff(card, 'dislike');
-      if (dy < -150 && Math.abs(dx) < 60) return flyOff(card, 'love');
-      card.style.transform = ''; like.style.opacity = nope.style.opacity = love.style.opacity = 0;
+      // Gestures only move through the deck: right = skip for now, left = bring back the previous card.
+      // Verdicts (pass / like / love) are the buttons, so a careless flick never judges a name.
+      if (dx > 100) return flyOff(card, 'skip');
+      if (dx < -100) { if (S.history.length) { flyOff(card, 'back'); } else { card.style.transform = ''; like.style.opacity = nope.style.opacity = 0; toast('Nothing to go back to'); } return; }
+      card.style.transform = ''; like.style.opacity = nope.style.opacity = 0;
     };
     card.addEventListener('pointerup', end); card.addEventListener('pointercancel', end);
   }
   function flyOff(card, kind) {
     const id = card.dataset.id;
-    const tx = kind === 'like' ? '120vw' : kind === 'dislike' ? '-120vw' : '0', ty = kind === 'love' ? '-120vh' : '10vh';
+    const right = kind === 'like' || kind === 'skip', left = kind === 'dislike' || kind === 'back';
+    const tx = right ? '120vw' : left ? '-120vw' : '0', ty = kind === 'love' ? '-120vh' : '10vh';
     card.style.transition = 'transform .4s ease-in, opacity .4s';
-    card.style.transform = `translate(${tx}, ${ty}) rotate(${kind === 'like' ? 20 : kind === 'dislike' ? -20 : 0}deg)`;
+    card.style.transform = `translate(${tx}, ${ty}) rotate(${right ? 20 : left ? -20 : 0}deg)`;
     card.style.opacity = '0';
-    setTimeout(() => vote(id, kind), 160);
+    setTimeout(() => (kind === 'back' ? undo() : vote(id, kind)), 160);
   }
   function vote(id, kind, fromDetail) {
     const prev = S.votes[id] ? Object.assign({}, S.votes[id]) : null;
@@ -642,7 +643,7 @@
   document.addEventListener('keydown', e => {
     if ($('#sheetwrap').classList.contains('on') || /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
     const c = $('.card.top'); if (!c || S.tab !== 'discover') return;
-    if (e.key === 'ArrowRight') flyOff(c, 'like'); else if (e.key === 'ArrowLeft') flyOff(c, 'dislike'); else if (e.key === 'ArrowUp') flyOff(c, 'love'); else if (e.key === 'ArrowDown') vote(c.dataset.id, 'skip'); else if (e.key === 'z') undo(); else if (e.key === 'Enter') openDetail(c.dataset.id);
+    if (e.key === 'ArrowRight') flyOff(c, 'skip'); else if (e.key === 'ArrowLeft') undo(); else if (e.key === 'l') flyOff(c, 'like'); else if (e.key === 'x') flyOff(c, 'dislike'); else if (e.key === 's') flyOff(c, 'love'); else if (e.key === 'Enter') openDetail(c.dataset.id);
   });
 
   // ---------- Onboarding + boot ----------
