@@ -1,5 +1,5 @@
 /* Rename service worker — app shell cached, data network-first. Bump VERSION on every deploy. */
-const VERSION = 26;
+const VERSION = 27;
 const CACHE = 'rename-v' + VERSION;
 const SHELL = ['./', 'index.html', 'app.css', 'app.js', 'learn.js', 'api.js', 'manifest.webmanifest', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png', 'data/names.json', 'data/ssa.json', 'data/exclude.json'];
 

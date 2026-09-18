@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 26;
-  const APP_BUILT = 'Sep 18, 2026 · 1:40 PM CDT';
+  const APP_VERSION = 27;
+  const APP_BUILT = 'Sep 18, 2026 · 2:49 PM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -241,11 +241,17 @@
         deck.innerHTML = `<div class="empty glass"><div class="big">Skipped names reviewed.</div><p class="muted">Nothing left in this pass. ${skipped.length ? skipped.length + ' still parked as "later".' : ''}</p><button class="btn ghost" id="reviewOff">Back to the deck</button></div>`;
         $('#reviewOff').onclick = () => { S.review = null; buildQueue([]); renderDeck(); };
       } else {
+        const hiddenByFilters = S.names.filter(n => !S.votes[n.id] && !passesFilters(n)).length;
+        const filterWords = [S.settings.letter ? 'only ' + S.settings.letter : '', S.settings.hideCoined ? 'no coined' : '', S.settings.hideKnown ? 'no better-known' : '', S.settings.maxSyl < 4 ? 'max ' + S.settings.maxSyl + ' syllables' : '', S.settings.minSay > 50 ? 'easy-to-say ≥ ' + S.settings.minSay : ''].filter(Boolean).join(', ');
         deck.innerHTML = `<div class="empty glass"><div class="big">End of the list.</div><p class="muted">You've been through ${scope} — ${seen} so far${skipped.length ? `, ${skipped.length} of them parked as "later"` : ''}.</p>
+          ${hiddenByFilters ? `<button class="btn primary" id="showHidden" style="margin-bottom:10px">Show ${hiddenByFilters} names hidden by your filters${filterWords ? ' (' + filterWords + ')' : ''}</button>` : ''}
+          <button class="btn ghost" id="checkMini" style="margin-bottom:10px">↻ Check the mini for new names</button>
           ${skipped.length ? `<button class="btn" id="reviewOn" style="margin-bottom:10px">Go through the ${skipped.length} skipped names</button>` : ''}
           ${true ? `<button class="btn primary" id="genHere" style="margin-bottom:10px" ${S.generating ? 'disabled' : ''}>${S.generating ? '<span class="spin"></span> ' + (S.genText || 'Claude is thinking…') : ICON.spark + ' Generate 100 new names'}</button>` : ''}
           <p class="mini">${'The mini asks Claude for names in the direction of your swipes — you can close the app while it works. '}${S.settings.letter ? 'Or clear the letter filter.' : 'Or loosen the filters in Settings.'}</p></div>`;
         if (skipped.length) $('#reviewOn').onclick = () => { S.review = new Set(skipped.map(n => n.id)); buildQueue([]); renderDeck(); toast('Reviewing skipped names'); };
+        if ($('#showHidden')) $('#showHidden').onclick = () => { Object.assign(S.settings, { letter: '', hideCoined: false, hideKnown: false, maxSyl: 4, minSay: 50 }); save(); S.review = null; buildQueue([]); renderDeck(); toast('Filters cleared'); };
+        $('#checkMini').onclick = async () => { toast('Checking…'); await doSync(); S.review = null; buildQueue([]); renderDeck(); toast(S.queue.length ? S.queue.length + ' names to go' : 'The mini has nothing new for you'); };
         if ($('#genHere')) $('#genHere').onclick = () => generateMore('');
       }
     } else {
@@ -705,8 +711,10 @@
     if (S.syncing || !S.me) return; S.syncing = true; $('#syncBtn').classList.add('busy');
     try {
       const res = await API.pushVotes(S.me, S.votes, S.faceoffs, reset);
+      const wasEmpty = !S.queue.length;
       adopt(res);
-      buildQueue(S.queue.slice(0, 3).map(n => n.id)); refreshAll(true);
+      if (wasEmpty) { S.review = null; buildQueue([]); } else buildQueue(S.queue.slice(0, 3).map(n => n.id));
+      refreshAll(true);
     } catch (e) { S.online = false; toast('Mini not reachable — ' + e.message); }
     S.syncing = false; $('#syncBtn').classList.remove('busy'); $('#syncBtn').classList.toggle('offline', !S.online);
   }
@@ -721,8 +729,16 @@
     if (was && !S.generating) { toast(job.status === 'done' ? (job.text || 'Claude finished') : 'Claude: ' + (job.error || 'failed')); API.dismissJob().catch(() => {}); }
   }
   async function pollJob() {
-    try { const job = await API.job(); const running = job.status === 'running'; applyJob(job); if (!running || job.added !== S.jobAdded) { S.jobAdded = job.added; const res = await API.state(S.me); adopt(res); buildQueue(S.queue.slice(0, 3).map(n => n.id)); }
-      renderTaste(); if (S.tab === 'discover') renderDeck(); } catch (e) {}
+    try {
+      const job = await API.job(); const running = job.status === 'running'; const wasEmpty = !S.queue.length;
+      applyJob(job);
+      if (!running || job.added !== S.jobAdded) {
+        S.jobAdded = job.added; const res = await API.state(S.me); adopt(res);
+        if (!running) { S.review = null; buildQueue([]); } else buildQueue(S.queue.slice(0, 3).map(n => n.id));
+        if (wasEmpty && S.queue.length) toast(S.queue.length + ' names in your deck now');
+      }
+      renderTaste(); if (S.tab === 'discover') renderDeck();
+    } catch (e) { toast('Mini: ' + e.message); }
   }
   async function generateMore(direction, deep) {
     if (S.generating) return;
