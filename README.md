@@ -33,15 +33,14 @@ history on every swipe.
   names, South-Indian-specific names) and anything with 80+ US boys in 2024.
 - `data/ssa.json` — 2024 SSA counts for every boy's name, so Claude's new suggestions get a real
   uniqueness score on the phone.
-- Votes live per phone in `localStorage` (`rename.*`) and sync through the **private** repo
-  `AbodhGawande/rename-data` (`votes-abodh.json`, `votes-amruta.json`, `extra-names.json`,
-  `stories.json`). Each person writes only their own votes file, so the two phones never conflict.
+- Votes, generated names and stories live in `~/Apps/rename/data/state.json` on the mini; each phone
+  keeps a `localStorage` copy (`rename.*`) and syncs on every open, return, and swipe.
 
 ## Deploying
 
-1. Edit, then bump `VERSION` in `sw.js` and `APP_VERSION` in `app.js` (same number).
-2. Commit and push `main`. GitHub Pages redeploys in about a minute; installed phones pick up the
-   new version on the next launch (the service worker reloads once).
+The app is served by the Mac mini (see `~/Documents/Claude/mini-server`): `python3 tools/stamp.py`, then
+`../mini-server/scripts/deploy.sh rename`. `server/rename_server.py` is the FastAPI service (votes store,
+generation jobs with QA + Devanagari, lookups, stories, nightly backup). This repo is the code backup only.
 
 ## Regenerating the pool
 

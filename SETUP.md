@@ -1,42 +1,27 @@
 # Setting up Rename on a phone
 
-Takes about three minutes per phone. Do Abodh's phone first, then Amruta's.
+Rename runs on the Mac mini at home. On the home Wi-Fi, open Safari and go to
 
-## 1. Install it on the Home Screen
+    http://m2-mac-mini.local/rename/
 
-1. Open **https://abodhgawande.github.io/rename/** in Safari.
-2. Tap the Share button → **Add to Home Screen** → Add.
-3. Open it from the Home Screen (it runs full-screen there). Pick who's holding the phone.
+(or http://192.168.1.106/rename/) → Share → **Add to Home Screen** → open it from there and pick who's
+holding the phone. That's all: votes, Claude's work and the name pool live on the mini, so both phones see
+the same thing within a few seconds and nothing needs pasting.
 
-## 2. Connect the two phones (once, on each phone)
-
-Votes travel through a private GitHub repo, `AbodhGawande/rename-data`. Each phone needs a token
-that can write to that one repo — nothing else.
-
-1. On any browser, signed in as AbodhGawande, open
-   **https://github.com/settings/personal-access-tokens/new**
-2. Token name: `Rename phones`. Expiration: **1 year** (custom date).
-3. Repository access: **Only select repositories** → pick **rename-data**.
-4. Permissions → Repository permissions → **Contents: Read and write**. Leave everything else alone.
-5. Generate token, copy it (starts with `github_pat_`).
-6. In the app: ⚙︎ Settings → **Sync** → paste the token → **Connect & sync**. It should say
-   *Connected · synced just now*.
-7. AirDrop or iMessage the same token to the other phone and repeat step 6 there.
-
-From then on the app syncs on launch, whenever you come back to it, and a few seconds after each
-swipe. The ↻ button at the top forces a sync.
-
-## 3. Turn on Claude (optional but recommended)
-
-⚙︎ Settings → **Claude** → paste the Anthropic API key (`sk-ant-…`). This unlocks
-**Ask Claude for more** (Taste tab) and **Ask Claude about <name>** (inside any name's page).
-The key stays in that phone's storage.
+Away from home the app can't reach the mini (it opens but shows "Not reachable"); Tailscale can fix that
+later if you want it.
 
 ## Everyday use
 
 - **Discover:** swipe right = like, left = pass, up = love (or use ✕ ♥ ★). ⏮ = previous name, ⏭ = skip for now. Tap the card for the full story.
   After a swipe, tap a reason or two — that's what trains the ranking.
-- **Shortlist → Both ♥** is the list that matters. **Face-off** ranks it.
-- Undo is the ↶ button. Skip (⏭) parks a name for later without judging it.
-- **Backup:** Settings → Copy backup, paste into Notes. Deleting the app from the Home Screen
-  deletes its local data (sync keeps a copy in the repo too).
+- **Shortlist → Both ♥** is the list that matters. **Face-off** ranks it. **+ Add** puts in a name you found yourselves.
+- **Generate 100 new names** (Taste tab, or the end-of-list card) runs on the mini: close the app if you like; the
+  names appear as each batch lands (10–15 minutes for a full run, each name quality-checked).
+- **Backup:** the mini keeps a nightly copy of everything (`~/Apps/rename/backups`). Settings → Copy backup still
+  works for a paste-into-Notes copy.
+
+## For Abodh: updating the app
+
+Edit in `~/Documents/Claude/rename/`, then `python3 tools/stamp.py` and
+`~/Documents/Claude/mini-server/scripts/deploy.sh rename`. Phones pick it up on the next open.
