@@ -1,7 +1,7 @@
 /* Rename service worker — app shell cached, data network-first. Bump VERSION on every deploy. */
 const VERSION = 1;
 const CACHE = 'rename-v' + VERSION;
-const SHELL = ['./', 'index.html', 'app.css', 'app.js', 'learn.js', 'sync.js', 'claude.js', 'manifest.webmanifest', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png', 'data/names.json', 'data/ssa.json'];
+const SHELL = ['./', 'index.html', 'app.css', 'app.js', 'learn.js', 'sync.js', 'claude.js', 'manifest.webmanifest', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png', 'data/names.json', 'data/ssa.json', 'data/exclude.json'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => Promise.all(SHELL.map(u => fetch(u, { cache: 'reload' }).then(r => r.ok && c.put(u, r)).catch(() => {})))).then(() => self.skipWaiting()));

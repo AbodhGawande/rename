@@ -23,7 +23,7 @@
     extras: LS.get('extras', []),          // Claude-generated names (pool schema)
     stories: LS.get('stories', {}),        // id -> markdown-ish text
     settings: Object.assign({ accent: 'sky', token: '', apiKey: '', maxSyl: 4, minSay: 50, hideCoined: false, hideKnown: false, lastSync: 0 }, LS.get('settings', {})),
-    pool: [], ssa: {}, names: [], byId: {},
+    pool: [], ssa: {}, exclude: [], names: [], byId: {},
     weights: {}, partnerWeights: {},
     queue: [], history: [], tab: 'discover', listSeg: 'both', faceoffPair: null, generating: false, syncing: false,
   };
@@ -37,6 +37,8 @@
     else { const c = LS.get('poolCache', null); S.pool = c ? c.names : []; }
     const s = await fetch('data/ssa.json', { cache: 'force-cache' }).catch(() => null);
     if (s && s.ok) S.ssa = await s.json();
+    const x = await fetch('data/exclude.json', { cache: 'no-cache' }).catch(() => null);
+    if (x && x.ok) S.exclude = await x.json();
     rebuildNames();
   }
   function rebuildNames() {
@@ -423,7 +425,7 @@
   async function generateMore(direction) {
     if (S.generating) return; S.generating = true; renderTaste(); $('#syncBtn').classList.add('busy');
     try {
-      const out = await Claude.generate({ apiKey: S.settings.apiKey, names: S.names, votes: S.votes, partnerVotes: S.partnerVotes, me: PEOPLE[S.me], partner: PEOPLE[S.partner], explain: Learn.explain(S.weights, S.names, S.votes, 8), count: 20, direction });
+      const out = await Claude.generate({ apiKey: S.settings.apiKey, names: S.names, exclude: S.exclude, votes: S.votes, partnerVotes: S.partnerVotes, me: PEOPLE[S.me], partner: PEOPLE[S.partner], explain: Learn.explain(S.weights, S.names, S.votes, 8), count: 20, direction });
       out.forEach(scoreExtra);
       S.extras = S.extras.concat(out); save(); rebuildNames(); buildQueue([]); renderDeck();
       toast(`Claude added ${out.length} new names — see Discover`);

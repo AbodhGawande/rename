@@ -101,6 +101,21 @@ for f in files:
             dropped['bad'] += 1
             print('bad row', e, o)
 
+# The same exclusions, shipped to the phone so Claude's on-device suggestions get filtered too.
+json.dump(sorted(excluded), open(os.path.join(here, '..', 'data', 'exclude.json'), 'w'), separators=(',', ':'))
+
+# Apply Claude's QA verdicts (tools/qa_pool.py) if they exist.
+qa_path = os.path.join(here, '..', 'data', 'qa.json')
+if os.path.exists(qa_path):
+    qa = json.load(open(qa_path))
+    for key in list(names):
+        v = qa.get(key)
+        if not v: continue
+        if v['gender'] == 'girl' or v['south_specific'] or v['trending'] or v['old_generation'] or not v['meaning_ok']:
+            del names[key]; dropped['qa'] = dropped.get('qa', 0) + 1
+        elif v['gender'] == 'unisex' and 'used for girls too' not in names[key]['note']:
+            names[key]['note'] = (names[key]['note'] + ' · ' if names[key]['note'] else '') + 'used for girls too'
+
 arr = sorted(names.values(), key=lambda x: x['name'])
 data = {
     'version': datetime.datetime.now().strftime('%Y-%m-%d'),
