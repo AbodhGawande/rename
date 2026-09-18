@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 8;
-  const APP_BUILT = 'Sep 18, 2026 · 8:57 AM CDT';
+  const APP_VERSION = 9;
+  const APP_BUILT = 'Sep 18, 2026 · 9:02 AM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -674,8 +674,18 @@
     $$('#onboardWho button').forEach(b => b.onclick = () => { pick = b.dataset.me; $$('#onboardWho button').forEach(x => x.classList.toggle('on', x === b)); $('#onboardGo').disabled = false; });
     $('#onboardGo').onclick = () => { S.me = pick; S.partner = partnerOf(pick); LS.set('me', pick); $('#whoLabel').textContent = PEOPLE[pick]; o.style.display = 'none'; buildQueue([]); renderDeck(); };
   }
+  // iOS Home-Screen mode reports a viewport shorter than the screen (a black band under the tab bar),
+  // so pin the app to the real screen size there. Same fix as Tote.
+  function fitStandalone() {
+    if (!navigator.standalone) return;
+    const h = Math.max(window.innerHeight, screen.height);
+    document.documentElement.style.height = h + 'px'; document.body.style.height = h + 'px';
+    $('#app').style.height = h + 'px';
+  }
+  window.addEventListener('resize', fitStandalone);
+  window.addEventListener('orientationchange', () => setTimeout(fitStandalone, 300));
   async function boot() {
-    applyAccent();
+    applyAccent(); fitStandalone();
     await loadData();
     if (!S.me) onboard(); else { S.partner = partnerOf(S.me); $('#whoLabel').textContent = PEOPLE[S.me]; buildQueue([]); renderDeck(); if (S.settings.token) doSync(); }
     if ('serviceWorker' in navigator) {

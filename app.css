@@ -26,7 +26,7 @@
 :root[data-accent="gold"]   { --accent: #fbbf24; --accent-rgb: 251,191,36; }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { margin: 0; height: 100%; }
+html, body { margin: 0; height: 100%; height: 100dvh; }
 body {
   background: var(--bg);
   color: var(--ink);
