@@ -80,12 +80,12 @@ def api_key():
     except Exception:
         return ''
 
-def claude(body, timeout=600):
+def claude(body, timeout=600, headers=None):
     key = api_key()
     if not key:
         raise RuntimeError('No Anthropic key on the server (secrets/anthropic.key)')
     req = urllib.request.Request('https://api.anthropic.com/v1/messages', data=json.dumps(body).encode(),
-                                 headers={'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json'})
+                                 headers={'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json', **(headers or {})})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
             j = json.load(r)
@@ -102,11 +102,11 @@ def claude(body, timeout=600):
         raise RuntimeError(f'Claude ran out of room (max_tokens) after {len(text)} chars')
     return text, j.get('stop_reason')
 
-def claude_json(body, timeout=600, tries=2):
+def claude_json(body, timeout=600, tries=2, headers=None):
     """Structured-output call; a malformed/cut-off body is retried once instead of failing the batch."""
     last = None
     for _ in range(tries):
-        text, stop = claude(body, timeout)
+        text, stop = claude(body, timeout, headers)
         try:
             return json.loads(text)
         except ValueError as e:
@@ -191,12 +191,19 @@ def to_extra(o, me):
         'us': None, 'unique': None, 'fresh': {'coined': 90, 'rare-traditional': 80}.get(trad, 60), 'generated': int(time.time() * 1000), 'by': PEOPLE.get(me, me),
     }
 
-def _gen_call(user):
-    return claude_json({'model': MODEL, 'max_tokens': 20000, 'thinking': {'type': 'disabled'}, 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': NAME_SCHEMA}},
-                        'system': 'You are a thoughtful Sanskrit- and Marathi-literate naming consultant helping two Indian-American parents. You are honest about etymology and never invent meanings.',
-                        'messages': [{'role': 'user', 'content': user}]})['names']
+DEEP_MODEL = 'claude-fable-5-1'   # thinks for a long time, but in tests returned 25/25 new, richer names
 
-def generate_batch(me, direction, count, angle):
+def _gen_call(user, deep=False):
+    system = 'You are a thoughtful Sanskrit- and Marathi-literate naming consultant helping two Indian-American parents. You are honest about etymology and never invent meanings.'
+    if deep:
+        # Fable cannot switch thinking off and needs a big budget (~50k thinking tokens per batch).
+        body = {'model': DEEP_MODEL, 'max_tokens': 64000, 'fallbacks': 'default', 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': NAME_SCHEMA}},
+                'system': system, 'messages': [{'role': 'user', 'content': user}]}
+        return claude_json(body, timeout=1700, headers={'anthropic-beta': 'server-side-fallback-2026-07-01'})['names']
+    return claude_json({'model': MODEL, 'max_tokens': 20000, 'thinking': {'type': 'disabled'}, 'output_config': {'effort': 'low', 'format': {'type': 'json_schema', 'schema': NAME_SCHEMA}},
+                        'system': system, 'messages': [{'role': 'user', 'content': user}]})['names']
+
+def generate_batch(me, direction, count, angle, deep=False):
     """Ask for `count` names; anything already taken is sent back for replacement (twice), so the
     batch delivers new names instead of quietly shrinking."""
     names = all_names()
@@ -214,7 +221,7 @@ Also NEVER suggest any of these (too common, older-generation, South-Indian-spec
 Return exactly {count} names. Be honest about confidence; a coinage must say how it was built in "note"."""
     have = {n['id'] for n in names} | exclude
     out, taken = [], []
-    arr = _gen_call(base)
+    arr = _gen_call(base, deep)
     for round_ in range(3):
         for o in arr:
             if not isinstance(o, dict) or not o.get('name'):
@@ -231,7 +238,7 @@ Return exactly {count} names. Be honest about confidence; a coinage must say how
         arr = _gen_call(base + f"""
 
 Your previous answer included these names, which are ALREADY TAKEN and must not appear again: {', '.join(taken)}.
-Now give {missing} DIFFERENT names (not those, not anything in the lists above). Return exactly {missing} names.""")
+Now give {missing} DIFFERENT names (not those, not anything in the lists above). Return exactly {missing} names.""", deep)
         taken = []
     return out
 
@@ -269,7 +276,7 @@ ANGLES = ['short, crisp 2-syllable names with clean sounds', 'nature, sky, light
           'virtues, wisdom and knowledge words with soft endings', 'rivers, mountains, seasons and weather',
           'Vedic and Buddhist/Jain vocabulary for peace, awareness and light', 'art, dance, poetry and sound words']
 
-def run_job(me, direction, count):
+def run_job(me, direction, count, deep=False):
     """Angled batches, two at a time, until `count` NEW names have actually been added (or the
     angles run out twice). Each batch is generated, quality-checked, scored and saved as it finishes."""
     from concurrent.futures import ThreadPoolExecutor
@@ -285,7 +292,7 @@ def run_job(me, direction, count):
         out = None
         for attempt in range(2):
             try:
-                out = generate_batch(me, direction, per, angle); break
+                out = generate_batch(me, direction, per, angle, deep); break
             except Exception as e:
                 JOB['error'] = str(e)
                 if re.search(r'429|rate|overloaded|529', str(e), re.I):
@@ -308,7 +315,7 @@ def run_job(me, direction, count):
         save_state()
 
     try:
-        JOB['text'] = f'Working… target {count} new names'
+        JOB['text'] = ('Deep search (Fable) — ' if deep else 'Working… ') + f'target {count} new names'
         max_batches = len(ANGLES) * 2
         i = 0
         while progress['added'] < count and i < max_batches:
@@ -408,8 +415,8 @@ async def generate(req: Request):
     b = await req.json()
     if JOB['status'] == 'running':
         return JOB
-    JOB.update({'status': 'running', 'text': 'Starting…', 'added': 0, 'started': datetime.datetime.now().isoformat(timespec='seconds'), 'finished': None, 'error': ''})
-    t = threading.Thread(target=run_job, args=(b.get('me', 'abodh'), (b.get('direction') or '').strip(), int(b.get('count') or 100)), daemon=True)
+    JOB.update({'status': 'running', 'text': 'Starting…', 'added': 0, 'started': datetime.datetime.now().isoformat(timespec='seconds'), 'finished': None, 'error': '', 'deep': bool(b.get('deep'))})
+    t = threading.Thread(target=run_job, args=(b.get('me', 'abodh'), (b.get('direction') or '').strip(), int(b.get('count') or 100), bool(b.get('deep'))), daemon=True)
     t.start()
     return JOB
 

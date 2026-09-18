@@ -1,8 +1,8 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 22;
-  const APP_BUILT = 'Sep 18, 2026 · 12:23 PM CDT';
+  const APP_VERSION = 23;
+  const APP_BUILT = 'Sep 18, 2026 · 1:20 PM CDT';
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -505,12 +505,15 @@
         <p class="muted small" style="margin:0 0 10px">The Mac mini asks Claude for about 100 new names in the direction of both your swipes, checks each one (boys only, not common, not your parents' generation, meaning verified), adds the Devanagari, and drops them into Discover with a ✦ — you can close the app while it works.</p>
         <input class="text" id="direction" placeholder="Optional steer, e.g. “more Marathi words”, “2 syllables only”, “names about the sky”" style="margin-bottom:10px">
         <button class="btn primary" id="genBtn" ${genOK ? '' : 'disabled'}>${S.generating ? '<span class="spin"></span> ' + (S.genText || 'Claude is thinking…') : ICON.spark + ' Generate 100 new names'}</button>
-        <div class="status">Takes 10–15 minutes on the mini. Come back any time — new names appear as each batch lands.</div>
+        <div class="status">About 15–20 minutes on the mini. Come back any time — new names appear as each batch lands.</div>
+        <button class="btn ghost" id="deepBtn" style="margin-top:10px" ${S.generating ? 'disabled' : ''}>${ICON.spark} Deep search — 50 names with Fable</button>
+        <div class="status">Anthropic's most capable model, thinking hard: rarer words, Marathi vocabulary, ragas. Slow (about an hour for 50) but it runs unattended.</div>
         <div class="status" id="genStatus">${S.extras.length ? S.extras.length + ' Claude-suggested names in the pool so far.' : ''}</div>
       </div>
       <div class="panel glass"><h3>How names are ranked</h3><p class="muted small" style="margin:0">Every name starts with a score from <b>uniqueness</b> (real Social Security counts — how many US boys got the name in 2024) and <b>ease of saying</b> for non-Indian Americans, plus a little for freshness. Your swipes train a small model on syllables, endings, sounds, themes and origins — that pushes names you'd probably like to the front. ${PEOPLE[S.partner]}'s likes get a boost too, so you converge instead of drifting apart.</p></div>
       <div style="height:20px"></div>`;
     $('#genBtn').onclick = () => generateMore($('#direction').value.trim());
+    $('#deepBtn').onclick = () => generateMore($('#direction').value.trim(), true);
   }
   // ---------- Add your own name ----------
   function toExtra(o, name) {
@@ -712,9 +715,9 @@
     try { const job = await API.job(); const running = job.status === 'running'; applyJob(job); if (!running || job.added !== S.jobAdded) { S.jobAdded = job.added; const res = await API.state(S.me); adopt(res); buildQueue(S.queue.slice(0, 3).map(n => n.id)); }
       renderTaste(); if (S.tab === 'discover') renderDeck(); } catch (e) {}
   }
-  async function generateMore(direction) {
+  async function generateMore(direction, deep) {
     if (S.generating) return;
-    try { const job = await API.generate(S.me, direction, 100); applyJob(job); toast('Claude is working on the mini — you can close the app'); renderTaste(); if (S.tab === 'discover') renderDeck(); }
+    try { const job = await API.generate(S.me, direction, deep ? 50 : 100, deep); applyJob(job); toast((deep ? 'Fable' : 'Claude') + ' is working on the mini — you can close the app'); renderTaste(); if (S.tab === 'discover') renderDeck(); }
     catch (e) { toast('Mini: ' + e.message); }
   }
 
