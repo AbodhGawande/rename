@@ -1,7 +1,7 @@
 /* Rename — main app. Plain JS, no build step. */
 (function () {
   'use strict';
-  const APP_VERSION = 2;
+  const APP_VERSION = 3;
   const PEOPLE = { abodh: 'Abodh', amruta: 'Amruta' };
   const SURNAME = 'Gawande';
   const $ = (s, el) => (el || document).querySelector(s);
@@ -22,7 +22,7 @@
     partnerFaceoffs: LS.get('partnerFaceoffs', []),
     extras: LS.get('extras', []),          // Claude-generated names (pool schema)
     stories: LS.get('stories', {}),        // id -> markdown-ish text
-    settings: Object.assign({ accent: 'sky', token: '', apiKey: '', maxSyl: 4, minSay: 50, hideCoined: false, hideKnown: false, lastSync: 0 }, LS.get('settings', {})),
+    settings: Object.assign({ accent: 'sky', token: '', apiKey: '', maxSyl: 4, minSay: 50, hideCoined: false, hideKnown: false, letter: '', lastSync: 0 }, LS.get('settings', {})),
     pool: [], ssa: {}, exclude: [], names: [], byId: {},
     weights: {}, partnerWeights: {},
     queue: [], history: [], tab: 'discover', listSeg: 'both', faceoffPair: null, generating: false, syncing: false,
@@ -67,6 +67,7 @@
     if (n.sayability < f.minSay) return false;
     if (f.hideCoined && n.tradition === 'coined') return false;
     if (f.hideKnown && n.unique < 50) return false;
+    if (f.letter && n.id[0] !== f.letter.toLowerCase()) return false;
     return true;
   }
   function baseScore(n) {
@@ -87,7 +88,7 @@
     });
     const scored = (fresh.length ? fresh : skipped).map(n => ({ n, s: baseScore(n) })).sort((a, b) => b.s - a.s).map(x => x.n);
     // Diversity: avoid three of the same category in a row.
-    const out = []; const kept = (keepIds || []).map(id => S.byId[id]).filter(n => n && (!voted[n.id] || voted[n.id].v === 'skip'));
+    const out = []; const kept = (keepIds || []).map(id => S.byId[id]).filter(n => n && passesFilters(n) && (!voted[n.id] || voted[n.id].v === 'skip'));
     kept.forEach(n => out.push(n));
     const rest = scored.filter(n => !kept.includes(n));
     while (rest.length) {
@@ -190,14 +191,15 @@
     const top = S.queue.slice(0, 3);
     if (!top.length) {
       const voted = Object.keys(S.votes).length;
-      deck.innerHTML = `<div class="empty glass"><div class="big">That's every name.</div><p class="muted">You've been through ${voted} names. Ask Claude for a fresh batch in the Taste tab, loosen the filters in Settings, or head to Face-off.</p></div>`;
+      deck.innerHTML = `<div class="empty glass"><div class="big">That's every name.</div><p class="muted">${S.settings.letter ? `Every ${S.settings.letter} name has been rated. ` : ''}You've been through ${voted} names. Ask Claude for a fresh batch in the Taste tab, loosen the filters in Settings, or head to Face-off.</p></div>`;
     } else {
       deck.innerHTML = top.map((n, i) => cardHTML(n, i === 0 ? 'top' : 'behind' + i)).reverse().join('');
       attachDrag($('.card.top'));
       wireSayRow($('.card.top'), top[0]);
     }
     const voted = Object.values(S.votes).filter(v => v.v !== 'skip').length;
-    $('#progress').innerHTML = `<b>${voted}</b> rated · <b>${S.queue.length}</b> to go · ${S.names.length} names in the pool`;
+    $('#progress').innerHTML = `<b>${voted}</b> rated · <b>${S.queue.length}</b> to go · ${S.names.length} names` + (S.settings.letter ? `<span class="letterchip">only ${S.settings.letter}<button id="clearLetter" title="Show all letters">✕</button></span>` : '');
+    if (S.settings.letter) $('#clearLetter').onclick = () => { S.settings.letter = ''; save(); refreshAll(); toast('Showing every letter again'); };
     updateBadges();
   }
   function attachDrag(card) {
@@ -464,6 +466,31 @@
     } catch (e) { toast('Claude: ' + e.message); }
     S.generating = false; $('#syncBtn').classList.remove('busy'); renderTaste();
   }
+
+  // ---------- Browse by letter ----------
+  function openAZ() {
+    const counts = {};
+    S.names.forEach(n => { const L = n.name[0].toUpperCase(); counts[L] = (counts[L] || 0) + 1; });
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    openSheet(`<h2 class="title">Browse by letter</h2>
+      <p class="muted small" style="margin:0 0 12px">Tap a letter to see every name that starts with it${S.settings.letter ? ` · currently swiping only <b>${S.settings.letter}</b>` : ''}.</p>
+      <div class="azgrid">${letters.map(L => `<button data-l="${L}" ${counts[L] ? '' : 'disabled'} class="${S.settings.letter === L ? 'on' : ''}">${L}<small>${counts[L] || '—'}</small></button>`).join('')}</div>
+      ${S.settings.letter ? '<button class="btn ghost" id="azAll" style="margin-top:14px">Swipe every letter again</button>' : ''}`);
+    $$('.azgrid button').forEach(b => b.onclick = () => openLetter(b.dataset.l));
+    if ($('#azAll')) $('#azAll').onclick = () => { S.settings.letter = ''; save(); refreshAll(); openAZ(); };
+  }
+  function openLetter(L) {
+    const list = S.names.filter(n => n.name[0].toUpperCase() === L).sort((a, b) => a.name.localeCompare(b.name));
+    const only = S.settings.letter === L;
+    openSheet(`<button class="backlink" id="azBack">‹ All letters</button>
+      <h2 class="title" style="margin-top:0">${L} <span class="muted" style="font-size:16px">· ${list.length} names</span></h2>
+      <button class="btn ${only ? 'primary' : ''}" id="azOnly" style="margin-bottom:12px">${only ? '✓ Swiping only ' + L + ' — tap to show all letters' : 'Swipe only ' + L + ' names in Discover'}</button>
+      ${list.map(n => `<div class="row glass" data-id="${n.id}">${shapeIcon(n.category)}<div class="rn">${esc(n.name)}${n.dev ? ' <span class="muted" style="font-size:15px">' + esc(n.dev) + '</span>' : ''}<small>${esc(n.say)} · ${esc(n.meaning)}</small></div><div class="marks">${markHTML(S.votes[n.id], PEOPLE[S.me])}${markHTML(S.partnerVotes[n.id], PEOPLE[S.partner])}</div></div>`).join('')}`);
+    $('#azBack').onclick = openAZ;
+    $('#azOnly').onclick = () => { S.settings.letter = only ? '' : L; save(); refreshAll(); showTab('discover'); closeSheet(); toast(only ? 'Showing every letter' : 'Discover now shows only ' + L + ' names'); };
+    $$('#sheetBody .row').forEach(r => r.onclick = () => openDetail(r.dataset.id));
+  }
+  $('#azBtn').onclick = openAZ;
 
   // ---------- Settings ----------
   function openSettings() {

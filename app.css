@@ -389,3 +389,14 @@ input.text:focus { outline: none; border-color: rgba(var(--accent-rgb), .6); }
 }
 .saybtn:active { transform: scale(.95); background: rgba(var(--accent-rgb), .2); color: var(--ink); }
 .saybtn svg { width: 15px; height: 15px; color: var(--accent); }
+
+/* ---------- Browse by letter ---------- */
+.iconbtn.az { width: auto; padding: 0 12px; white-space: nowrap; font-family: var(--serif); font-size: 15px; letter-spacing: .04em; }
+.azgrid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.azgrid button { padding: 12px 0 8px; border-radius: 14px; background: rgba(255,255,255,.06); border: 1px solid var(--hair); font-family: var(--serif); font-size: 24px; line-height: 1; }
+.azgrid button small { display: block; font-family: var(--sans); font-size: 10px; color: var(--ink3); margin-top: 4px; }
+.azgrid button.on { background: rgba(var(--accent-rgb), .2); border-color: var(--accent); }
+.azgrid button[disabled] { opacity: .3; }
+.letterchip { display: inline-flex; align-items: center; gap: 6px; margin-left: 8px; padding: 2px 8px 2px 10px; border-radius: 999px; background: rgba(var(--accent-rgb), .18); border: 1px solid rgba(var(--accent-rgb), .5); color: var(--ink); font-weight: 700; }
+.letterchip button { color: var(--ink2); font-size: 14px; line-height: 1; }
+.backlink { color: var(--accent); font-weight: 700; font-size: 14px; margin-bottom: 8px; display: inline-block; }
