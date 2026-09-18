@@ -240,38 +240,46 @@ ANGLES = ['short, crisp 2-syllable names with clean sounds', 'nature, sky, light
           'Marathi-heritage words and lesser-known epic/sage names', 'fresh coinages and rare Sanskrit vocabulary']
 
 def run_job(me, direction, count):
+    """Four angled batches, two at a time (four in parallel hit the rate limit); each batch is
+    generated, quality-checked, scored and saved as soon as it finishes."""
+    from concurrent.futures import ThreadPoolExecutor
     ssa = app_json('ssa.json')
     per = max(10, min(40, count // len(ANGLES)))
-    added, failed = 0, 0
-    try:
-        for i, angle in enumerate(ANGLES):
-            JOB['text'] = f'Batch {i + 1} of {len(ANGLES)} · {added} new so far'
-            out = None
-            for attempt in range(2):
-                try:
-                    out = generate_batch(me, direction, per, angle); break
-                except Exception as e:
-                    JOB['error'] = str(e)
-                    if re.search(r'429|rate|overloaded|529', str(e), re.I):
-                        JOB['text'] = 'Rate limit — waiting a minute…'; time.sleep(65)
-            if out is None:
-                failed += 1; continue
-            JOB['text'] = f'Batch {i + 1}: checking {len(out)} names…'
+    progress = {'added': 0, 'failed': 0, 'done': 0}
+
+    def one(i):
+        angle = ANGLES[i]
+        out = None
+        for attempt in range(2):
             try:
-                out = qa_batch(out)
+                out = generate_batch(me, direction, per, angle); break
             except Exception as e:
-                JOB['error'] = 'QA skipped: ' + str(e)
-            with lock:
-                have = {n['id'] for n in all_names()}
-                fresh = [n for n in out if n['id'] not in have]
-                for n in fresh:
-                    score_extra(n, ssa)
-                STATE['extras'].extend(fresh)
-                added += len(fresh)
-                JOB['added'] = added
-            save_state()
+                JOB['error'] = str(e)
+                if re.search(r'429|rate|overloaded|529', str(e), re.I):
+                    JOB['text'] = 'Rate limit — waiting a minute…'; time.sleep(65)
+        if out is None:
+            progress['failed'] += 1; progress['done'] += 1; return
+        try:
+            out = qa_batch(out)
+        except Exception as e:
+            JOB['error'] = 'QA skipped: ' + str(e)
+        with lock:
+            have = {n['id'] for n in all_names()}
+            fresh = [n for n in out if n['id'] not in have]
+            for n in fresh:
+                score_extra(n, ssa)
+            STATE['extras'].extend(fresh)
+            progress['added'] += len(fresh); progress['done'] += 1
+            JOB['added'] = progress['added']
+            JOB['text'] = f"{progress['done']} of {len(ANGLES)} batches done · {progress['added']} new so far"
+        save_state()
+
+    try:
+        JOB['text'] = f'Batches 1–2 of {len(ANGLES)} running…'
+        with ThreadPoolExecutor(max_workers=2) as ex:
+            list(ex.map(one, range(len(ANGLES))))
         JOB['status'] = 'done'
-        JOB['text'] = f'Added {added} new names' + (f' · {failed} batch(es) failed' if failed else '')
+        JOB['text'] = f"Added {progress['added']} new names" + (f" · {progress['failed']} batch(es) failed" if progress['failed'] else '')
     except Exception as e:
         JOB['status'] = 'failed'; JOB['error'] = str(e); JOB['text'] = 'Failed: ' + str(e)
     JOB['finished'] = datetime.datetime.now().isoformat(timespec='seconds')
