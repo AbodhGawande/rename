@@ -18,7 +18,7 @@ later if you want it.
 - **Shortlist → Both ♥** is the list that matters. **Face-off** ranks it. **+ Add** puts in a name you found yourselves.
 - **Generate 100 new names** (Taste tab, or the end-of-list card) runs on the mini: close the app if you like; the
   names appear as each batch lands (10–15 minutes for a full run, each name quality-checked).
-- **Backup:** the mini keeps a nightly copy of everything (`~/Apps/rename/backups`). Settings → Copy backup still
+- **Backup:** the mini keeps a nightly copy of everything (`~/Library/Abodh Apps Data/Rename/Backups`). Settings → Copy backup still
   works for a paste-into-Notes copy.
 
 ## For Abodh: updating the app

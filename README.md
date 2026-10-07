@@ -33,7 +33,8 @@ history on every swipe.
   names, South-Indian-specific names) and anything with 80+ US boys in 2024.
 - `data/ssa.json` — 2024 SSA counts for every boy's name, so Claude's new suggestions get a real
   uniqueness score on the phone.
-- Votes, generated names and stories live in `~/Apps/rename/data/state.json` on the mini; each phone
+- Votes, generated names and stories live in `~/Library/Abodh Apps Data/Rename/Data/state.json` on the
+  mini (settings in `settings.json` beside it, nightly copies in `Backups/`, logs in `Logs/`); each phone
   keeps a `localStorage` copy (`rename.*`) and syncs on every open, return, and swipe.
 
 ## Deploying

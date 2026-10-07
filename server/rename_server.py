@@ -4,12 +4,17 @@ Serves the app, keeps both phones' votes in one JSON store, and does all the Cla
 (generation batches with QA + Devanagari, name lookups, deeper stories) in the background so the
 phone never has to stay open. Plain FastAPI, no database: state.json with a lock and atomic writes.
 
-Layout (APP_HOME, default ~/Apps/rename):
+The program (RENAME_HOME, default ~/Apps/rename):
   app/        the static web app (index.html, app.js, data/…)
-  data/       state.json (+ ssa/exclude copies come from app/data)
+  server/     this file
   secrets/    anthropic.key
-  logs/       written by launchd
-  backups/    nightly copies of state.json
+
+Settings and data (RENAME_DATA_HOME, default ~/Library/Abodh Apps Data/Rename — the shared home
+every app uses, see ~/Documents/Claude/Abodh Apps Data.md):
+  settings.json   {"generation": true|false} — the Generate switch for every phone
+  Data/           state.json: both phones' votes, face-offs, added and generated names, stories
+  Backups/        nightly copies of state.json
+  Logs/           written by launchd, plus moved.log
 """
 import json, os, re, threading, time, math, datetime, urllib.request, shutil, glob
 from fastapi import FastAPI, Request, HTTPException
@@ -18,13 +23,92 @@ from fastapi.staticfiles import StaticFiles
 
 HOME = os.environ.get('RENAME_HOME', os.path.expanduser('~/Apps/rename'))
 APP_DIR = os.path.join(HOME, 'app')
-DATA = os.path.join(HOME, 'data', 'state.json')
 KEY_FILE = os.path.join(HOME, 'secrets', 'anthropic.key')
+DATA_HOME = os.environ.get('RENAME_DATA_HOME', os.path.expanduser('~/Library/Abodh Apps Data/Rename'))
+SETTINGS = os.path.join(DATA_HOME, 'settings.json')
+DATA = os.path.join(DATA_HOME, 'Data', 'state.json')
+BACKUPS = os.path.join(DATA_HOME, 'Backups')
+LOGS = os.path.join(DATA_HOME, 'Logs')
+LEGACY = False   # True only when the move below failed and the old place is still in use
 MODEL = 'claude-opus-5'
 PEOPLE = {'abodh': 'Abodh', 'amruta': 'Amruta'}
 lock = threading.RLock()
 
 app = FastAPI(title='Rename')
+
+
+# ---------------------------------------------------------------- one-time move into the shared home
+def move_in():
+    """Before 2026-10-07 everything lived beside the program (~/Apps/rename/data, backups, logs).
+    Move it — never copy — into DATA_HOME. Runs on every start and only acts on what is still in
+    the old place. If the votes cannot be moved, the old place stays in use and the next start retries."""
+    global DATA, BACKUPS, LEGACY
+    old_data, old_backups, old_logs = (os.path.join(HOME, d) for d in ('data', 'backups', 'logs'))
+    old_state, old_switch = os.path.join(old_data, 'state.json'), os.path.join(old_data, 'generation.off')
+    moved = []
+
+    def note(lines):
+        try:
+            os.makedirs(LOGS, exist_ok=True)
+            with open(os.path.join(LOGS, 'moved.log'), 'a') as f:
+                for line in lines:
+                    f.write(f"{datetime.datetime.now().isoformat(timespec='seconds')}  {line}\n")
+        except Exception:
+            pass
+        for line in lines:
+            print('move_in:', line, flush=True)
+
+    try:
+        if os.path.exists(old_state) and not os.path.exists(DATA):
+            os.makedirs(os.path.dirname(DATA), exist_ok=True)
+            shutil.move(old_state, DATA)
+            moved.append(f'{old_state} -> {DATA}')
+    except Exception as e:
+        DATA, BACKUPS, LEGACY = old_state, old_backups, True
+        note([f'COULD NOT MOVE THE VOTES ({e}); still using {old_data}. Will try again at the next start.'])
+        return
+    if os.path.exists(old_state):   # both places hold a state file: leave the old one alone and say so
+        note([f'{old_state} still exists next to {DATA}; left untouched.'])
+    try:
+        # The Generate switch was an empty marker file; it becomes a line in settings.json.
+        if os.path.exists(old_switch):
+            settings = {}
+            if os.path.exists(SETTINGS):
+                with open(SETTINGS) as f:
+                    settings = json.load(f)
+            settings['generation'] = False
+            os.makedirs(DATA_HOME, exist_ok=True)
+            with open(SETTINGS, 'w') as f:
+                json.dump(settings, f, indent=2)
+            os.remove(old_switch)
+            moved.append(f'{old_switch} -> {SETTINGS} ("generation": false)')
+        if os.path.isdir(old_backups):
+            for name in sorted(os.listdir(old_backups)):
+                dst = os.path.join(BACKUPS, name)
+                if not os.path.exists(dst):
+                    os.makedirs(BACKUPS, exist_ok=True)
+                    shutil.move(os.path.join(old_backups, name), dst)
+                    moved.append(f'{os.path.join(old_backups, name)} -> {dst}')
+        if os.path.isdir(old_logs):
+            for name in sorted(os.listdir(old_logs)):
+                dst = os.path.join(LOGS, name)
+                if os.path.exists(dst):   # launchd has already started a new file under this name
+                    stem, ext = os.path.splitext(name)
+                    dst = os.path.join(LOGS, f'{stem} (before the move){ext}')
+                if not os.path.exists(dst):
+                    os.makedirs(LOGS, exist_ok=True)
+                    shutil.move(os.path.join(old_logs, name), dst)
+                    moved.append(f'{os.path.join(old_logs, name)} -> {dst}')
+        for d in (old_data, old_backups, old_logs):   # remove the old folders only once they are empty
+            if os.path.isdir(d) and not os.listdir(d):
+                os.rmdir(d)
+                moved.append(f'removed empty {d}')
+    except Exception as e:
+        moved.append(f'stopped early: {e} (the rest stays where it was; the next start retries)')
+    if moved:
+        note(moved)
+
+move_in()
 
 
 # ---------------------------------------------------------------- state
@@ -478,10 +562,18 @@ async def enrich(req: Request):
     save_state()
     return n
 
-# Generation switch: create data/generation.off to disable the Generate buttons on every phone
-# (touch ~/Apps/rename/data/generation.off on the mini; remove the file to re-enable).
+# Generation switch: "generation": false in settings.json hides the Generate buttons on every phone
+# and makes /api/generate refuse (set it to true to re-enable; read on every request, no restart).
 def generation_enabled():
-    return not os.path.exists(os.path.join(HOME, 'data', 'generation.off'))
+    if LEGACY:
+        return not os.path.exists(os.path.join(HOME, 'data', 'generation.off'))
+    if not os.path.exists(SETTINGS):
+        return True
+    try:
+        with open(SETTINGS) as f:
+            return json.load(f).get('generation', True) is True
+    except Exception:
+        return False   # an unreadable settings file must never switch paid generation back on
 
 @app.post('/api/generate')
 async def generate(req: Request):
@@ -509,10 +601,10 @@ def dismiss():
 # ---------------------------------------------------------------- backups (called by launchd daily) + static app
 @app.post('/api/backup')
 def backup():
-    os.makedirs(os.path.join(HOME, 'backups'), exist_ok=True)
-    dst = os.path.join(HOME, 'backups', datetime.datetime.now().strftime('state-%Y-%m-%d.json'))
+    os.makedirs(BACKUPS, exist_ok=True)
+    dst = os.path.join(BACKUPS, datetime.datetime.now().strftime('state-%Y-%m-%d.json'))
     shutil.copy(DATA, dst)
-    old = sorted(glob.glob(os.path.join(HOME, 'backups', 'state-*.json')))[:-60]
+    old = sorted(glob.glob(os.path.join(BACKUPS, 'state-*.json')))[:-60]
     for f in old:
         os.remove(f)
     return {'saved': dst}
