@@ -604,7 +604,7 @@ def backup():
     os.makedirs(BACKUPS, exist_ok=True)
     dst = os.path.join(BACKUPS, datetime.datetime.now().strftime('state-%Y-%m-%d.json'))
     shutil.copy(DATA, dst)
-    old = sorted(glob.glob(os.path.join(BACKUPS, 'state-*.json')))[:-60]
+    old = sorted(glob.glob(os.path.join(BACKUPS, 'state-*.json')))[:-7]   # newest 7 kept (Abodh, 2026-10-07)
     for f in old:
         os.remove(f)
     return {'saved': dst}
